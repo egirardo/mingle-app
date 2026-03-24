@@ -2,11 +2,10 @@ import mongoose from 'mongoose';
 
 const companySchema = new mongoose.Schema(
   {
-    companyName: {
+    company: {
       type: String,
       required: true,
       trim: true,
-      alias: 'company',
     },
     contactPerson: {
       type: String,
