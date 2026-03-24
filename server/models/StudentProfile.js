@@ -29,7 +29,7 @@ const studentProfileSchema = new mongoose.Schema(
     // Join with '||' to implode: skills.join('||')
     // Split to explode: skills  (already an array — just map over it)
     skills: {
-      type: [String],
+      type: [{ type: String, trim: true }],
       default: [],
     },
 

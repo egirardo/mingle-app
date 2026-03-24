@@ -2,10 +2,11 @@ import mongoose from 'mongoose';
 
 const companySchema = new mongoose.Schema(
   {
-    company: {
+    companyName: {
       type: String,
       required: true,
       trim: true,
+      alias: 'company',
     },
     contactPerson: {
       type: String,
@@ -28,7 +29,7 @@ const companySchema = new mongoose.Schema(
     // Skills the company is looking for — stored same way as student skills
     // Checkbox selections as an array e.g. ['JavaScript', 'React', 'Node.js']
     skills: {
-      type: [String],
+      type: [{ type: String, trim: true }],
       default: [],
     },
   },

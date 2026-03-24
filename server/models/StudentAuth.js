@@ -12,6 +12,7 @@ const studentAuthSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true, // Stored as bcrypt hash
+      select: false,
     },
   },
   { timestamps: true }
