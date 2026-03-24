@@ -7,19 +7,21 @@ function App() {
   return (
     <>
       <h1>Mingle App</h1>
-      <Button buttonName={"Get started"} />
-      <Button buttonName={"Red"} buttonColor={"green"} type={"button"} />
+      <form>
+        <Button buttonName="Get started" />
+        <Button buttonName="Red" buttonColor="green" />
 
-      <Form
-        formLabel={"Email"}
-        placeholder={"skriv.."}
-        type={"text"}
-        id={"email"}
-      />
-      <Form formLabel={"Password"} placeholder={"skriv.."} type={"text"} />
+        <Form
+          formLabel="Email"
+          placeholder="skriv.."
+          type="text"
+          id="email"
+        />
+        <Form formLabel="Password" placeholder="skriv.." type="text" />
 
-      <Checkbox checkboxLabel={"HTML"} />
-      <Checkbox checkboxLabel={"CSS"} />
+        <Checkbox checkboxLabel="HTML" />
+        <Checkbox checkboxLabel="CSS" />
+      </form>
     </>
   );
 }

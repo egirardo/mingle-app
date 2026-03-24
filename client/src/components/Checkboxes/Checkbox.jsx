@@ -1,14 +1,13 @@
 import styles from "./Checkbox.module.css";
+import { useId } from "react";
 
-export default function Checkbox({ checkboxLabel }) {
+export default function Checkbox({ checkboxLabel, id, name }) {
+  const inputId = id ?? useId();
+  const inputName = name ?? id;
   return (
-    <form className={styles.checkbox}>
-      <input
-        type="checkbox"
-        id="checkboxLabel"
-        name="checkboxLabel"
-      />
-      <label htmlFor="checkboxLabel">{checkboxLabel}</label>
-    </form>
+    <div className={styles.checkbox}>
+      <input type="checkbox" id={inputId} name={inputName} />
+      <label htmlFor={inputId}>{checkboxLabel}</label>
+    </div>
   );
 }
