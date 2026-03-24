@@ -1,6 +1,6 @@
 import "./App.css";
 import Button from "./components/Buttons/Button.jsx";
-import TextInput from "./components/Forms/Inputfileds/TextInput.jsx";
+import TextInput from "./components/Forms/InputFields/TextInput.jsx";
 import Checkbox from "./components/Forms/Checkboxes/Checkbox.jsx";
 
 function App() {
