@@ -1,9 +1,9 @@
 import styles from "./Button.module.css";
 
-export default function Button({ buttonName, buttonColor }) {
-  const colorClass = buttonColor ? styles[buttonColor] : "";
+export default function Button({ buttonName, buttonColor, type }) {
+  const colorClass = buttonColor ? styles[buttonColor] ?? "" : "";
   return (
-    <button className={`${styles.button} ${colorClass}`} type="submit">
+    <button className={`${styles.button} ${colorClass}`} type={type}>
       {buttonName}
     </button>
   );

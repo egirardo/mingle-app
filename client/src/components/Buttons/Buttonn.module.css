@@ -1,0 +1,16 @@
+.button {
+  width: 5rem;
+  height: 2rem;
+  padding: 0.35rem 0.6rem;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+}
+
+.red {
+  background-color: red;
+}
+.green {
+  background-color: green;
+}
