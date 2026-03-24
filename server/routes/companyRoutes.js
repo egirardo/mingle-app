@@ -15,7 +15,8 @@ router.get('/profile/:id', async (req, res) => {
     res.status(200).json(company);
 
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error('Get company error:', err);
+    res.status(500).json({ message: 'Server error retrieving company' });
   }
 });
 
@@ -43,7 +44,15 @@ router.post('/profile', async (req, res) => {
     res.status(201).json(newCompany);
 
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error('Create company error:', err);
+    
+    // Handle duplicate email error
+    if (err.code === 11000 && err.keyPattern?.email) {
+      return res.status(400).json({ message: 'Email already registered' });
+    }
+    
+    // Return generic error to client
+    res.status(500).json({ message: 'Server error creating company' });
   }
 });
 

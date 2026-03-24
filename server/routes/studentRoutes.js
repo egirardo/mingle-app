@@ -48,7 +48,15 @@ router.post('/register', async (req, res) => {
     res.status(201).json({ message: 'Student registered successfully' });
 
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error('Register error:', err);
+    
+    // Handle duplicate email error
+    if (err.code === 11000 && err.keyPattern?.email) {
+      return res.status(400).json({ message: 'Email already registered' });
+    }
+    
+    // Return generic error to client
+    res.status(500).json({ message: 'Server error during registration' });
   }
 });
 
@@ -80,7 +88,8 @@ router.post('/login', async (req, res) => {
     res.status(200).json({ token, message: 'Login successful' });
 
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error('Login error:', err);
+    res.status(500).json({ message: 'Server error during login' });
   }
 });
 
@@ -102,7 +111,8 @@ router.get('/profile', authMiddleware, async (req, res) => {
     res.status(200).json({ ...profile.toObject(), questions: explodedQuestions });
 
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error('Get profile error:', err);
+    res.status(500).json({ message: 'Server error retrieving profile' });
   }
 });
 
@@ -136,7 +146,8 @@ router.put('/profile', authMiddleware, async (req, res) => {
     res.status(200).json({ ...updatedProfile.toObject(), questions: explodedQuestions });
 
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error('Update profile error:', err);
+    res.status(500).json({ message: 'Server error updating profile' });
   }
 });
 
