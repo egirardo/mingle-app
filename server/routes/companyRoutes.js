@@ -1,4 +1,5 @@
 import express from 'express';
+import mongoose from 'mongoose';
 import Company from '../models/Company.js';
 
 const router = express.Router();
@@ -6,6 +7,11 @@ const router = express.Router();
 // ─── GET PROFILE ─────────────────────────────────────────────────────────────
 // GET /api/companies/profile/:id
 router.get('/profile/:id', async (req, res) => {
+  // Validate ObjectId upfront
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return res.status(400).json({ message: 'Invalid company ID format' });
+  }
+
   try {
     const company = await Company.findById(req.params.id);
     if (!company) {

@@ -1,4 +1,5 @@
 import express from 'express';
+import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import StudentAuth from '../models/StudentAuth.js';
@@ -10,12 +11,16 @@ const router = express.Router();
 // ─── REGISTER ───────────────────────────────────────────────────────────────
 // POST /api/students/register
 router.post('/register', async (req, res) => {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
   try {
     const { email, password, firstName, lastName, program, skills, about, questions, portfolio } = req.body;
 
     // Check if student already exists
-    const existingUser = await StudentAuth.findOne({ email });
+    const existingUser = await StudentAuth.findOne({ email }).session(session);
     if (existingUser) {
+      await session.abortTransaction();
       return res.status(400).json({ message: 'Email already registered' });
     }
 
@@ -25,7 +30,7 @@ router.post('/register', async (req, res) => {
 
     // Create auth record
     const studentAuth = new StudentAuth({ email, password: hashedPassword });
-    await studentAuth.save();
+    await studentAuth.save({ session });
 
     // Implode questions array into a single string e.g. "answer1||answer2||answer3"
     const implodedQuestions = questions
@@ -43,11 +48,13 @@ router.post('/register', async (req, res) => {
       questions: implodedQuestions,
       portfolio: portfolio || null,
     });
-    await studentProfile.save();
+    await studentProfile.save({ session });
 
+    await session.commitTransaction();
     res.status(201).json({ message: 'Student registered successfully' });
 
   } catch (err) {
+    await session.abortTransaction();
     console.error('Register error:', err);
     
     // Handle duplicate email error
@@ -57,6 +64,8 @@ router.post('/register', async (req, res) => {
     
     // Return generic error to client
     res.status(500).json({ message: 'Server error during registration' });
+  } finally {
+    session.endSession();
   }
 });
 
@@ -123,17 +132,27 @@ router.put('/profile', authMiddleware, async (req, res) => {
   try {
     const { firstName, lastName, program, skills, about, questions, portfolio } = req.body;
 
-    // Implode questions before saving
+    // Implode questions before saving (only if provided)
     const implodedQuestions = questions
       ? questions.filter(Boolean).join('||')
       : null;
 
+    // Build update payload only with provided fields
+    const updateData = {};
+    if (firstName !== undefined) updateData.firstName = firstName;
+    if (lastName !== undefined) updateData.lastName = lastName;
+    if (program !== undefined) updateData.program = program;
+    if (skills !== undefined) updateData.skills = skills;
+    if (about !== undefined) updateData.about = about;
+    if (questions !== undefined) updateData.questions = implodedQuestions;
+    if (portfolio !== undefined) updateData.portfolio = portfolio;
+
     const updatedProfile = await StudentProfile.findOneAndUpdate(
       { studentId: req.user.id },
-      { firstName, lastName, program, skills, about, questions: implodedQuestions, portfolio },
-      { new: true }
+      { $set: updateData },
+      { new: true, runValidators: true }
     );
-
+    
     if (!updatedProfile) {
       return res.status(404).json({ message: 'Profile not found' });
     }
