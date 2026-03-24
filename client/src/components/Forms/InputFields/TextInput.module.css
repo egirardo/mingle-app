@@ -1,0 +1,12 @@
+.textForm{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+.textInput {
+    background-color: white;
+    padding: 0.5rem;
+    border-radius: 8px;
+    border: 2px solid gray;
+    width: 100%;
+}

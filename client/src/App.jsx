@@ -1,7 +1,7 @@
 import "./App.css";
 import Button from "./components/Buttons/Button.jsx";
-import Form from "./components/Forms/Form.jsx";
-import Checkbox from "./components/Checkboxes/Checkbox.jsx";
+import TextInput from "./components/Forms/InputFields/TextInput.jsx";
+import Checkbox from "./components/Forms/Checkboxes/Checkbox.jsx";
 
 function App() {
   return (
@@ -11,13 +11,13 @@ function App() {
         <Button buttonName="Get started" />
         <Button buttonName="Red" buttonColor="green" />
 
-        <Form
+        <TextInput
           formLabel="Email"
           placeholder="skriv.."
           type="text"
           id="email"
         />
-        <Form formLabel="Password" placeholder="skriv.." type="text" />
+        <TextInput formLabel="Password" placeholder="skriv.." type="text" />
 
         <Checkbox checkboxLabel="HTML" />
         <Checkbox checkboxLabel="CSS" />

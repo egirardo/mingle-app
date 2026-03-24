@@ -1,11 +1,11 @@
 import { useId } from "react";
-import styles from "./Form.module.css";
+import styles from "./TextInput.module.css";
 
-export default function Form({ formLabel, placeholder, id, type }) {
+export default function TextInput({ formLabel, placeholder, id, type }) {
   const inputId = id ?? useId();
   return (
     <>
-      <label htmlFor={inputId} className={styles.form}>
+      <label htmlFor={inputId} className={styles.textForm}>
         {formLabel}
       </label>
       <input
@@ -13,7 +13,7 @@ export default function Form({ formLabel, placeholder, id, type }) {
         id={inputId}
         name={inputId}
         placeholder={placeholder}
-        className={styles.form}
+        className={styles.textInput}
       />
     </>
   );
