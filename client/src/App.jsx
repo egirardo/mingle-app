@@ -8,10 +8,18 @@ function App() {
     <>
       <h1>Mingle App</h1>
       <Button buttonName={"Get started"} />
-      <Button buttonName={"Red"} buttonColor={"green"} type={"button"}/>
+      <Button buttonName={"Red"} buttonColor={"green"} type={"button"} />
 
-      <Form formLabel={"Email"} placeholder={"skriv.."} type={"text"} id={"email"}/>
+      <Form
+        formLabel={"Email"}
+        placeholder={"skriv.."}
+        type={"text"}
+        id={"email"}
+      />
       <Form formLabel={"Password"} placeholder={"skriv.."} type={"text"} />
+
+      <Checkbox checkboxLabel={"HTML"} />
+      <Checkbox checkboxLabel={"CSS"} />
     </>
   );
 }
