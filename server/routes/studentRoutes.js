@@ -17,8 +17,11 @@ router.post('/register', async (req, res) => {
   try {
     const { email, password, firstName, lastName, program, skills, about, questions, portfolio } = req.body;
 
+    // Normalize email to lowercase
+    const normalizedEmail = email.toLowerCase().trim();
+
     // Check if student already exists
-    const existingUser = await StudentAuth.findOne({ email }).session(session);
+    const existingUser = await StudentAuth.findOne({ email: normalizedEmail }).session(session);
     if (existingUser) {
       await session.abortTransaction();
       return res.status(400).json({ message: 'Email already registered' });
@@ -29,7 +32,7 @@ router.post('/register', async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     // Create auth record
-    const studentAuth = new StudentAuth({ email, password: hashedPassword });
+    const studentAuth = new StudentAuth({ email: normalizedEmail, password: hashedPassword });
     await studentAuth.save({ session });
 
     // Implode questions array into a single string e.g. "answer1||answer2||answer3"
@@ -75,8 +78,11 @@ router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Check if student exists
-    const student = await StudentAuth.findOne({ email });
+    // Normalize email to lowercase
+    const normalizedEmail = email.toLowerCase().trim();
+
+    // Check if student exists — explicitly select password since it has select: false
+    const student = await StudentAuth.findOne({ email: normalizedEmail }).select('+password');
     if (!student) {
       return res.status(404).json({ message: 'No account found with that email' });
     }

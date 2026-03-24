@@ -32,8 +32,11 @@ router.post('/profile', async (req, res) => {
   try {
     const { company, contactPerson, email, liaSpaces, skills } = req.body;
 
+    // Normalize email to lowercase
+    const normalizedEmail = email.toLowerCase().trim();
+
     // Check if company already exists
-    const existingCompany = await Company.findOne({ email });
+    const existingCompany = await Company.findOne({ email: normalizedEmail });
     if (existingCompany) {
       return res.status(400).json({ message: 'Email already registered' });
     }
@@ -41,7 +44,7 @@ router.post('/profile', async (req, res) => {
     const newCompany = new Company({
       company,
       contactPerson,
-      email,
+      email: normalizedEmail,
       liaSpaces,
       skills: skills || [],
     });
