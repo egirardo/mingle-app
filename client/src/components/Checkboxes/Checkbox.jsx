@@ -5,7 +5,7 @@ export default function Checkbox({ checkboxLabel }) {
     <form className={styles.checkbox}>
       <input
         type="checkbox"
-        id="formLabel"
+        id="checkboxLabel"
         name="checkboxLabel"
       />
       <label htmlFor="checkboxLabel">{checkboxLabel}</label>
