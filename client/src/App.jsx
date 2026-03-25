@@ -4,6 +4,7 @@ import TextInput from "./components/Forms/InputFields/TextInput.jsx";
 import Checkbox from "./components/Forms/Checkboxes/Checkbox.jsx";
 import NavBar from "./components/NavBar/NavBar.jsx";
 import heroImage from "./assets/hero.png";
+import TagContainer from "./components/Tags/TagContainer.jsx";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         <Checkbox checkboxLabel="HTML" />
         <Checkbox checkboxLabel="CSS" />
       </form>
+      <TagContainer tags={["JavaScript", "React", "CSS", "Node.js", "Express", "MongoDB"]} />
     </>
   );
 }
