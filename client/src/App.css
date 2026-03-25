@@ -1,12 +1,18 @@
 
 
 .hero-container {
-  height: 100vh;
-  width: 100vw;
+  height: 100svh;
+  inset:0;
   position: absolute;
-  z-index: -1000;
+  z-index: -1;
   top: 0;
+}
 
+.hero-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
 }
 
 #center {
