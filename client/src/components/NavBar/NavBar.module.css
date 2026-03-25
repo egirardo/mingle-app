@@ -3,10 +3,12 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    background-color: #fff;
+    background: rgba(255, 255, 255, 0.80);
+    backdrop-filter: blur(25px);
     color: #000;
-    margin: 1.5rem .5rem 0 .5rem;
+    margin: 3.375rem 0 0 0;
     position: relative;
+    
 }
 
 .logo img,
@@ -16,6 +18,8 @@
 
 .hamburger {
     cursor: pointer;
+    background: none;
+    border: none;
 }
 
 .menu {
@@ -23,7 +27,8 @@
     top: 100%;
     right: 0;
     width: 100%;
-    background-color: #fff;
+    background: rgba(255, 255, 255, 0.80);
+    backdrop-filter: blur(25px);
     list-style: none;
     margin: 0;
     padding: 10px 0;
