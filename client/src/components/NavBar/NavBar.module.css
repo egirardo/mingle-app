@@ -4,7 +4,7 @@
     align-items: center;
     padding: 10px 20px;
     background: rgba(255, 255, 255, 0.80);
-    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
     color: #000;
     margin: 3.375rem 0 0 0;
     position: relative;
@@ -28,7 +28,7 @@
     right: 0;
     width: 100%;
     background: rgba(255, 255, 255, 0.80);
-    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
     list-style: none;
     margin: 0;
     padding: 10px 0;
