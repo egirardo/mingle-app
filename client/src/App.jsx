@@ -3,12 +3,19 @@ import Button from "./components/Buttons/Button.jsx";
 import TextInput from "./components/Forms/InputFields/TextInput.jsx";
 import Checkbox from "./components/Forms/Checkboxes/Checkbox.jsx";
 import NavBar from "./components/NavBar/NavBar.jsx";
+import heroImage from "./assets/hero.png";
 
 function App() {
   return (
     <>
       <NavBar />
-      <h1>Mingle App</h1>
+      <div className="hero-container">
+        <img
+          src={heroImage}
+          alt="Hero"
+          className="hero-image"
+        />
+      </div>
       <form>
         <Button buttonName="Get started" />
         <Button buttonName="Red" buttonColor="green" />
