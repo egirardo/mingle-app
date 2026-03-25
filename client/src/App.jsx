@@ -12,7 +12,8 @@ function App() {
       <div className="hero-container">
         <img
           src={heroImage}
-          alt="Hero"
+          alt=""
+          aria-hidden="true"
           className="hero-image"
         />
       </div>
