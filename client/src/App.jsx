@@ -2,10 +2,12 @@ import "./App.css";
 import Button from "./components/Buttons/Button.jsx";
 import TextInput from "./components/Forms/InputFields/TextInput.jsx";
 import Checkbox from "./components/Forms/Checkboxes/Checkbox.jsx";
+import NavBar from "./components/NavBar/NavBar.jsx";
 
 function App() {
   return (
     <>
+      <NavBar />
       <h1>Mingle App</h1>
       <form>
         <Button buttonName="Get started" />
