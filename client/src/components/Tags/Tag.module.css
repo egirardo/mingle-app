@@ -6,7 +6,7 @@
     align-items: center;
     gap: 0.5rem;
     border-radius: 6.25rem;
-    background: var(--Color-tag-default);
+    background: var(--color-tag-default);
     color: var(--text-h);
     text-transform: uppercase;
 }
