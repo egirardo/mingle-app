@@ -8,7 +8,7 @@ export default function NavBar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const toggleMenu = () => {
-        setIsMenuOpen(!isMenuOpen);
+        setIsMenuOpen((prevIsMenuOpen) => !prevIsMenuOpen);
     };
 
     const menuItems = [
@@ -23,18 +23,19 @@ export default function NavBar() {
             <div className={styles.logo}>
                 <img src={yrgoLogo} alt="Yrgo Logo" />
             </div>
-            <div 
+            <button
+                type="button"
                 className={styles.hamburger}
                 onClick={toggleMenu}
-                role="button"
-                tabIndex="0"
                 aria-label="Toggle menu"
+                aria-expanded={isMenuOpen}
+                aria-controls="nav-menu"
             >
                 <img src={hamburgerIcon} alt="Hamburger Icon" />
-            </div>
+            </button>
             
             {isMenuOpen && (
-                <ul className={styles.menu}>
+                <ul id="nav-menu" className={styles.menu}>
                     {menuItems.map((item) => (
                         <li key={item.label}>
                             <a href={item.href}>{item.label}</a>
