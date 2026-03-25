@@ -11,7 +11,12 @@ function App() {
       <h1>Mingle App</h1>
       <form>
         <Button buttonName="Log in" />
-        <Button buttonName="Red" buttonColor="green" type="submit" />
+        <Button
+          buttonName="Red"
+          buttonColor="invisible"
+          type="submit"
+          variant="blackBorder"
+        />
 
         <TextInput
           formLabel="Email"
