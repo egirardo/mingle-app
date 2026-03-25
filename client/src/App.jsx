@@ -13,7 +13,7 @@ function App() {
         <Button buttonName="Log in" />
         <Button
           buttonName="Red"
-          buttonColor="invisible"
+          buttonColor="transparent"
           type="submit"
           variant="blackBorder"
         />
