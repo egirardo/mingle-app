@@ -19,8 +19,13 @@ function App() {
         />
       </div>
       <form>
-        <Button buttonName="Get started" />
-        <Button buttonName="Red" buttonColor="green" />
+        <Button buttonName="Log in" />
+        <Button
+          buttonName="Red"
+          buttonColor="transparent"
+          type="submit"
+          variant="blackBorder"
+        />
 
         <TextInput
           formLabel="Email"
