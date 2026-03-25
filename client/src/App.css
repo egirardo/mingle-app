@@ -1,4 +1,6 @@
-
+*{
+  box-sizing: border-box;
+}
 
 .hero-container {
   height: 100svh;
