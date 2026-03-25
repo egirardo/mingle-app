@@ -10,8 +10,8 @@ function App() {
       <NavBar />
       <h1>Mingle App</h1>
       <form>
-        <Button buttonName="Get started" />
-        <Button buttonName="Red" buttonColor="green" type="submit"/>
+        <Button buttonName="Log in" />
+        <Button buttonName="Red" buttonColor="green" type="submit" />
 
         <TextInput
           formLabel="Email"
