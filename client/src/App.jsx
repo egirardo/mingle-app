@@ -5,6 +5,7 @@ import Checkbox from "./components/Forms/Checkboxes/Checkbox.jsx";
 import NavBar from "./components/NavBar/NavBar.jsx";
 import heroImage from "./assets/hero.png";
 import TagContainer from "./components/Tags/TagContainer.jsx";
+import TabSlider from "./components/Tabs/TabSlider.jsx";
 
 function App() {
   return (
@@ -52,6 +53,11 @@ function App() {
         <Checkbox checkboxLabel="HTML" />
         <Checkbox checkboxLabel="CSS" />
       </form>
+      <TabSlider
+        tabs={["Företag", "Studenter"]}
+        defaultIndex={0}
+        onChange={(index, label) => console.log(index, label)}
+      />
       <TagContainer tags={["JavaScript", "React", "CSS", "Node.js", "Express", "MongoDB"]} />
     </>
   );

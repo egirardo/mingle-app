@@ -1,0 +1,67 @@
+.sliderContainer {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    background-color: #e5e5e5;
+    border-radius: 999px;
+    padding: 4px;
+    gap: 0;
+    width: 56.5vw;
+}
+
+/* The sliding white pill that animates behind the active tab */
+.activePill {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    height: calc(100% - 8px);
+    width: calc((100% - 8px) / var(--tab-count, 2));
+    transform: translateX(calc(var(--active-index, 0) * 100%));
+    background-color: #ffffff;
+    border-radius: 999px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+}
+
+.tab {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    min-height: 36px;
+    border: none;
+    border-radius: 999px;
+    background: transparent;
+    color: black;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    white-space: nowrap;
+    user-select: none;
+}
+
+.tab::after {
+    content: attr(data-label);
+    font-weight: 700;
+    visibility: hidden;
+    height: 0;
+    overflow: hidden;
+    pointer-events: none;
+    display: block;
+}
+
+.tab:focus-visible {
+    outline: 2px solid #000;
+    outline-offset: 2px;
+}
+
+.activeTab {
+    color: #000;
+    font-weight: 700;
+}
