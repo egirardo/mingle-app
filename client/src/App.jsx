@@ -6,6 +6,7 @@ import Checkbox from "./components/Forms/Checkboxes/Checkbox.jsx";
 import NavBar from "./components/NavBar/NavBar.jsx";
 import heroImage from "./assets/hero.png";
 import TagContainer from "./components/Tags/TagContainer.jsx";
+import TabSlider from "./components/Tabs/TabSlider.jsx";
 
 function App() {
   return (
@@ -71,12 +72,12 @@ function App() {
         />
         <TextInput formLabel="Password" placeholder="skriv.." type="password" />
       </form>
-
-      {/* --- Tags --- */}
-
-      <TagContainer
-        tags={["JavaScript", "React", "CSS", "Node.js", "Express", "MongoDB"]}
+      <TabSlider
+        tabs={["Företag", "Studenter"]}
+        defaultIndex={0}
+      onChange={(index, label) => console.log(index, label)} // DEV ONLY CONSOLE LOG IS TEMPORARY, REMOVE ONCE FUNCTIONALITY IS IMPLEMENTED
       />
+      <TagContainer tags={["JavaScript", "React", "CSS", "Node.js", "Express", "MongoDB"]} />
     </>
   );
 }
