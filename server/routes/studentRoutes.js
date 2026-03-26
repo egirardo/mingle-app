@@ -215,7 +215,7 @@ router.put(
         // Multer's own errors (e.g., LIMIT_FILE_SIZE)
         return res.status(400).json({ message: err.message });
       }
-      // Custom fileFilter errors (e.g., "Only JPEG, JPG, PNG, and WebP images are allowed")
+      // Custom fileFilter errors (e.g., "File must be an image")
       return res.status(400).json({ message: err.message });
     }
     next();
