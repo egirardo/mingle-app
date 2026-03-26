@@ -1,4 +1,7 @@
+/* --------------------------------------------------------- */
 /* General button */
+/* --------------------------------------------------------- */
+
 .button {
   display: inline-flex;
   align-items: center;
@@ -30,7 +33,14 @@
   pointer-events: none;
 }
 
-/* Icon Button */
+.hasIcon {
+  padding-right: 40px;
+}
+
+/* --------------------------------------------------------- */
+/* Icon Only Button */
+/* --------------------------------------------------------- */
+
 .iconButton{
   display: inline-flex;
   align-items: center;
@@ -56,18 +66,17 @@
   pointer-events: none;
 }
 
-.hasIcon {
-  padding-right: 40px;
-}
 
-/* variant */
+/* --------------------------------------------------------- */
+/* Variants */
+/* --------------------------------------------------------- */
 
 /* Borders */
 .blackBorder {
   border: 2px solid #000;
 }
 
-/* Colors */
+/* background colors */
 .transparent {
   background-color: transparent;
 }

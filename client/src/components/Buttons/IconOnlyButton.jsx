@@ -12,10 +12,12 @@ export default function IconOnlyButton({
   type = "button",
   ...buttonProps
 }) {
+  // Variants
   const colorClass = buttonColor ? (styles[buttonColor] ?? "") : "";
   const variantClass = variant ? (styles[variant] ?? "") : "";
   const icons = { search, arrow45, arrowBack, help };
 
+  // icons
   let icon;
   if (iconSrc) {
     icon =
