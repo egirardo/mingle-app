@@ -11,6 +11,7 @@ export default function TabSlider({ tabs, defaultIndex = 0, onChange }) {
 
   return (
     <div
+      role="tablist"
       className={styles.sliderContainer}
       style={{ "--tab-count": tabs.length, "--active-index": activeIndex }}
     >
@@ -20,6 +21,10 @@ export default function TabSlider({ tabs, defaultIndex = 0, onChange }) {
       {tabs.map((tab, index) => (
         <button
           key={index}
+          id={`tab-${index}`}
+          role="tab"
+          aria-selected={activeIndex === index}
+          aria-controls={`tabpanel-${index}`}
           data-label={tab}
           className={`${styles.tab} ${activeIndex === index ? styles.activeTab : ""}`}
           onClick={() => handleClick(index)}
