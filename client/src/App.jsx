@@ -3,12 +3,25 @@ import Button from "./components/Buttons/Button.jsx";
 import TextInput from "./components/Forms/InputFields/TextInput.jsx";
 import Checkbox from "./components/Forms/Checkboxes/Checkbox.jsx";
 import NavBar from "./components/NavBar/NavBar.jsx";
+<<<<<<< HEAD
+=======
+import CheckmarkButton from "./components/Buttons/CheckmarkButton.jsx";
+import heroImage from "./assets/hero.png";
+import TagContainer from "./components/Tags/TagContainer.jsx";
+>>>>>>> eb3c6741845894c6c5c515f7e9f9178ac56b0115
 
 function App() {
   return (
     <>
       <NavBar />
-      <h1>Mingle App</h1>
+      <div className="hero-container">
+        <img
+          src={heroImage}
+          alt=""
+          aria-hidden="true"
+          className="hero-image"
+        />
+      </div>
       <form>
         <Button
           buttonName="Log in"
@@ -43,6 +56,7 @@ function App() {
         <Checkbox checkboxLabel="HTML" />
         <Checkbox checkboxLabel="CSS" />
       </form>
+      <TagContainer tags={["JavaScript", "React", "CSS", "Node.js", "Express", "MongoDB"]} />
     </>
   );
 }
