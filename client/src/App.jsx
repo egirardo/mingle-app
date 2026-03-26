@@ -1,9 +1,8 @@
 import "./App.css";
-import ArrowRButton from "./components/Buttons/ArrowRButton.jsx";
+import Button from "./components/Buttons/Button.jsx";
 import TextInput from "./components/Forms/InputFields/TextInput.jsx";
 import Checkbox from "./components/Forms/Checkboxes/Checkbox.jsx";
 import NavBar from "./components/NavBar/NavBar.jsx";
-import CheckmarkButton from "./components/Buttons/CheckmarkButton.jsx";
 
 function App() {
   return (
@@ -11,16 +10,24 @@ function App() {
       <NavBar />
       <h1>Mingle App</h1>
       <form>
-        <ArrowRButton buttonName="Log in" />
-        <ArrowRButton
+        <Button
+          buttonName="Log in"
+          iconSrc="arrowRight"
+          buttonColor=""
+          type=""
+          variant=""
+        />
+        <Button
           buttonName="Submit"
+          iconSrc="arrowRight"
           buttonColor="transparent"
           type="submit"
           variant="blackBorder"
         />
-        <CheckmarkButton
+        <Button
           buttonName="Save"
           buttonColor="transparent"
+          iconSrc="checkmark"
           type="submit"
           variant="blackBorder"
         />
