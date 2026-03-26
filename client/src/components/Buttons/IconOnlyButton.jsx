@@ -4,6 +4,12 @@ import arrowBack from "../../assets/icons/arrow-back.svg";
 import arrow45 from "../../assets/icons/arrow-45.svg";
 import help from "../../assets/icons/help.svg";
 
+// Props:
+// `buttonColor`, `variant`: CSS modifier classes
+// `iconSrc`: optional icon to render (if omitted the button has no image)
+// `ariaLabel`: accessible name for screen readers (applied to the <button>)
+// `...buttonProps`: forwarded to the underlying <button> (onClick, disabled, etc.)
+
 export default function IconOnlyButton({
   buttonColor,
   variant,
@@ -17,7 +23,7 @@ export default function IconOnlyButton({
   const variantClass = variant ? (styles[variant] ?? "") : "";
   const icons = { search, arrow45, arrowBack, help };
 
-  // icons
+  // Icon is optional
   let icon;
   if (iconSrc) {
     icon =

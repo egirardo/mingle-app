@@ -27,9 +27,10 @@ function App() {
           type="submit"
         />
         <Button
-          buttonName="No Icon"
+          buttonName="arrow 45"
+          iconSrc="arrow45"
           buttonColor="transparent"
-          variant="blackBorder"
+          variant="textUnderline"
         />
         <Button
           buttonName="Save"
@@ -75,9 +76,11 @@ function App() {
       <TabSlider
         tabs={["Företag", "Studenter"]}
         defaultIndex={0}
-      onChange={(index, label) => console.log(index, label)} // DEV ONLY CONSOLE LOG IS TEMPORARY, REMOVE ONCE FUNCTIONALITY IS IMPLEMENTED
+        onChange={(index, label) => console.log(index, label)} // DEV ONLY CONSOLE LOG IS TEMPORARY, REMOVE ONCE FUNCTIONALITY IS IMPLEMENTED
       />
-      <TagContainer tags={["JavaScript", "React", "CSS", "Node.js", "Express", "MongoDB"]} />
+      <TagContainer
+        tags={["JavaScript", "React", "CSS", "Node.js", "Express", "MongoDB"]}
+      />
     </>
   );
 }
