@@ -13,10 +13,7 @@ export default function Button({
   const variantClass = variant ? (styles[variant] ?? "") : "";
   const icons = { arrowRight, checkmark };
 
-  // Default button icon
-  let icon = arrowRight;
-
-  // Changable icon
+  let icon;
   if (iconSrc) {
     icon =
       typeof iconSrc === "string" && icons[iconSrc] ? icons[iconSrc] : iconSrc;
@@ -24,11 +21,13 @@ export default function Button({
 
   return (
     <button
-      className={`${styles.button} ${colorClass} ${variantClass}`.trim()}
+      className={`${styles.button} ${icon ? styles.hasIcon : ""} ${colorClass} ${variantClass}`.trim()}
       type={type}
     >
       <span className={styles.label}>{buttonName}</span>
-      <img src={icon} className={styles.icon} alt="" aria-hidden="true" />
+      {icon && (
+        <img src={icon} className={styles.icon} alt="" aria-hidden="true" />
+      )}
     </button>
   );
 }

@@ -15,13 +15,9 @@ export default function IconOnlyButton({
   const variantClass = variant ? (styles[variant] ?? "") : "";
   const icons = { search, arrow45, arrowBack, help };
 
-  // Default button icon
-  let icon = search;
-
-  // Changable icon
+  let icon;
   if (iconSrc) {
-    icon =
-      typeof iconSrc === "string" && icons[iconSrc] ? icons[iconSrc] : iconSrc;
+    icon = typeof iconSrc === "string" && icons[iconSrc] ? icons[iconSrc] : iconSrc;
   }
 
   return (
@@ -30,7 +26,7 @@ export default function IconOnlyButton({
       type={type}
       aria-label={ariaLabel}
     >
-      <img src={icon} className={styles.icon} alt="" aria-hidden="true" />
+      {icon && <img src={icon} className={styles.icon} alt="" aria-hidden="true" />}
     </button>
   );
 }

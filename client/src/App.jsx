@@ -15,8 +15,6 @@ function App() {
         <img src={heroImage} alt="" aria-hidden="true" className="hero-image" />
       </div>
       <form>
-
-        
         {/* --- Buttons --- */}
 
         <Button buttonName="Log in" iconSrc="arrowRight" />
@@ -28,10 +26,9 @@ function App() {
           type="submit"
         />
         <Button
-          buttonName="Submit"
+          buttonName="No Icon"
           buttonColor="transparent"
           variant="blackBorder"
-          type="submit"
         />
         <Button
           buttonName="Save"
@@ -39,7 +36,6 @@ function App() {
           iconSrc="checkmark"
           variant="blackBorder"
         />
-
 
         {/* --- Icon Only Buttons --- */}
 
@@ -64,7 +60,6 @@ function App() {
           ariaLabel="Open link"
           buttonColor="transparent"
         />
-
 
         {/* --- Inputs --- */}
 

@@ -4,7 +4,6 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 0.9rem;
-  padding-right: 40px;
   min-height: 36px;
   border: none;
   border-radius: 999px;
@@ -57,6 +56,10 @@
   margin: 0;
   display: block;
   pointer-events: none;
+}
+
+.hasIcon {
+  padding-right: 40px;
 }
 
 /* variant */
