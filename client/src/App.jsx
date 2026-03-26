@@ -3,12 +3,8 @@ import Button from "./components/Buttons/Button.jsx";
 import TextInput from "./components/Forms/InputFields/TextInput.jsx";
 import Checkbox from "./components/Forms/Checkboxes/Checkbox.jsx";
 import NavBar from "./components/NavBar/NavBar.jsx";
-<<<<<<< HEAD
-=======
-import CheckmarkButton from "./components/Buttons/CheckmarkButton.jsx";
 import heroImage from "./assets/hero.png";
 import TagContainer from "./components/Tags/TagContainer.jsx";
->>>>>>> eb3c6741845894c6c5c515f7e9f9178ac56b0115
 
 function App() {
   return (
