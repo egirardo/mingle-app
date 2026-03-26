@@ -4,20 +4,21 @@ import arrowBack from "../../assets/icons/arrow-back.svg";
 import arrow45 from "../../assets/icons/arrow-45.svg";
 import help from "../../assets/icons/help.svg";
 
-export default function IconButton({
+export default function IconOnlyButton({
   buttonColor,
   variant,
   iconSrc,
+  ariaLabel,
   type = "button",
 }) {
   const colorClass = buttonColor ? (styles[buttonColor] ?? "") : "";
   const variantClass = variant ? (styles[variant] ?? "") : "";
   const icons = { search, arrow45, arrowBack, help };
 
-  //Defult button icon
+  // Default button icon
   let icon = search;
 
-  //Changable icon
+  // Changable icon
   if (iconSrc) {
     icon =
       typeof iconSrc === "string" && icons[iconSrc] ? icons[iconSrc] : iconSrc;
@@ -27,6 +28,7 @@ export default function IconButton({
     <button
       className={`${styles.IconButton} ${colorClass} ${variantClass}`.trim()}
       type={type}
+      aria-label={ariaLabel}
     >
       <img src={icon} className={styles.icon} alt="" aria-hidden="true" />
     </button>

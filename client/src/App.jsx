@@ -1,6 +1,6 @@
 import "./App.css";
 import Button from "./components/Buttons/Button.jsx";
-import IconButton from "./components/Buttons/IconButton.jsx";
+import IconOnlyButton from "./components/Buttons/IconOnlyButton.jsx";
 import TextInput from "./components/Forms/InputFields/TextInput.jsx";
 import Checkbox from "./components/Forms/Checkboxes/Checkbox.jsx";
 import NavBar from "./components/NavBar/NavBar.jsx";
@@ -15,61 +15,70 @@ function App() {
         <img src={heroImage} alt="" aria-hidden="true" className="hero-image" />
       </div>
       <form>
-        <Button
-          buttonName="Log in"
-          iconSrc="arrowRight"
-          buttonColor=""
-          type=""
-          variant=""
-        />
+
+        
+        {/* --- Buttons --- */}
+
+        <Button buttonName="Log in" iconSrc="arrowRight" />
         <Button
           buttonName="Submit"
           iconSrc="arrowRight"
           buttonColor="transparent"
-          type="submit"
           variant="blackBorder"
+          type="submit"
+        />
+        <Button
+          buttonName="Submit"
+          buttonColor="transparent"
+          variant="blackBorder"
+          type="submit"
         />
         <Button
           buttonName="Save"
           buttonColor="transparent"
           iconSrc="checkmark"
-          type=""
           variant="blackBorder"
         />
-        <IconButton
+
+
+        {/* --- Icon Only Buttons --- */}
+
+        <IconOnlyButton
           iconSrc="search"
+          ariaLabel="Search"
           buttonColor="transparent"
-          type=""
-          variant=""
         />
-        <IconButton
+        <IconOnlyButton
           iconSrc="search"
-          buttonColor=""
-          type=""
+          ariaLabel="Search"
+          buttonColor="gray"
           variant="blackBorder"
         />
-        <IconButton
-          iconSrc="arrow45"
-          buttonColor="transparent"
-          type=""
-          variant=""
-        />
-        <IconButton
+        <IconOnlyButton
           iconSrc="arrowBack"
+          ariaLabel="Go back"
           buttonColor="transparent"
-          type="submit"
-          variant=""
         />
+        <IconOnlyButton
+          iconSrc="arrow45"
+          ariaLabel="Open link"
+          buttonColor="transparent"
+        />
+
+
+        {/* --- Inputs --- */}
+
         <TextInput
           formLabel="Email"
           placeholder="skriv.."
           type="text"
           id="email"
         />
-        <TextInput formLabel="Password" placeholder="skriv.." type="text" />
-        <Checkbox checkboxLabel="HTML" />
-        <Checkbox checkboxLabel="CSS" />
+        <TextInput formLabel="Password" placeholder="skriv.." type="password" />
       </form>
+
+      {/* --- Tags --- */}
+
       <TagContainer
         tags={["JavaScript", "React", "CSS", "Node.js", "Express", "MongoDB"]}
       />

@@ -32,7 +32,7 @@
 }
 
 /* Icon Button */
-.IconButton{
+.IconButton {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -69,4 +69,8 @@
 /* Colors */
 .transparent {
   background-color: transparent;
+}
+
+.gray {
+  background-color: gray;
 }

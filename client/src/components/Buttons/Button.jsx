@@ -13,10 +13,10 @@ export default function Button({
   const variantClass = variant ? (styles[variant] ?? "") : "";
   const icons = { arrowRight, checkmark };
 
-  //Defult button icon
+  // Default button icon
   let icon = arrowRight;
 
-  //Changable icon
+  // Changable icon
   if (iconSrc) {
     icon =
       typeof iconSrc === "string" && icons[iconSrc] ? icons[iconSrc] : iconSrc;
