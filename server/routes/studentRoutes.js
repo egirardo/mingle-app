@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import multer from 'multer';
+import { fileTypeFromBuffer } from 'file-type';
 import StudentAuth from '../models/StudentAuth.js';
 import StudentProfile from '../models/StudentProfile.js';
 import authMiddleware from '../middleware/authMiddleware.js';
@@ -16,12 +17,12 @@ const storage = multer.memoryStorage();
 const upload = multer({
   storage,
   limits: { fileSize: 2 * 1024 * 1024 }, // 2MB max
+  // Basic MIME type check — real validation (magic bytes) happens in the handler
   fileFilter: (req, file, cb) => {
-    const allowed = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-    if (allowed.includes(file.mimetype)) {
+    if (file.mimetype.startsWith('image/')) {
       cb(null, true);
     } else {
-      cb(new Error('Only JPEG, JPG, PNG, and WebP images are allowed'));
+      cb(new Error('File must be an image'));
     }
   },
 });
@@ -202,37 +203,64 @@ router.put('/profile', authMiddleware, async (req, res) => {
 // ─── UPLOAD PROFILE IMAGE ─────────────────────────────────────────────────────
 // PUT /api/students/profile/image
 // Protected — requires token
-router.put('/profile/image', authMiddleware, upload.single('profileImage'), async (req, res) => {
-  try {
-    if (!req.file) {
-      return res.status(400).json({ message: 'No image file provided' });
-    }
-
-    const updatedProfile = await StudentProfile.findOneAndUpdate(
-      { studentId: req.user.id },
-      {
-        $set: {
-          'profileImage.data': req.file.buffer,       // Binary buffer from multer
-          'profileImage.contentType': req.file.mimetype,
-        },
-      },
-      { new: true }
-    );
-
-    if (!updatedProfile) {
-      return res.status(404).json({ message: 'Profile not found' });
-    }
-
-    res.status(200).json(formatProfile(updatedProfile));
-
-  } catch (err) {
-    // Handle multer errors (file too large, wrong type)
-    if (err instanceof multer.MulterError || err.message.includes('Only')) {
+router.put(
+  '/profile/image',
+  authMiddleware,
+  upload.single('profileImage'),
+  // Error-handling middleware to catch multer errors (fileFilter, LIMIT_FILE_SIZE, etc.)
+  // Must have signature (err, req, res, next) to be treated as error handler
+  (err, req, res, next) => {
+    if (err) {
+      if (err instanceof multer.MulterError) {
+        // Multer's own errors (e.g., LIMIT_FILE_SIZE)
+        return res.status(400).json({ message: err.message });
+      }
+      // Custom fileFilter errors (e.g., "Only JPEG, JPG, PNG, and WebP images are allowed")
       return res.status(400).json({ message: err.message });
     }
-    console.error('Image upload error:', err);
-    res.status(500).json({ message: 'Server error uploading image' });
+    next();
+  },
+  // Main handler
+  async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ message: 'No image file provided' });
+      }
+
+      // Validate actual file type by inspecting magic bytes (not client-supplied mimetype)
+      const detectedType = await fileTypeFromBuffer(req.file.buffer);
+      
+      // Allowed MIME types by their actual signatures
+      const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/webp'];
+      
+      if (!detectedType || !allowedMimeTypes.includes(detectedType.mime)) {
+        return res.status(400).json({ 
+          message: 'Invalid image file. Only JPEG, PNG, and WebP are allowed.' 
+        });
+      }
+
+      const updatedProfile = await StudentProfile.findOneAndUpdate(
+        { studentId: req.user.id },
+        {
+          $set: {
+            'profileImage.data': req.file.buffer,                  // Binary buffer from multer
+            'profileImage.contentType': detectedType.mime,         // Use detected MIME type, not client-supplied
+          },
+        },
+        { new: true }
+      );
+
+      if (!updatedProfile) {
+        return res.status(404).json({ message: 'Profile not found' });
+      }
+
+      res.status(200).json(formatProfile(updatedProfile));
+
+    } catch (err) {
+      console.error('Image upload error:', err);
+      res.status(500).json({ message: 'Server error uploading image' });
+    }
   }
-});
+);
 
 export default router;
