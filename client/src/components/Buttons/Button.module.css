@@ -1,3 +1,4 @@
+/* General button */
 .button {
   display: inline-flex;
   align-items: center;
@@ -29,6 +30,36 @@
   height: 28px;
   pointer-events: none;
 }
+
+/* Icon Button */
+.IconButton{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 100%;
+  color: #000;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  position: relative;
+  width: 2rem;
+  height: 2rem;
+}
+
+.IconButton .icon {
+  position: static;
+  right: auto;
+  top: auto;
+  transform: none;
+  width: 2rem;
+  height: 2rem;
+  margin: 0;
+  display: block;
+  pointer-events: none;
+}
+
+/* variant */
 
 /* Borders */
 .blackBorder {

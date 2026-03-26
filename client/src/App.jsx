@@ -1,5 +1,6 @@
 import "./App.css";
 import Button from "./components/Buttons/Button.jsx";
+import IconButton from "./components/Buttons/IconButton.jsx";
 import TextInput from "./components/Forms/InputFields/TextInput.jsx";
 import Checkbox from "./components/Forms/Checkboxes/Checkbox.jsx";
 import NavBar from "./components/NavBar/NavBar.jsx";
@@ -11,12 +12,7 @@ function App() {
     <>
       <NavBar />
       <div className="hero-container">
-        <img
-          src={heroImage}
-          alt=""
-          aria-hidden="true"
-          className="hero-image"
-        />
+        <img src={heroImage} alt="" aria-hidden="true" className="hero-image" />
       </div>
       <form>
         <Button
@@ -37,10 +33,33 @@ function App() {
           buttonName="Save"
           buttonColor="transparent"
           iconSrc="checkmark"
-          type="submit"
+          type=""
           variant="blackBorder"
         />
-
+        <IconButton
+          iconSrc="search"
+          buttonColor="transparent"
+          type=""
+          variant=""
+        />
+        <IconButton
+          iconSrc="search"
+          buttonColor=""
+          type=""
+          variant="blackBorder"
+        />
+        <IconButton
+          iconSrc="arrow45"
+          buttonColor="transparent"
+          type=""
+          variant=""
+        />
+        <IconButton
+          iconSrc="arrowBack"
+          buttonColor="transparent"
+          type="submit"
+          variant=""
+        />
         <TextInput
           formLabel="Email"
           placeholder="skriv.."
@@ -48,11 +67,12 @@ function App() {
           id="email"
         />
         <TextInput formLabel="Password" placeholder="skriv.." type="text" />
-
         <Checkbox checkboxLabel="HTML" />
         <Checkbox checkboxLabel="CSS" />
       </form>
-      <TagContainer tags={["JavaScript", "React", "CSS", "Node.js", "Express", "MongoDB"]} />
+      <TagContainer
+        tags={["JavaScript", "React", "CSS", "Node.js", "Express", "MongoDB"]}
+      />
     </>
   );
 }
