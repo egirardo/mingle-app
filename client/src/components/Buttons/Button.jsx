@@ -10,10 +10,12 @@ export default function Button({
   type = "button",
   ...buttonProps
 }) {
+  // Variants
   const colorClass = buttonColor ? (styles[buttonColor] ?? "") : "";
   const variantClass = variant ? (styles[variant] ?? "") : "";
   const icons = { arrowRight, checkmark };
 
+  // Icons
   let icon;
   if (iconSrc) {
     icon =
