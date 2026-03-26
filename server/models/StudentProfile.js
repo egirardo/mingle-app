@@ -50,6 +50,18 @@ const studentProfileSchema = new mongoose.Schema(
       type: String, // URL
       default: null,
     },
+
+    // Profile picture stored as binary in MongoDB
+    profileImage: {
+      data: {
+        type: Buffer,
+        default: null,
+      },
+      contentType: {
+        type: String, // e.g. 'image/jpeg', 'image/png'
+        default: null,
+      },
+    },
   },
   { timestamps: true }
 );
