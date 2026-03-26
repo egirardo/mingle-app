@@ -10,15 +10,13 @@ export default function IconOnlyButton({
   iconSrc,
   ariaLabel,
   type = "button",
+  ...buttonProps
 }) {
   const colorClass = buttonColor ? (styles[buttonColor] ?? "") : "";
   const variantClass = variant ? (styles[variant] ?? "") : "";
   const icons = { search, arrow45, arrowBack, help };
 
-  // Default icon
-  let icon = search;
-
-  // Changable icon
+  let icon;
   if (iconSrc) {
     icon =
       typeof iconSrc === "string" && icons[iconSrc] ? icons[iconSrc] : iconSrc;
@@ -26,11 +24,14 @@ export default function IconOnlyButton({
 
   return (
     <button
+      {...buttonProps}
       className={`${styles.iconButton} ${colorClass} ${variantClass}`.trim()}
       type={type}
       aria-label={ariaLabel}
     >
-      <img src={icon} className={styles.icon} alt="" aria-hidden="true" />
+      {icon && (
+        <img src={icon} className={styles.icon} alt="" aria-hidden="true" />
+      )}
     </button>
   );
 }

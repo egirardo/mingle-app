@@ -8,6 +8,7 @@ export default function Button({
   variant,
   iconSrc,
   type = "button",
+  ...buttonProps
 }) {
   const colorClass = buttonColor ? (styles[buttonColor] ?? "") : "";
   const variantClass = variant ? (styles[variant] ?? "") : "";
@@ -21,6 +22,7 @@ export default function Button({
 
   return (
     <button
+      {...buttonProps}
       className={`${styles.button} ${icon ? styles.hasIcon : ""} ${colorClass} ${variantClass}`.trim()}
       type={type}
     >
