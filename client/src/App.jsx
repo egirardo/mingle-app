@@ -12,9 +12,9 @@ function App() {
   return (
     <>
       <NavBar />
-      <div className="hero-container">
+      {/* <div className="hero-container">
         <img src={heroImage} alt="" aria-hidden="true" className="hero-image" />
-      </div>
+      </div> */}
       <form>
         {/* --- Buttons --- */}
 
@@ -71,7 +71,7 @@ function App() {
           type="text"
           id="email"
         />
-        <TextInput formLabel="Password" placeholder="skriv.." type="password" />
+        <TextInput formLabel="Password" placeholder="skriv.." type="password" subText="Lösenordet måste vara minst 8 tecken långt" required={true} optional={true} />
       </form>
       <TabSlider
         tabs={["Företag", "Studenter"]}
