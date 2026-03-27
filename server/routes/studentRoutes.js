@@ -2,13 +2,52 @@ import express from 'express';
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import multer from 'multer';
+import { fileTypeFromBuffer } from 'file-type';
 import StudentAuth from '../models/StudentAuth.js';
 import StudentProfile from '../models/StudentProfile.js';
 import authMiddleware from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-// ─── REGISTER ───────────────────────────────────────────────────────────────
+// ─── MULTER CONFIG ───────────────────────────────────────────────────────────
+// memoryStorage keeps the file in memory as a Buffer — never written to disk
+const storage = multer.memoryStorage();
+
+const upload = multer({
+  storage,
+  limits: { fileSize: 2 * 1024 * 1024 }, // 2MB max
+  // Basic MIME type check — real validation (magic bytes) happens in the handler
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith('image/')) {
+      cb(null, true);
+    } else {
+      cb(new Error('File must be an image'));
+    }
+  },
+});
+
+// ─── HELPER: Format profile for response ────────────────────────────────────
+// Converts the binary image to a base64 data URL the frontend can use directly
+// e.g. <img src={profile.profileImage} />
+// Falls back to null if no image — frontend should show a default avatar
+const formatProfile = (profile) => {
+  const obj = profile.toObject();
+
+  // Explode questions string back into an array
+  obj.questions = obj.questions ? obj.questions.split('||') : [];
+
+  // Convert binary buffer to base64 data URL
+  if (obj.profileImage?.data) {
+    obj.profileImage = `data:${obj.profileImage.contentType};base64,${obj.profileImage.data.toString('base64')}`;
+  } else {
+    obj.profileImage = null; // Frontend handles showing default avatar when null
+  }
+
+  return obj;
+};
+
+// ─── REGISTER ────────────────────────────────────────────────────────────────
 // POST /api/students/register
 router.post('/register', async (req, res) => {
   const session = await mongoose.startSession();
@@ -35,12 +74,10 @@ router.post('/register', async (req, res) => {
     const studentAuth = new StudentAuth({ email: normalizedEmail, password: hashedPassword });
     await studentAuth.save({ session });
 
-    // Implode questions array into a single string e.g. "answer1||answer2||answer3"
-    const implodedQuestions = questions
-      ? questions.filter(Boolean).join('||')
-      : null;
+    const implodedQuestions = questions ? questions.filter(Boolean).join('||') : null;
 
-    // Create profile record linked to auth
+    // No image on register — profileImage defaults to null
+    // Student can upload one after via PUT /api/students/profile/image
     const studentProfile = new StudentProfile({
       studentId: studentAuth._id,
       firstName,
@@ -72,7 +109,7 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// ─── LOGIN ───────────────────────────────────────────────────────────────────
+// ─── LOGIN ────────────────────────────────────────────────────────────────────
 // POST /api/students/login
 router.post('/login', async (req, res) => {
   try {
@@ -108,7 +145,7 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// ─── GET PROFILE ─────────────────────────────────────────────────────────────
+// ─── GET PROFILE ──────────────────────────────────────────────────────────────
 // GET /api/students/profile
 // Protected — requires token
 router.get('/profile', authMiddleware, async (req, res) => {
@@ -118,12 +155,7 @@ router.get('/profile', authMiddleware, async (req, res) => {
       return res.status(404).json({ message: 'Profile not found' });
     }
 
-    // Explode questions string back into an array for the frontend
-    const explodedQuestions = profile.questions
-      ? profile.questions.split('||')
-      : [];
-
-    res.status(200).json({ ...profile.toObject(), questions: explodedQuestions });
+    res.status(200).json(formatProfile(profile));
 
   } catch (err) {
     console.error('Get profile error:', err);
@@ -131,17 +163,14 @@ router.get('/profile', authMiddleware, async (req, res) => {
   }
 });
 
-// ─── UPDATE PROFILE ──────────────────────────────────────────────────────────
+// ─── UPDATE PROFILE ───────────────────────────────────────────────────────────
 // PUT /api/students/profile
 // Protected — requires token
 router.put('/profile', authMiddleware, async (req, res) => {
   try {
     const { firstName, lastName, program, skills, about, questions, portfolio } = req.body;
 
-    // Implode questions before saving (only if provided)
-    const implodedQuestions = questions
-      ? questions.filter(Boolean).join('||')
-      : null;
+    const implodedQuestions = questions ? questions.filter(Boolean).join('||') : null;
 
     // Build update payload only with provided fields
     const updateData = {};
@@ -158,22 +187,80 @@ router.put('/profile', authMiddleware, async (req, res) => {
       { $set: updateData },
       { new: true, runValidators: true }
     );
-    
+
     if (!updatedProfile) {
       return res.status(404).json({ message: 'Profile not found' });
     }
 
-    // Explode questions before sending back
-    const explodedQuestions = updatedProfile.questions
-      ? updatedProfile.questions.split('||')
-      : [];
-
-    res.status(200).json({ ...updatedProfile.toObject(), questions: explodedQuestions });
+    res.status(200).json(formatProfile(updatedProfile));
 
   } catch (err) {
     console.error('Update profile error:', err);
     res.status(500).json({ message: 'Server error updating profile' });
   }
 });
+
+// ─── UPLOAD PROFILE IMAGE ─────────────────────────────────────────────────────
+// PUT /api/students/profile/image
+// Protected — requires token
+router.put(
+  '/profile/image',
+  authMiddleware,
+  upload.single('profileImage'),
+  // Error-handling middleware to catch multer errors (fileFilter, LIMIT_FILE_SIZE, etc.)
+  // Must have signature (err, req, res, next) to be treated as error handler
+  (err, req, res, next) => {
+    if (err) {
+      if (err instanceof multer.MulterError) {
+        // Multer's own errors (e.g., LIMIT_FILE_SIZE)
+        return res.status(400).json({ message: err.message });
+      }
+      // Custom fileFilter errors (e.g., "File must be an image")
+      return res.status(400).json({ message: err.message });
+    }
+    next();
+  },
+  // Main handler
+  async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ message: 'No image file provided' });
+      }
+
+      // Validate actual file type by inspecting magic bytes (not client-supplied mimetype)
+      const detectedType = await fileTypeFromBuffer(req.file.buffer);
+      
+      // Allowed MIME types by their actual signatures
+      const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/webp'];
+      
+      if (!detectedType || !allowedMimeTypes.includes(detectedType.mime)) {
+        return res.status(400).json({ 
+          message: 'Invalid image file. Only JPEG, PNG, and WebP are allowed.' 
+        });
+      }
+
+      const updatedProfile = await StudentProfile.findOneAndUpdate(
+        { studentId: req.user.id },
+        {
+          $set: {
+            'profileImage.data': req.file.buffer,                  // Binary buffer from multer
+            'profileImage.contentType': detectedType.mime,         // Use detected MIME type, not client-supplied
+          },
+        },
+        { new: true }
+      );
+
+      if (!updatedProfile) {
+        return res.status(404).json({ message: 'Profile not found' });
+      }
+
+      res.status(200).json(formatProfile(updatedProfile));
+
+    } catch (err) {
+      console.error('Image upload error:', err);
+      res.status(500).json({ message: 'Server error uploading image' });
+    }
+  }
+);
 
 export default router;

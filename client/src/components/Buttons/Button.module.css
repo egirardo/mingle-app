@@ -1,9 +1,12 @@
+/* --------------------------------------------------------- */
+/* General button */
+/* --------------------------------------------------------- */
+
 .button {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 0.9rem;
-  padding-right: 40px;
   min-height: 36px;
   border: none;
   border-radius: 999px;
@@ -30,12 +33,59 @@
   pointer-events: none;
 }
 
+.hasIcon {
+  padding-right: 40px;
+}
+
+/* --------------------------------------------------------- */
+/* Icon Only Button */
+/* --------------------------------------------------------- */
+
+.iconButton{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 100%;
+  color: #000;
+  cursor: pointer;
+  position: relative;
+  width: 2rem;
+  height: 2rem;
+}
+
+.iconButton .icon {
+  position: static;
+  right: auto;
+  top: auto;
+  transform: none;
+  width: 2rem;
+  height: 2rem;
+  margin: 0;
+  display: block;
+  pointer-events: none;
+}
+
+
+/* --------------------------------------------------------- */
+/* Variants */
+/* --------------------------------------------------------- */
+
 /* Borders */
 .blackBorder {
   border: 2px solid #000;
 }
 
-/* Colors */
+.textUnderline {
+  text-decoration: underline;
+}
+
+
+/* background colors */
 .transparent {
   background-color: transparent;
+}
+
+.gray {
+  background-color: gray;
 }

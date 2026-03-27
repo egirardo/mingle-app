@@ -1,5 +1,6 @@
 import "./App.css";
 import Button from "./components/Buttons/Button.jsx";
+import IconOnlyButton from "./components/Buttons/IconOnlyButton.jsx";
 import TextInput from "./components/Forms/InputFields/TextInput.jsx";
 import Checkbox from "./components/Forms/Checkboxes/Checkbox.jsx";
 import NavBar from "./components/NavBar/NavBar.jsx";
@@ -13,35 +14,57 @@ function App() {
     <>
       <NavBar />
       <div className="hero-container">
-        <img
-          src={heroImage}
-          alt=""
-          aria-hidden="true"
-          className="hero-image"
-        />
+        <img src={heroImage} alt="" aria-hidden="true" className="hero-image" />
       </div>
       <form>
-        <Button
-          buttonName="Log in"
-          iconSrc="arrowRight"
-          buttonColor=""
-          type=""
-          variant=""
-        />
+        {/* --- Buttons --- */}
+
+        <Button buttonName="Log in" iconSrc="arrowRight" />
         <Button
           buttonName="Submit"
           iconSrc="arrowRight"
           buttonColor="transparent"
-          type="submit"
           variant="blackBorder"
+          type="submit"
+        />
+        <Button
+          buttonName="arrow 45"
+          iconSrc="arrow45"
+          buttonColor="transparent"
+          variant="textUnderline"
         />
         <Button
           buttonName="Save"
           buttonColor="transparent"
           iconSrc="checkmark"
-          type="submit"
           variant="blackBorder"
         />
+
+        {/* --- Icon Only Buttons --- */}
+
+        <IconOnlyButton
+          iconSrc="search"
+          ariaLabel="Search"
+          buttonColor="transparent"
+        />
+        <IconOnlyButton
+          iconSrc="search"
+          ariaLabel="Search"
+          buttonColor="gray"
+          variant="blackBorder"
+        />
+        <IconOnlyButton
+          iconSrc="arrowBack"
+          ariaLabel="Go back"
+          buttonColor="transparent"
+        />
+        <IconOnlyButton
+          iconSrc="arrow45"
+          ariaLabel="Open link"
+          buttonColor="transparent"
+        />
+
+        {/* --- Inputs --- */}
 
         <TextInput
           formLabel="Email"
@@ -49,15 +72,15 @@ function App() {
           type="text"
           id="email"
         />
-        <TextInput formLabel="Password" placeholder="skriv.." type="text" />
-
-        <Checkbox checkboxLabel="HTML" />
-        <Checkbox checkboxLabel="CSS" />
+        <TextInput formLabel="Password" placeholder="skriv.." type="password" />
       </form>
       <TabSlider
         tabs={["Företag", "Studenter"]}
         defaultIndex={0}
-      onChange={(index, label) => console.log(index, label)} // DEV ONLY CONSOLE LOG IS TEMPORARY, REMOVE ONCE FUNCTIONALITY IS IMPLEMENTED
+        onChange={(index, label) => console.log(index, label)} // DEV ONLY CONSOLE LOG IS TEMPORARY, REMOVE ONCE FUNCTIONALITY IS IMPLEMENTED
+      />
+      <TagContainer
+        tags={["JavaScript", "React", "CSS", "Node.js", "Express", "MongoDB"]}
       />
       <TagContainer tags={["JavaScript", "React", "CSS", "Node.js", "Express", "MongoDB"]} />
       <Dropdown
