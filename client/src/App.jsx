@@ -6,6 +6,7 @@ import NavBar from "./components/NavBar/NavBar.jsx";
 import heroImage from "./assets/hero.png";
 import TagContainer from "./components/Tags/TagContainer.jsx";
 import TabSlider from "./components/Tabs/TabSlider.jsx";
+import Dropdown from "./components/Dropdown/Dropdown.jsx";
 
 function App() {
   return (
@@ -59,6 +60,14 @@ function App() {
       onChange={(index, label) => console.log(index, label)} // DEV ONLY CONSOLE LOG IS TEMPORARY, REMOVE ONCE FUNCTIONALITY IS IMPLEMENTED
       />
       <TagContainer tags={["JavaScript", "React", "CSS", "Node.js", "Express", "MongoDB"]} />
+      <Dropdown
+        options={[
+          { value: "utvecklare", label: "Utvecklare" },
+          { value: "designers", label: "Designers" },
+        ]}
+        defaultValue={{ value: "utvecklare", label: "Utvecklare" }}
+        onSelect={(value) => setActiveFilter(value)}
+      />
     </>
   );
 }
