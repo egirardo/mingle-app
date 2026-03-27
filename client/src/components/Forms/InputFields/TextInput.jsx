@@ -6,7 +6,7 @@ export default function TextInput({ formLabel, placeholder, id, type, subText, r
   const inputId = id ?? generatedId;
 
   const label = (
-    <label htmlFor={inputId} className={styles.inputLabel}>
+    <label htmlFor={inputId} className={styles.inputLabel} >
       {formLabel}
       {required && <span aria-hidden="true" style={{ color: "grey" }}> *</span>}
       {optional && <span aria-hidden="true" className={styles.optional}>(optional)</span>}
@@ -27,6 +27,8 @@ export default function TextInput({ formLabel, placeholder, id, type, subText, r
         name={inputId}
         placeholder={placeholder}
         className={styles.textInput}
+        required={required}
+        aria-required={required}
       />
     </div>
   );
