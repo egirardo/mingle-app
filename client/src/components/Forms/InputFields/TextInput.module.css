@@ -1,7 +1,19 @@
-.textForm{
+.textForm {
     display: flex;
     flex-direction: column;
+    gap: 0.5rem;
+}
+
+.labelSubtext {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+.inputLabel {
     text-align: left;
+    color: black;
+    font-size: 1rem;
+    font-weight: 700;
 }
 .textInput {
     background-color: white;
@@ -9,4 +21,18 @@
     border-radius: 8px;
     border: 2px solid gray;
     width: 100%;
+}
+
+.subText {
+    text-align: left;
+    margin: 0;
+    align-self: flex-start;
+    font-size: .93rem;
+}
+
+.optional {
+    font-size: 1rem;
+    color: grey;
+    font-style: italic;
+    font-weight: 400;
 }
