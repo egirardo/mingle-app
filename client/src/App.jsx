@@ -75,7 +75,7 @@ function App() {
           type="text"
           id="email"
         />
-        <TextInput formLabel="Password" placeholder="skriv.." type="password" />
+        <TextInput formLabel="Password" placeholder="skriv.." type="password" subText="Lösenordet måste vara minst 8 tecken långt" required={true} optional={true} />
       </form>
       <TabSlider
         tabs={["Företag", "Studenter"]}
@@ -84,8 +84,8 @@ function App() {
       />
       <TagContainer
         tags={["JavaScript", "React", "CSS", "Node.js", "Express", "MongoDB"]}
-      />
-      <TagContainer tags={["JavaScript", "React", "CSS", "Node.js", "Express", "MongoDB"]} />
+      /> 
+      
       <Dropdown
         options={[
           { value: "utvecklare", label: "Utvecklare" },
