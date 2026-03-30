@@ -5,9 +5,11 @@ import TextInput from "./components/Forms/InputFields/TextInput.jsx";
 import Checkbox from "./components/Forms/Checkboxes/Checkbox.jsx";
 import NavBar from "./components/NavBar/NavBar.jsx";
 import heroImage from "./assets/hero.png";
+import heroShort from "./assets/hero-short.png";
 import TagContainer from "./components/Tags/TagContainer.jsx";
 import TabSlider from "./components/Tabs/TabSlider.jsx";
 import Dropdown from "./components/Dropdown/Dropdown.jsx";
+import SignUpInfo from "./components/LandingPage/SignUpInfo.jsx";
 
 function App() {
   return (
@@ -16,10 +18,11 @@ function App() {
       <div className="hero-container">
         <img src={heroImage} alt="" aria-hidden="true" className="hero-image" />
       </div>
-      <form>
+      <SignUpInfo />
+      {/* <form> */}
         {/* --- Buttons --- */}
 
-        <Button buttonName="Log in" iconSrc="arrowRight" />
+        {/* <Button buttonName="Log in" iconSrc="arrowRight" />
         <Button
           buttonName="Submit"
           iconSrc="arrowRight"
@@ -38,11 +41,11 @@ function App() {
           buttonColor="transparent"
           iconSrc="checkmark"
           variant="blackBorder"
-        />
+        /> */}
 
         {/* --- Icon Only Buttons --- */}
 
-        <IconOnlyButton
+        {/* <IconOnlyButton
           iconSrc="search"
           ariaLabel="Search"
           buttonColor="transparent"
@@ -62,11 +65,11 @@ function App() {
           iconSrc="arrow45"
           ariaLabel="Open link"
           buttonColor="transparent"
-        />
+        /> */}
 
         {/* --- Inputs --- */}
 
-        <TextInput
+        {/* <TextInput
           formLabel="Email"
           placeholder="skriv.."
           type="text"
@@ -90,7 +93,7 @@ function App() {
         ]}
         defaultValue={{ value: "utvecklare", label: "Utvecklare" }}
         onSelect={(value) => setActiveFilter(value)}
-      />
+      /> */}
     </>
   );
 }
