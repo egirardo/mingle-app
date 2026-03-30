@@ -8,18 +8,20 @@ import heroImage from "./assets/hero.png";
 import TagContainer from "./components/Tags/TagContainer.jsx";
 import TabSlider from "./components/Tabs/TabSlider.jsx";
 import Dropdown from "./components/Dropdown/Dropdown.jsx";
+import SignUpInfo from "./components/LandingPage/SignUpInfo.jsx";
 
 function App() {
   return (
     <>
       <NavBar />
-      {/* <div className="hero-container">
+      <div className="hero-container">
         <img src={heroImage} alt="" aria-hidden="true" className="hero-image" />
-      </div> */}
-      <form>
+      </div>
+      <SignUpInfo />
+      {/* <form> */}
         {/* --- Buttons --- */}
 
-        <Button buttonName="Log in" iconSrc="arrowRight" />
+        {/* <Button buttonName="Log in" iconSrc="arrowRight" />
         <Button
           buttonName="Submit"
           iconSrc="arrowRight"
@@ -27,21 +29,10 @@ function App() {
           variant="blackBorder"
           type="submit"
         />
-        <Button
-          buttonName="arrow 45"
-          iconSrc="arrow45"
-          buttonColor="transparent"
-          variant="textUnderline"
-        />
-        <Button
-          buttonName="Save"
-          buttonColor="transparent"
-          iconSrc="checkmark"
-          variant="blackBorder"
-        />
+        */}
 
         {/* --- Icon Only Buttons --- */}
-
+{/* 
         <IconOnlyButton
           iconSrc="search"
           ariaLabel="Search"
@@ -63,10 +54,10 @@ function App() {
           ariaLabel="Open link"
           buttonColor="transparent"
         />
-
+ */}
         {/* --- Inputs --- */}
 
-        <TextInput
+        {/* <TextInput
           formLabel="Email"
           placeholder="skriv.."
           type="text"
@@ -81,8 +72,8 @@ function App() {
       />
       <TagContainer
         tags={["JavaScript", "React", "CSS", "Node.js", "Express", "MongoDB"]}
-      />
-      <TagContainer tags={["JavaScript", "React", "CSS", "Node.js", "Express", "MongoDB"]} />
+      /> 
+      
       <Dropdown
         options={[
           { value: "utvecklare", label: "Utvecklare" },
@@ -91,6 +82,7 @@ function App() {
         defaultValue={{ value: "utvecklare", label: "Utvecklare" }}
         onSelect={(value) => setActiveFilter(value)}
       />
+      */}
     </>
   );
 }
