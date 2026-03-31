@@ -4,20 +4,24 @@ import { useEffect, useState } from "react";
 // - minutes (number): how many minutes to count down from (default 20)
 // - onExpire (function): optional callback fired when timer reaches 0
 
-export default function Timer({ minutes = 20, onExpire } = {}) {
+export default function Timer({
+  minutes = 20,
+  onExpire,
+  autoRestart = false, } = {}) {
   const initialSeconds = Math.max(0, Number(minutes) || 0) * 60;
   const [secondsLeft, setSecondsLeft] = useState(initialSeconds);
 
   useEffect(() => {
-    // If the `minutes` prop changes, reset the timer
     setSecondsLeft(Math.max(0, Number(minutes) || 0) * 60);
 
     const id = setInterval(() => {
       setSecondsLeft((prev) => {
         if (prev <= 1) {
-          // When reaching zero, stop the interval and call onExpire once
-          clearInterval(id);
           if (onExpire) onExpire();
+          if (autoRestart) {
+            return Math.max(0, Number(minutes) || 0) * 60;
+          }
+          clearInterval(id);
           return 0;
         }
         return prev - 1;
@@ -25,10 +29,10 @@ export default function Timer({ minutes = 20, onExpire } = {}) {
     }, 1000);
 
     return () => clearInterval(id);
-  }, [minutes, onExpire]);
+  }, [minutes, onExpire, autoRestart]);
 
   const mins = Math.floor(secondsLeft / 60);
-  const secs = secondsLeft % 60;
+  const secs = String(secondsLeft % 60).padStart(2, "0");
 
   return (
     <p id="countdownTimer">
