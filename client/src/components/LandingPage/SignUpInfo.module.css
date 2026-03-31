@@ -5,11 +5,11 @@
   gap: 20px;
   justify-content: center;
   align-items: center;
-  background: var(--bg);
-  opacity: .80;
-  position: absolute;
+  background: color-mix(in srgb, var(--bg) 80%, transparent);
+  position: absolute; /* absolute positioning for now, to be able to place it on top of the hero image, but this might change when we implement the actual layout of the landing page */
   bottom: 0;
-  width: 100vw;
+  left: 0;
+  right: 0;
 }
 
 .infoContainer {

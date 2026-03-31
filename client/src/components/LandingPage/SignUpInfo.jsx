@@ -21,8 +21,8 @@ export default function SignUpInfo() {
                     </div>
                 </div>
                 <div className={styles.buttonsContainer}>
-                    <Button buttonName="Student" variant="gray" iconSrc="arrowRight" />
-                    <Button buttonName="Company" variant="gray" iconSrc="arrowRight" /> {/* These buttons should lead to the respective sign up pages, where users can sign up and then be redirected to the dashboard */}
+                    <Button buttonName="Student" buttonColor="gray" iconSrc="arrowRight" />
+                    <Button buttonName="Company" buttonColor="gray" iconSrc="arrowRight" /> {/* These buttons should lead to the respective sign up pages, where users can sign up and then be redirected to the dashboard */}
                 </div>
                 <div className={styles.loginContainer}>
                     <div className={styles.loginGroup}>
