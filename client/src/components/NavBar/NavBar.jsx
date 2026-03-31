@@ -1,8 +1,8 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './NavBar.module.css';
 import yrgoLogo from '../../assets/yrgo-logo.svg';
 import hamburgerIcon from '../../assets/hamburger-icon.svg';
-
 
 export default function NavBar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -12,16 +12,18 @@ export default function NavBar() {
     };
 
     const menuItems = [
-        { label: 'Registration', href: '#registration' },
-        { label: 'Explore Participants', href: '#explore' },
-        { label: 'Student Login', href: '#login' },
-        { label: 'Likes', href: '#likes' }
+        { label: 'Registration', to: '/signup/student' },
+        { label: 'Explore Participants', to: '/explore' },
+        { label: 'Student Login', to: '/login' },
+        { label: 'Likes', to: '/likes' }
     ];
 
     return (
         <nav className={styles.navbar}>
             <div className={styles.logo}>
-                <img src={yrgoLogo} alt="Yrgo Logo" />
+                <Link to="/">
+                    <img src={yrgoLogo} alt="Yrgo Logo" />
+                </Link>
             </div>
             <button
                 type="button"
@@ -38,7 +40,7 @@ export default function NavBar() {
                 <ul id="nav-menu" className={styles.menu}>
                     {menuItems.map((item) => (
                         <li key={item.label}>
-                            <a href={item.href}>{item.label}</a>
+                            <Link to={item.to}>{item.label}</Link>
                         </li>
                     ))}
                 </ul>

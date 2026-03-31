@@ -1,8 +1,11 @@
 import styles from "./SignUpInfo.module.css";
 import Button from "../Buttons/Button";
 import SignUpLine from "../../assets/sign-up-line.svg";
+import { useNavigate } from "react-router-dom";
 
 export default function SignUpInfo() {
+    const navigate = useNavigate();
+
     return (
         <div className={styles.signUpInfo}>
             <div className={styles.infoContainer}>
@@ -21,8 +24,8 @@ export default function SignUpInfo() {
                     </div>
                 </div>
                 <div className={styles.buttonsContainer}>
-                    <Button buttonName="Student" buttonColor="gray" iconSrc="arrowRight" />
-                    <Button buttonName="Company" buttonColor="gray" iconSrc="arrowRight" /> {/* These buttons should lead to the respective sign up pages, where users can sign up and then be redirected to the dashboard */}
+                    <Button buttonName="Student" buttonColor="gray" iconSrc="arrowRight" onClick={() => navigate('/signup/student')} />
+                    <Button buttonName="Company" buttonColor="gray" iconSrc="arrowRight" onClick={() => navigate('/signup/business')} />
                 </div>
                 <div className={styles.loginContainer}>
                     <div className={styles.loginGroup}>
@@ -30,7 +33,7 @@ export default function SignUpInfo() {
                         <p className={styles.loginText}>Already signed up?</p>
                         <img src={SignUpLine} alt="" aria-hidden="true" className={styles.loginLine} />
                     </div>
-                    <Button buttonName="Log in and explore" variant="whiteGrayBorder" iconSrc="arrowRight" /> {/* This button should lead to the login page, where users can log in and then be redirected to the dashboard */}
+                    <Button buttonName="Log in and explore" variant="whiteGrayBorder" iconSrc="arrowRight" onClick={() => navigate('/login')} />
                 </div>
             </div>
         </div>
