@@ -5,8 +5,6 @@ export function useMingleQuestions() {
   const initial = questionsJson.questions || [];
   const [questions] = useState(initial);
   const [index, setIndex] = useState(0);
-  const [loading] = useState(false);
-  const [error] = useState(null);
 
   const nextQuestion = () => {
     if (!questions.length) return;
@@ -24,7 +22,5 @@ export function useMingleQuestions() {
     nextQuestion,
     index,
     questions,
-    loading,
-    error,
   };
 }
