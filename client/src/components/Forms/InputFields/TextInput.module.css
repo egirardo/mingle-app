@@ -14,13 +14,17 @@
     color: black;
     font-size: 1rem;
     font-weight: 700;
+    letter-spacing: -.03rem;
+    line-height: normal;
+    margin: 0;
 }
 .textInput {
-    background-color: white;
     padding: 0.5rem;
-    border-radius: 8px;
-    border: 2px solid gray;
+    border-radius: 0.5rem;
+    border: 1px solid #9B9797;
+    background: rgba(255, 255, 255, 0.60);
     width: 100%;
+    margin-bottom: 1rem;
 }
 
 .subText {

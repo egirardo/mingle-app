@@ -8,7 +8,7 @@ export default function TextInput({ formLabel, placeholder, id, type, subText, r
   const label = (
     <label htmlFor={inputId} className={styles.inputLabel} >
       {formLabel}
-      {required && <span aria-hidden="true" style={{ color: "grey" }}> *</span>}
+      {required && <span aria-hidden="true" style={{ color: "grey", fontStyle: "italic" }}> *</span>}
       {optional && <span aria-hidden="true" className={styles.optional}>(optional)</span>}
     </label>
   );

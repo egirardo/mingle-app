@@ -1,5 +1,7 @@
+import LoginPanel from "../components/LoginPage/LoginPanel";
+
 function Login() {
-  return <div>Login Page</div>;
+  return <LoginPanel />;
 }
 
 export default Login;

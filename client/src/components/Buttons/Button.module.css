@@ -13,7 +13,7 @@
   color: #000;
   cursor: pointer;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 400;
   position: relative;
   margin: .5rem;
 }
@@ -32,6 +32,11 @@
   width: 14px;
   height: 14px;
   pointer-events: none;
+}
+
+.iconOnly {
+  width: .875rem;
+  height: .875rem;
 }
 
 .hasIcon {
@@ -53,6 +58,7 @@
   position: relative;
   width: 2rem;
   height: 2rem;
+  padding: 0;
 }
 
 .iconButton .icon {

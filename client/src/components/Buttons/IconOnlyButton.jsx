@@ -38,7 +38,7 @@ export default function IconOnlyButton({
       aria-label={ariaLabel}
     >
       {icon && (
-        <img src={icon} className={styles.icon} alt="" aria-hidden="true" />
+        <img src={icon} className={styles.iconOnly} alt="" aria-hidden="true" />
       )}
     </button>
   );
