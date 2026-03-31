@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 // Props:
 // - minutes (number): how many minutes to count down from (default 20)
@@ -7,9 +7,11 @@ import { useEffect, useState } from "react";
 export default function Timer({
   minutes = 20,
   onExpire,
-  autoRestart = false, } = {}) {
+  autoRestart = false,
+} = {}) {
   const initialSeconds = Math.max(0, Number(minutes) || 0) * 60;
   const [secondsLeft, setSecondsLeft] = useState(initialSeconds);
+  const expiredRef = useRef(false);
 
   useEffect(() => {
     setSecondsLeft(Math.max(0, Number(minutes) || 0) * 60);
@@ -17,7 +19,7 @@ export default function Timer({
     const id = setInterval(() => {
       setSecondsLeft((prev) => {
         if (prev <= 1) {
-          if (onExpire) onExpire();
+          expiredRef.current = true;
           if (autoRestart) {
             return Math.max(0, Number(minutes) || 0) * 60;
           }
@@ -29,7 +31,14 @@ export default function Timer({
     }, 1000);
 
     return () => clearInterval(id);
-  }, [minutes, onExpire, autoRestart]);
+  }, [minutes, autoRestart]);
+
+  useEffect(() => {
+    if (expiredRef.current) {
+      expiredRef.current = false;
+      if (onExpire) onExpire();
+    }
+  }, [secondsLeft, onExpire]);
 
   const mins = Math.floor(secondsLeft / 60);
   const secs = String(secondsLeft % 60).padStart(2, "0");

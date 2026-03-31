@@ -1,5 +1,5 @@
-import Timer from "./components/Timer/Timer.jsx";
 import { useMingleQuestions } from "./Hooks/useMingleQuestions";
+import Timer from "./components/Timer/Timer.jsx";
 
 export default function Mingle() {
   const { questionText, nextQuestion, loading, questions } =
@@ -10,9 +10,6 @@ export default function Mingle() {
       <div className="mingle">
         <Timer minutes="0.1" onExpire={nextQuestion} autoRestart />
         <p>{questionText}</p>
-        <button onClick={nextQuestion} disabled={loading || !questions.length}>
-          Next question
-        </button>
       </div>
     </>
   );
