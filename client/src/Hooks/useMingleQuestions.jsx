@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import questionsJson from "../data/questions.json";
 
 export function useMingleQuestions() {
   const initial = questionsJson.questions || [];
-  const [questions] = useState(initial);
+  const questions = initial;
   const [index, setIndex] = useState(0);
 
   const nextQuestion = () => {

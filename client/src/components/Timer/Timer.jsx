@@ -13,6 +13,11 @@ export default function Timer({
   const initialSeconds = Math.max(0, Number(minutes) || 0) * 60;
   const [secondsLeft, setSecondsLeft] = useState(initialSeconds);
   const expiredRef = useRef(false);
+  const onExpireRef = useRef(onExpire);
+
+  useEffect(() => {
+    onExpireRef.current = onExpire;
+  }, [onExpire]);
 
   useEffect(() => {
     setSecondsLeft(Math.max(0, Number(minutes) || 0) * 60);
@@ -38,9 +43,9 @@ export default function Timer({
   useEffect(() => {
     if (expiredRef.current) {
       expiredRef.current = false;
-      if (onExpire) onExpire();
+      if (onExpireRef.current) onExpireRef.current();
     }
-  }, [secondsLeft, onExpire]);
+  }, [secondsLeft]);
 
   const mins = Math.floor(secondsLeft / 60);
   const secs = String(secondsLeft % 60).padStart(2, "0");
