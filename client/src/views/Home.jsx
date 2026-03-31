@@ -1,4 +1,3 @@
-import heroImage from "../assets/hero.png";
 import SignUpInfo from "../components/LandingPage/SignUpInfo.jsx";
 
 function Home() {

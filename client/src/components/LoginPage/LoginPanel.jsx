@@ -8,12 +8,12 @@ export default function LoginPanel() {
     return (
         <div className={styles.loginPanel}>
             <div className={styles.arrowButtonContainer}>
-                <IconOnlyButton className={styles.arrowButton} iconSrc="arrowBack" buttonColor="transparent"aria-label="Go back to previous page" />
+                <IconOnlyButton iconSrc="arrowBack" buttonColor="transparent" ariaLabel="Go back to previous page" />
             </div>
             <div className={styles.formContainer}>
                 <h1 className={styles.heading}>Log in</h1>
                 <form className={styles.form}>
-                    <TextInput formLabel="E-mail" placeholder="edvinjansson@gmail.com" type="email" required />
+                    <TextInput formLabel="E-mail" placeholder="name@example.com" type="email" required />
                     <TextInput formLabel="Password" placeholder="********" type="password" required />
                     <Button buttonName="Log in" buttonColor="gray" type="submit" iconSrc="arrowRight"/>
                 </form>
