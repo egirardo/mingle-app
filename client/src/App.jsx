@@ -5,6 +5,7 @@ import TextInput from "./components/Forms/InputFields/TextInput.jsx";
 import Checkbox from "./components/Forms/Checkboxes/Checkbox.jsx";
 import NavBar from "./components/NavBar/NavBar.jsx";
 import heroImage from "./assets/hero.png";
+import heroShort from "./assets/hero-short.png";
 import TagContainer from "./components/Tags/TagContainer.jsx";
 import TabSlider from "./components/Tabs/TabSlider.jsx";
 import Dropdown from "./components/Dropdown/Dropdown.jsx";
@@ -29,11 +30,22 @@ function App() {
           variant="blackBorder"
           type="submit"
         />
-        */}
+        <Button
+          buttonName="arrow 45"
+          iconSrc="arrow45"
+          buttonColor="transparent"
+          variant="textUnderline"
+        />
+        <Button
+          buttonName="Save"
+          buttonColor="transparent"
+          iconSrc="checkmark"
+          variant="blackBorder"
+        /> */}
 
         {/* --- Icon Only Buttons --- */}
-{/* 
-        <IconOnlyButton
+
+        {/* <IconOnlyButton
           iconSrc="search"
           ariaLabel="Search"
           buttonColor="transparent"
@@ -53,8 +65,8 @@ function App() {
           iconSrc="arrow45"
           ariaLabel="Open link"
           buttonColor="transparent"
-        />
- */}
+        /> */}
+
         {/* --- Inputs --- */}
 
         {/* <TextInput
@@ -81,8 +93,7 @@ function App() {
         ]}
         defaultValue={{ value: "utvecklare", label: "Utvecklare" }}
         onSelect={(value) => setActiveFilter(value)}
-      />
-      */}
+      /> */}
     </>
   );
 }

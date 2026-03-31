@@ -15,6 +15,7 @@
   font-size: 14px;
   font-weight: 600;
   position: relative;
+  margin: .5rem;
 }
 
 .label {
@@ -73,13 +74,13 @@
 
 /* Borders */
 .blackBorder {
-  border: 2px solid #000;
+  border: 1px solid #000;
 }
+
 
 .textUnderline {
   text-decoration: underline;
 }
-
 
 /* background colors */
 .transparent {
@@ -87,5 +88,12 @@
 }
 
 .gray {
-  background-color: gray;
+  background-color: #D9D9D9;
+}
+
+
+/* Combo Buttons */
+.whiteGrayBorder {
+  border: 1px solid #9B9797;
+  background-color: white;
 }
