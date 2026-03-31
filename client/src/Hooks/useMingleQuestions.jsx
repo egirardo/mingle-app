@@ -8,8 +8,6 @@ export function useMingleQuestions() {
   const [loading] = useState(false);
   const [error] = useState(null);
 
-  useEffect(() => { }, []);
-
   const nextQuestion = () => {
     if (!questions.length) return;
     setIndex((i) => (i + 1) % questions.length);

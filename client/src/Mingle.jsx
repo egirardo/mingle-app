@@ -7,8 +7,8 @@ export default function Mingle() {
 
   return (
     <>
-      <div className="mingle">
-        <Timer minutes="0.1" onExpire={nextQuestion} autoRestart />
+      <div className="mingle">  
+        <Timer minutes={0.1} onExpire={nextQuestion} autoRestart />
         <p>{questionText}</p>
       </div>
     </>

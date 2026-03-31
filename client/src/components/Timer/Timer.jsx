@@ -1,3 +1,4 @@
+import styles from "./Timer.module.css";
 import { useEffect, useState, useRef } from "react";
 
 // Props:
@@ -15,6 +16,7 @@ export default function Timer({
 
   useEffect(() => {
     setSecondsLeft(Math.max(0, Number(minutes) || 0) * 60);
+    expiredRef.current = false;
 
     const id = setInterval(() => {
       setSecondsLeft((prev) => {
@@ -44,7 +46,7 @@ export default function Timer({
   const secs = String(secondsLeft % 60).padStart(2, "0");
 
   return (
-    <p id="countdownTimer">
+    <p className={styles.countdownTimer}>
       {mins}:{secs}
     </p>
   );
