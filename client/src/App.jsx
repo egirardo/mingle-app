@@ -6,6 +6,7 @@ import Home from "./views/Home.jsx";
 import Login from "./views/Login.jsx";
 import StudentSignUp from "./views/StudentSignUp.jsx";
 import BusinessSignUp from "./views/BusinessSignUp.jsx";
+import Mingle from "./views/Mingle.jsx";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup/student" element={<StudentSignUp />} />
         <Route path="/signup/business" element={<BusinessSignUp />} />
+        <Route path="/mingle" element={<Mingle />} />
       </Routes>
     </BrowserRouter>
   );
