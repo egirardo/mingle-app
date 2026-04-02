@@ -6,21 +6,23 @@ import Home from "./views/Home.jsx";
 import Login from "./views/Login.jsx";
 import StudentSignUp from "./views/StudentSignUp.jsx";
 import BusinessSignUp from "./views/BusinessSignUp.jsx";
-import Mingle from "./views/Mingle.jsx";
+import Question from "./views/Question.jsx";
+import Task from "./views/Task.jsx";
 
 function App() {
   return (
     <BrowserRouter>
       <NavBar />
-      <div className="hero-container">
+      {/* <div className="hero-container">
         <img src={heroImage} alt="" aria-hidden="true" className="hero-image" />
-      </div>
+      </div> */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup/student" element={<StudentSignUp />} />
         <Route path="/signup/business" element={<BusinessSignUp />} />
-        <Route path="/mingle" element={<Mingle />} />
+        <Route path="/question" element={<Question />} />
+        <Route path="/task" element={<Task />} />
       </Routes>
     </BrowserRouter>
   );
