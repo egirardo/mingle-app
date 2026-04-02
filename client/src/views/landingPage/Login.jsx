@@ -1,4 +1,4 @@
-import LoginPanel from "../components/LoginPage/LoginPanel";
+import LoginPanel from "../../components/LoginPage/LoginPanel";
 
 function Login() {
   return <LoginPanel />;

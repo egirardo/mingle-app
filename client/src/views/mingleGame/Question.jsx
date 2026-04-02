@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import { useMingleQuestions } from "../Hooks/useMingleQuestions";
-import Timer from "../components/Timer/Timer.jsx";
+import { useMingleQuestions } from "../../Hooks/useMingleQuestions";
+import Timer from "../../components/Timer/Timer.jsx";
 
 export default function Mingle() {
   const { questionText, nextQuestion } = useMingleQuestions();
