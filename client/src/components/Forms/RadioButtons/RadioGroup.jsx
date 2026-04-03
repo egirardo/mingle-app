@@ -1,5 +1,5 @@
 import styles from "../Checkboxes/Checkbox.module.css";
-import RadioButtons from "./RadioButton";
+import RadioButton from "./RadioButtons";
 
 export default function RadioGroup({ legend, radios, optional = false, required = false, subText, name }) {
   
@@ -20,8 +20,8 @@ export default function RadioGroup({ legend, radios, optional = false, required 
         </div>
       ) : legendEl}
       <div className={styles.checkboxContainer}>
-        {radios.map((radio, index) => (
-          <RadioButtons
+        {radios.map((radio) => (
+          <RadioButton
             key={radio.id}
             id={radio.id}
             name={name} // Use the group name for all radio buttons to ensure they are part of the same group MUST INCLUDE. Without this, the radio buttons will not function as a group and multiple options can be selected at once.
