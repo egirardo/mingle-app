@@ -1,5 +1,7 @@
+import BusinessSignUpPanel from "../components/SignUpPages/BusinessSignUpPanel";
+
 function BusinessSignUp() {
-  return <div>Business Sign Up</div>;
+  return <BusinessSignUpPanel />;
 }
 
 export default BusinessSignUp;
