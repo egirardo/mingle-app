@@ -2,7 +2,8 @@ import styles from "./Checkbox.module.css";
 import { useId } from "react";
 
 export default function Checkbox({ checkboxLabel, id, name }) {
-  const inputId = id ?? useId();
+  const generatedId = useId();
+  const inputId = id ?? generatedId;
   const inputName = name ?? inputId;
   return (
     <div className={styles.checkbox}>
