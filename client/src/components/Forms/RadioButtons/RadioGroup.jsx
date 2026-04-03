@@ -1,5 +1,5 @@
 import styles from "../Checkboxes/Checkbox.module.css";
-import RadioButtons from "./RadioButtons";
+import RadioButton from "./RadioButtons";
 
 export default function RadioGroup({ legend, radios, optional = false, required = false, subText, name }) {
   
@@ -21,7 +21,7 @@ export default function RadioGroup({ legend, radios, optional = false, required 
       ) : legendEl}
       <div className={styles.checkboxContainer}>
         {radios.map((radio) => (
-          <RadioButtons
+          <RadioButton
             key={radio.id}
             id={radio.id}
             name={name}
