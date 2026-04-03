@@ -31,7 +31,11 @@
     text-align: left;
     margin: 0;
     align-self: flex-start;
-    font-size: .93rem;
+    font-size: 0.9375rem;
+    font-style: italic;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.02813rem;
 }
 
 .optional {
