@@ -6,10 +6,12 @@ import Home from "./views/landingPage/Home.jsx";
 import Login from "./views/landingPage/Login.jsx";
 import StudentSignUp from "./views/landingPage/StudentSignUp.jsx";
 import BusinessSignUp from "./views/landingPage/BusinessSignUp.jsx";
-import Question from "./views/mingleGame//Question.jsx";
+import Question from "./views/mingleGame/Question.jsx";
 import Task from "./views/mingleGame/Task.jsx";
+import MingleGameLayout from "./views/mingleGame/MingleGameLayout.jsx";
 
 function App() {
+
   return (
     <BrowserRouter>
       <NavBar />
@@ -21,9 +23,11 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup/student" element={<StudentSignUp />} />
         <Route path="/signup/business" element={<BusinessSignUp />} />
-        <Route path="/question" element={<Question />} />
-        <Route path="/task" element={<Task />} />
-      </Routes>
+        <Route element={<MingleGameLayout />}>
+          <Route path="task" element={<Task />} />
+          <Route path="question" element={<Question />} />
+        </Route>
+        </Routes>
     </BrowserRouter>
   );
 }

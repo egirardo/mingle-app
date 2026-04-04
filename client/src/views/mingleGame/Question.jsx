@@ -1,20 +1,23 @@
-import { useNavigate } from "react-router-dom";
-import { useMingleQuestions } from "../../Hooks/useMingleQuestions";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import Timer from "../../components/Timer/Timer.jsx";
 
-export default function Mingle() {
-  const { questionText, nextQuestion } = useMingleQuestions();
+export default function Question() {
+  const mingle = useOutletContext();
   const navigate = useNavigate();
 
+  const { currentQuestion, nextQuestion } = mingle;
+
   const handleExpire = () => {
-    nextQuestion();
-    navigate("/task"); 
+    // When the task timer expires, goes to the next round and navigates to the task page
+    nextQuestion?.();
+    navigate("/task");
   };
 
   return (
     <div className="mingle">
-      <Timer minutes={0.3} onExpire={handleExpire} autoRestart />
-      <p>{questionText}</p>
+      <p>Round: {currentQuestion?.round}</p>
+      <Timer minutes={0.1} onExpire={handleExpire} />
+      <p>{currentQuestion?.question}</p>
     </div>
   );
 }
