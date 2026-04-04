@@ -2,7 +2,6 @@ import styles from "./SignUp.module.css";
 import IconOnlyButton from "../Buttons/IconOnlyButton";
 import TextInput from "../Forms/InputFields/TextInput";
 import Button from "../Buttons/Button";
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import CheckboxGroup from "../Forms/Checkboxes/CheckboxGroup";
 import RadioGroup from "../Forms/RadioButtons/RadioGroup";

@@ -1,7 +1,19 @@
 import styles from "../Checkboxes/Checkbox.module.css";
 import RadioButton from "./RadioButton";
+import { useRef } from "react";
 
 export default function RadioGroup({ legend, radios, optional = false, required = false, subText, name }) {
+  const hiddenInputRef = useRef(null);
+  const radioRefs = useRef([]);
+
+  const handleRadioChange = () => {
+    if (!required || !hiddenInputRef.current) return;
+
+    const isAtLeastOneChecked = radioRefs.current.some((ref) => ref?.checked);
+    hiddenInputRef.current.setCustomValidity(
+      isAtLeastOneChecked ? "" : "Please select an option"
+    );
+  };
   
   const legendEl = (
     <legend className={styles.legend}>
@@ -13,6 +25,16 @@ export default function RadioGroup({ legend, radios, optional = false, required 
 
   return (
     <fieldset className={styles.checkboxGroup} aria-required={required}>
+      {required && (
+        <input
+          ref={hiddenInputRef}
+          type="radio"
+          style={{ display: "none" }}
+          aria-hidden="true"
+          tabIndex={-1}
+          required
+        />
+      )}
       {subText ? (
         <div className={styles.legendSubtext}>
           {legendEl}
@@ -24,10 +46,13 @@ export default function RadioGroup({ legend, radios, optional = false, required 
           <RadioButton
             key={radio.id}
             id={radio.id}
-            name={name} // Use the group name for all radio buttons to ensure they are part of the same group MUST INCLUDE. Without this, the radio buttons will not function as a group and multiple options can be selected at once.
+            name={name}
             radioLabel={radio.radioLabel}
             value={radio.value ?? radio.id}
-            required={required && index === 0}
+            onChange={handleRadioChange}
+            ref={(el) => {
+              if (el) radioRefs.current[index] = el.querySelector('input');
+            }}
           />
         ))}
       </div>
