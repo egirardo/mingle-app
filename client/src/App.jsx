@@ -15,9 +15,9 @@ function App() {
   return (
     <BrowserRouter>
       <NavBar />
-      <div className="hero-container">
+      {/* <div className="hero-container">
         <img src={heroImage} alt="" aria-hidden="true" className="hero-image" />
-      </div>
+      </div> */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />

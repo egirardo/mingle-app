@@ -1,0 +1,49 @@
+* {
+  color: #000;
+  font-size: 32px;
+  text-align: center;
+  font-style: normal;
+  letter-spacing: -1px;
+  line-height: 32px;
+}
+
+.mingle {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  align-items: center;
+  padding: 16px;
+}
+
+h4 {
+  color: #000;
+  font-size: 32px;
+  text-align: center;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 32px;
+  letter-spacing: -1px;
+}
+
+p {
+  font-weight: 400;
+}
+
+.round {
+  display: flex;
+  width: 393px;
+  padding: 4px 8px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  background: #d7d7d7;
+  width: 100vw;
+}
+
+.round span {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.48px;
+}
