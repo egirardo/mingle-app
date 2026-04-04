@@ -47,8 +47,9 @@ export default function Timer({
     }
   }, [secondsLeft]);
 
-  const mins = Math.floor(secondsLeft / 60);
+  const mins = String(Math.floor(secondsLeft / 60)).padStart(2, "0");
   const secs = String(secondsLeft % 60).padStart(2, "0");
+
 
   return (
     <p className={styles.countdownTimer}>
