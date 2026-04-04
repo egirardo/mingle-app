@@ -12,7 +12,7 @@ export default function CheckboxGroup({ legend, checkboxes, optional = false, re
   );
 
   return (
-    <fieldset className={styles.checkboxGroup}>
+    <fieldset className={styles.checkboxGroup} aria-required={required}>
         {subText ? (
             <div className={styles.legendSubtext}>
                 {legendEl}
@@ -20,12 +20,13 @@ export default function CheckboxGroup({ legend, checkboxes, optional = false, re
             </div>
         ) : legendEl}
         <div className={styles.checkboxContainer}>
-        {checkboxes.map((checkbox) => (
+        {checkboxes.map((checkbox, index) => (
             <Checkbox
                 key={checkbox.id}
                 id={checkbox.id}
                 name={checkbox.name}
                 checkboxLabel={checkbox.checkboxLabel}
+                required={required && index === 0}
             />
             ))}
         </div>
