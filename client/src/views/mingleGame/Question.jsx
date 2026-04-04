@@ -8,7 +8,7 @@ export default function Question() {
   const { currentQuestion, nextQuestion } = mingle;
 
   const handleExpire = () => {
-    // When the task timer expires, goes to the next round and navigates to the task page
+    // When the question timer expires, advance to the next round and navigate to the task page
     nextQuestion?.();
     navigate("/task");
   };
