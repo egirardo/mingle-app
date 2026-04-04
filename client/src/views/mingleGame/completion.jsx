@@ -4,8 +4,10 @@ import Button from "../../components/Buttons/Button";
 export default function Completion() {
   return (
     <div className={styles.mingle}>
-      <h2>You’re done!</h2>
-      <p>You’ve met 3 people</p>
+      <div>
+        <h2>You’re done!</h2>
+        <p>You’ve met 3 people</p>
+      </div>
       <Button
         buttonName="Explore participants"
         buttonColor="gray"
