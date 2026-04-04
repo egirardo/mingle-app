@@ -1,4 +1,4 @@
-import SignUpInfo from "../components/LandingPage/SignUpInfo.jsx";
+import SignUpInfo from "../../components/LandingPage/SignUpInfo.jsx";
 
 function Home() {
   return (

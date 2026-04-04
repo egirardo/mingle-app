@@ -1,4 +1,4 @@
-import StudentSignUpPanel from "../components/SignUpPages/StudentSignUpPanel";
+import StudentSignUpPanel from "../../components/SignUpPages/StudentSignUpPanel.jsx";
 
 function StudentSignUp() {
   return <StudentSignUpPanel />;
