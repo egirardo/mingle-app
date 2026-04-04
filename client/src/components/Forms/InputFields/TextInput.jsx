@@ -9,7 +9,7 @@ export default function TextInput({ formLabel, placeholder, id, type, subText, r
     <label htmlFor={inputId} className={styles.inputLabel} >
       {formLabel}
       {required && <span aria-hidden="true" style={{ color: "grey", fontStyle: "italic" }}> *</span>}
-      {optional && <span aria-hidden="true" className={styles.optional}>(optional)</span>}
+      {optional && <span aria-hidden="true" className={styles.optional}> (optional)</span>}
     </label>
   );
 

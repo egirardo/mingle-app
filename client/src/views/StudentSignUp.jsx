@@ -1,7 +1,7 @@
+import StudentSignUpPanel from "../components/SignUpPages/StudentSignUpPanel";
+
 function StudentSignUp() {
-  return <div>Student Sign Up</div>;
+  return <StudentSignUpPanel />;
 }
 
 export default StudentSignUp;
-
-// temporary content until we have the actual sign up form ready.
