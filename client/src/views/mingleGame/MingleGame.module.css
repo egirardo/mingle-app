@@ -31,7 +31,6 @@ p {
 
 .round {
   display: flex;
-  width: 393px;
   padding: 4px 8px;
   justify-content: center;
   align-items: center;

@@ -6,8 +6,12 @@ import Home from "./views/landingPage/Home.jsx";
 import Login from "./views/landingPage/Login.jsx";
 import StudentSignUp from "./views/landingPage/StudentSignUp.jsx";
 import BusinessSignUp from "./views/landingPage/BusinessSignUp.jsx";
+
+// mingle
 import Question from "./views/mingleGame/Question.jsx";
 import Task from "./views/mingleGame/Task.jsx";
+import Completion from "./views/mingleGame/completion.jsx";
+import Loading from "./views/mingleGame/loading.jsx";
 import MingleGameLayout from "./views/mingleGame/MingleGameLayout.jsx";
 
 
@@ -26,6 +30,8 @@ function App() {
         <Route element={<MingleGameLayout />}>
           <Route path="/task" element={<Task />} />
           <Route path="/question" element={<Question />} />
+          <Route path="/completion" element={<Completion />} />
+          <Route path="/loading" element={<Loading />} />
         </Route>
       </Routes>
     </BrowserRouter>

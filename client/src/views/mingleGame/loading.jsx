@@ -1,8 +1,8 @@
 import { useNavigate, useOutletContext } from "react-router-dom";
-import Timer from "../../components/Timer/Timer.jsx";
 import styles from "./MingleGame.module.css";
+import Timer from "../../components/Timer/Timer.jsx";
 
-export default function Question() {
+export default function Loading() {
   const mingle = useOutletContext();
   const navigate = useNavigate();
 
@@ -10,20 +10,18 @@ export default function Question() {
 
   const handleExpire = () => {
     // When the question timer expires, advance to the next round and navigate to the task page
-    navigate("/loading");
+    nextQuestion?.();
+    navigate("/task");
   };
 
   return (
     <div className={styles.mingle}>
+      <h2>Well done!</h2>
       <div className={styles.round}>
         <span>{currentQuestion?.round}/3</span>
       </div>
+      <p>Next round coming right up...</p>
       <Timer minutes={0.1} onExpire={handleExpire} />
-      <div>
-        <h4>Ask</h4>
-        <p>{currentQuestion?.question}</p>
-      </div>
-      {/* red button here */}
     </div>
   );
 }
