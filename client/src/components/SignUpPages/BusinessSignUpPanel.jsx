@@ -2,15 +2,17 @@ import styles from "./SignUp.module.css";
 import IconOnlyButton from "../Buttons/IconOnlyButton";
 import TextInput from "../Forms/InputFields/TextInput";
 import Button from "../Buttons/Button";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import CheckboxGroup from "../Forms/Checkboxes/CheckboxGroup";
 import RadioGroup from "../Forms/RadioButtons/RadioGroup";
 
 const BusinessSignUpPanel = () => {
+    const navigate = useNavigate();
     return (
         <div className={styles.signUpPanel}>
             <div className={styles.arrowButtonContainer}>
-                <IconOnlyButton iconSrc="arrowBack" buttonColor="transparent" ariaLabel="Go back to previous page" />
+                    <IconOnlyButton iconSrc="arrowBack" buttonColor="transparent" ariaLabel="Go back to home page"
+                    onClick={() => navigate("/")}/>
             </div>
             <div className={styles.formContainer}>
                 <h1 className={styles.heading}>Register</h1>
@@ -43,6 +45,8 @@ const BusinessSignUpPanel = () => {
                             { checkboxLabel: "Branding", id: "8", name: "Branding" }
                         ]}
                     />
+                    <TextInput formLabel="About the company" placeholder="Short description" type="text" required />
+                    <TextInput formLabel="Website" placeholder="https://www.example.com" type="url" optional />
                     <Button buttonName="Register" buttonColor="gray" type="submit" iconSrc="arrowRight"/>
                 </form>
             </div>

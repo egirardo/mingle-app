@@ -2,11 +2,31 @@
     background: rgba(255, 255, 255, 0.80);
     backdrop-filter: blur(2px);
     position: absolute;
-    bottom: 0;
+    top: 38vh;
     left: 0;
     right: 0;
+    min-height: 62vh;
     padding: 1rem .5rem 2.5rem .5rem;
     display: flex;
     flex-direction: column;
     gap: 2rem;
+    z-index: 10;
+}
+
+.arrowButtonContainer {
+    display: flex;
+    justify-content: flex-start;
+    height: 2rem;
+    padding: 0;
+    margin: 0;
+}
+
+.heading {
+    font-size: 2rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1.8125rem; /* 90.625% */
+    letter-spacing: -0.0625rem;
+    margin: 0;  
+    margin-bottom: 1rem;
 }

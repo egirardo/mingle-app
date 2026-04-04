@@ -2,12 +2,13 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
     background: rgba(255, 255, 255, 0.80);
     -webkit-backdrop-filter: blur(25px);
     color: #000;
-    margin: 3.5rem 0 0 0;
-    position: relative;
+    padding: 3.5rem 10px 10px 10px;
+    position: sticky;
+    top: 0;
+    z-index: 100;  
     
 }
 
