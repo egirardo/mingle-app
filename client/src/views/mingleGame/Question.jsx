@@ -9,7 +9,7 @@ export default function Question() {
   const { currentQuestion, nextQuestion } = mingle;
 
   const handleExpire = () => {
-    // When the question timer expires, advance to the next round and navigate to the task page
+    // When the question timer expires, advances to the loading page
     navigate("/loading");
   };
 
@@ -21,7 +21,7 @@ export default function Question() {
       <Timer minutes={0.1} onExpire={handleExpire} />
       <div>
         <h4>Ask</h4>
-        <p>{currentQuestion?.question}</p>
+        <p className={styles.instruction}>{currentQuestion?.question}</p>
       </div>
       {/* red button here */}
     </div>

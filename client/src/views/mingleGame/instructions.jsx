@@ -6,10 +6,10 @@ export default function Instructions() {
   const mingle = useOutletContext();
   const navigate = useNavigate();
 
-  const { currentQuestion, nextQuestion } = mingle;
+  const { nextQuestion } = mingle;
 
   const handleExpire = () => {
-    // When the question timer expires, advance to the next round and navigate to the task page
+    // When the timer expires, advance to task page
     nextQuestion?.();
     navigate("/task");
   };

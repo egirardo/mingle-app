@@ -19,7 +19,7 @@ export default function Task() {
         <span>{currentQuestion?.round}/3</span>
       </div>
       <Timer minutes={0.1} onExpire={handleExpire} />
-      <p>{currentQuestion?.task}</p>
+      <p className={styles.taskText}>{currentQuestion?.task}</p>
     </div>
   );
 }

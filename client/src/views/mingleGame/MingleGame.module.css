@@ -7,6 +7,15 @@
   line-height: 32px;
 }
 
+.taskText {
+  text-align: center;
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 102%; /* 48.96px */
+  letter-spacing: -1.92px;
+}
+
 .mingle {
   display: flex;
   flex-direction: column;
@@ -25,7 +34,7 @@ h4 {
   letter-spacing: -1px;
 }
 
-p {
+.instruction {
   font-weight: 400;
 }
 
