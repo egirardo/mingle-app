@@ -1,3 +1,5 @@
+/* General SignUp Panel Styles */
+
 .signUpPanel {
     background: rgba(255, 255, 255, 0.80);
     backdrop-filter: blur(2px);
@@ -29,4 +31,21 @@
     letter-spacing: -0.0625rem;
     margin: 0;  
     margin-bottom: 1rem;
+}
+
+/* Student SignUp Styles */
+.nameContainer {
+    display: flex;
+    gap: 1rem;
+}
+
+.passwordGroup, .aboutGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.passwordGroup > div, .aboutGroup > div {
+    margin-bottom: 0;
 }
