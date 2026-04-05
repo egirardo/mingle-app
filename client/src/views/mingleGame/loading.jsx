@@ -15,13 +15,13 @@ export default function Loading() {
   };
 
   return (
-    <div className={styles.mingle}>
+    <div className={styles.mingleLoading}>
       <h2>Well done!</h2>
-      <div className={styles.round}>
+      <div className={styles.roundCountContainer}>
         <span>{currentQuestion?.round}/3</span>
       </div>
       <p>Next round coming right up...</p>
-      <Timer minutes={0.1} onExpire={handleExpire} />
+      <Timer minutes={0.1} onExpire={handleExpire} className={styles.hidden} />
     </div>
   );
 }

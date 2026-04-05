@@ -1,6 +1,7 @@
 import { useNavigate, useOutletContext } from "react-router-dom";
 import Timer from "../../components/Timer/Timer.jsx";
 import styles from "./MingleGame.module.css";
+import Button from "../../components/Buttons/Button";
 
 export default function Question() {
   const mingle = useOutletContext();
@@ -15,15 +16,20 @@ export default function Question() {
 
   return (
     <div className={styles.mingle}>
-      <div className={styles.round}>
+      <div className={styles.roundCountContainer}>
         <span>{currentQuestion?.round}/3</span>
       </div>
-      <Timer minutes={0.1} onExpire={handleExpire} />
-      <div>
-        <h4>Ask</h4>
-        <p className={styles.instruction}>{currentQuestion?.question}</p>
+      <Timer minutes={0.1} onExpire={handleExpire} className={styles.hidden} />
+      <div className={styles.instructionContainer}>
+        <p className={styles.largeTextBold}>Ask</p>
+        <p className={styles.largeText}>{currentQuestion?.question}</p>
       </div>
-      {/* red button here */}
+      {/* temporary button */}
+      <Button
+        buttonName="Explore participants"
+        buttonColor="gray"
+        iconSrc="arrowRight"
+      />
     </div>
   );
 }

@@ -1,72 +1,111 @@
+:root {
+    --text-color: #000;
+    --large-size: 28px;
+    --body-size: 16px;
+    --line-heading: 32px;
+}
+
+/* ---------------------------------------- */
+/* General */
+/* ---------------------------------------- */
+
 * {
-  color: #000;
-  text-align: center;
-  font-style: normal;
+    color: var(--text-color);
+    text-align: center;
+    font-style: normal;
 }
 
-.taskText {
-  text-align: center;
-  font-size: 48px;
-  font-weight: 700;
-  line-height: 102%; /* 48.96px */
-  letter-spacing: -1.92px;
-}
 
-.p {
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 22px; /* 110% */
-  letter-spacing: -1px;
-}
-
-h2 {
-  font-size: 32px;
-  font-weight: 600;
-  line-height: 32px; /* 100% */
-  letter-spacing: -1px;
-}
-
-h4 {
-  color: #000;
-  font-size: 32px;
-  text-align: center;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 32px;
-  letter-spacing: -1px;
+.body {
+    font-size: var(--body-size);
+    font-weight: 400;
+    line-height: 22px;
+    letter-spacing: -1px;
 }
 
 .mingle {
-  position: fixed;
-  inset: 0;
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10rem;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+/* Rounds */
+.roundCountContainer {
+    display: flex;
+    padding: 4px 8px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    background: #d7d7d7;
+    width: 100vw;
+}
+
+.roundCountContainer span {
+    font-size: var(--body-size);
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.48px;
+}
+
+/* visability */
+.hidden {
+    visibility: hidden;
+    display: none;
+}
+
+/* ---------------------------------------- */
+/* Typograhy */
+/* ---------------------------------------- */
+
+.largeText {
+  font-size: var(--large-size);
+  font-weight: 400;
+  line-height: var(--line-heading);
+  letter-spacing: -1px;
+  margin: 0 4rem;
+  text-align: center;
+  font-style: normal;
+}
+
+.largeTextBold {
+  font-size: var(--large-size);
+  font-weight: 600;
+  line-height: var(--line-heading);
+  letter-spacing: -1px;
+    text-align: center;
+  font-style: normal;
+}
+
+/* ---------------------------------------- */
+/* Questions */
+/* ---------------------------------------- */
+
+.instructionContainer {
   display: flex;
   flex-direction: column;
-  gap: 4rem;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-  box-sizing: border-box;
-  overflow: hidden;
+  gap: 1rem;
 }
 
-.instruction {
-  font-weight: 400;
-}
+/* ---------------------------------------- */
+/* Loading */
+/* ---------------------------------------- */
 
-.round {
-  display: flex;
-  padding: 4px 8px;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  background: #d7d7d7;
-  width: 100vw;
-}
-
-.round span {
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  letter-spacing: -0.48px;
+.mingleLoading {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    box-sizing: border-box;
+    overflow: hidden;
 }

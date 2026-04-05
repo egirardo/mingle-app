@@ -9,6 +9,7 @@ export default function Timer({
   minutes = 20,
   onExpire,
   autoRestart = false,
+  className,
 } = {}) {
   const initialSeconds = Math.max(0, Number(minutes) || 0) * 60;
   const [secondsLeft, setSecondsLeft] = useState(initialSeconds);
@@ -50,9 +51,10 @@ export default function Timer({
   const mins = String(Math.floor(secondsLeft / 60)).padStart(2, "0");
   const secs = String(secondsLeft % 60).padStart(2, "0");
 
+  const combined = `${styles.countdownTimer} ${className || ""}`.trim();
 
   return (
-    <p className={styles.countdownTimer}>
+    <p className={combined}>
       {mins}:{secs}
     </p>
   );

@@ -15,11 +15,11 @@ export default function Task() {
 
   return (
     <div className={styles.mingle}>
-      <div className={styles.round}>
+      <div className={styles.roundCountContainer}>
         <span>{currentQuestion?.round}/3</span>
       </div>
       <Timer minutes={0.1} onExpire={handleExpire} />
-      <p className={styles.taskText}>{currentQuestion?.task}</p>
+      <p className={styles.largeText}>{currentQuestion?.task}</p>
     </div>
   );
 }
