@@ -1,20 +1,20 @@
 import { useId } from "react";
 import styles from "./TextInput.module.css";
 
-export default function TextInput({ formLabel, placeholder, id, type, subText, required = false, optional = false }) {
+export default function TextInput({ formLabel, placeholder, id, type, subText, required = false, optional = false, className }) {
   const generatedId = useId();
   const inputId = id ?? generatedId;
 
-  const label = (
-    <label htmlFor={inputId} className={styles.inputLabel} >
+  const label = formLabel ? (
+    <label htmlFor={inputId} className={styles.inputLabel}>
       {formLabel}
       {required && <span aria-hidden="true" style={{ color: "grey", fontStyle: "italic" }}> *</span>}
       {optional && <span aria-hidden="true" className={styles.optional}> (optional)</span>}
     </label>
-  );
+  ) : null;
 
   return (
-    <div className={styles.textForm}>
+    <div className={`${styles.textForm} ${className ?? ""}`}>
       {subText ? (
         <div className={styles.labelSubtext}>
           {label}
