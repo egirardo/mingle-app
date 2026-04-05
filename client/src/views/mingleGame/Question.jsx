@@ -7,7 +7,7 @@ export default function Question() {
   const mingle = useOutletContext();
   const navigate = useNavigate();
 
-  const { currentQuestion, nextQuestion } = mingle;
+  const { currentQuestion } = mingle;
 
   const handleExpire = () => {
     // When the question timer expires, advances to the loading page
@@ -17,7 +17,9 @@ export default function Question() {
   return (
     <div className={styles.mingle}>
       <div className={styles.roundCountContainer}>
-        <span>{currentQuestion?.round}/3</span>
+        <span>
+          {currentQuestion?.round}/{mingle.questions.length}
+        </span>
       </div>
       <Timer minutes={0.1} onExpire={handleExpire} className={styles.hidden} />
       <div className={styles.instructionContainer}>

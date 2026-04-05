@@ -18,7 +18,9 @@ export default function Loading() {
     <div className={styles.mingleLoading}>
       <h2>Well done!</h2>
       <div className={styles.roundCountContainer}>
-        <span>{currentQuestion?.round}/3</span>
+        <span>
+          {currentQuestion?.round}/{mingle.questions.length}
+        </span>
       </div>
       <p>Next round coming right up...</p>
       <Timer minutes={0.1} onExpire={handleExpire} className={styles.hidden} />

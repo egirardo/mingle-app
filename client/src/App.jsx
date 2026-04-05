@@ -10,9 +10,9 @@ import BusinessSignUp from "./views/landingPage/BusinessSignUp.jsx";
 // mingle
 import Question from "./views/mingleGame/Question.jsx";
 import Task from "./views/mingleGame/Task.jsx";
-import Completion from "./views/mingleGame/completion.jsx";
-import Loading from "./views/mingleGame/loading.jsx";
-import Instructions from "./views/mingleGame/instructions.jsx";
+import Completion from "./views/mingleGame/Completion.jsx";
+import Loading from "./views/mingleGame/Loading.jsx";
+import Introduction from "./views/mingleGame/Introduction.jsx";
 import MingleGameLayout from "./views/mingleGame/MingleGameLayout.jsx";
 
 
@@ -20,16 +20,16 @@ function App() {
   return (
     <BrowserRouter>
       <NavBar />
-      {/* <div className="hero-container">
+      <div className="hero-container">
         <img src={heroImage} alt="" aria-hidden="true" className="hero-image" />
-      </div> */}
+      </div>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup/student" element={<StudentSignUp />} />
         <Route path="/signup/business" element={<BusinessSignUp />} />
         <Route element={<MingleGameLayout />}>
-          <Route path="/instructions" element={<Instructions />} />
+          <Route path="/introduction" element={<Introduction />} />
           <Route path="/task" element={<Task />} />
           <Route path="/question" element={<Question />} />
           <Route path="/loading" element={<Loading />} />
