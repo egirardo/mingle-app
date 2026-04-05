@@ -1,12 +1,9 @@
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styles from "./MingleGame.module.css";
 import Timer from "../../components/Timer/Timer.jsx";
 
 export default function Introduction() {
-  const mingle = useOutletContext();
   const navigate = useNavigate();
-
-  const { nextQuestion } = mingle;
 
   const handleExpire = () => {
     // When the timer expires, start the game on the task page

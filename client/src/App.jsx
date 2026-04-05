@@ -15,14 +15,13 @@ import Loading from "./views/mingleGame/Loading.jsx";
 import Introduction from "./views/mingleGame/Introduction.jsx";
 import MingleGameLayout from "./views/mingleGame/MingleGameLayout.jsx";
 
-
 function App() {
   return (
     <BrowserRouter>
-      <NavBar />
+      {/* <NavBar />
       <div className="hero-container">
         <img src={heroImage} alt="" aria-hidden="true" className="hero-image" />
-      </div>
+      </div> */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
