@@ -10,6 +10,8 @@ export default function RadioGroup({ legend, radios, optional = false, required 
     if (!required || !hiddenInputRef.current) return;
 
     const isAtLeastOneChecked = radioRefs.current.some((ref) => ref?.checked);
+    // Set checked state so the hidden input is valid when at least one option is selected
+    hiddenInputRef.current.checked = isAtLeastOneChecked;
     hiddenInputRef.current.setCustomValidity(
       isAtLeastOneChecked ? "" : "Please select an option"
     );

@@ -10,6 +10,8 @@ export default function CheckboxGroup({ legend, checkboxes, optional = false, re
     if (!required || !hiddenInputRef.current) return;
 
     const isAtLeastOneChecked = checkboxRefs.current.some((ref) => ref?.checked);
+    // Set checked state so the hidden input is valid when at least one option is selected
+    hiddenInputRef.current.checked = isAtLeastOneChecked;
     hiddenInputRef.current.setCustomValidity(
       isAtLeastOneChecked ? "" : "Please select at least one option"
     );

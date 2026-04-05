@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import styles from "./PhotoUpload.module.css";
 import TextInput from "./TextInput";
 import Button from "../../Buttons/Button";
@@ -10,8 +10,23 @@ export default function PhotoUpload() {
 
     const handleChange = (e) => {
         const file = e.target.files[0];
-        if (file) setPreview(URL.createObjectURL(file));
+        if (file) {
+            // Revoke the previous blob URL to prevent memory leak
+            if (preview) {
+                URL.revokeObjectURL(preview);
+            }
+            setPreview(URL.createObjectURL(file));
+        }
     };
+
+    // Cleanup blob URL on unmount
+    useEffect(() => {
+        return () => {
+            if (preview) {
+                URL.revokeObjectURL(preview);
+            }
+        };
+    }, [preview]);
 
     return (
         <div className={styles.photoUploadWrapper}>
@@ -19,7 +34,7 @@ export default function PhotoUpload() {
                 <button
                     type="button"
                     className={styles.avatarCircle}
-                    onClick={() => inputRef.current.click()}
+                    onClick={() => inputRef.current?.click()}
                     aria-label="Upload profile photo"
                 >
                     {preview
@@ -34,13 +49,14 @@ export default function PhotoUpload() {
                     onChange={handleChange}
                     className={styles.hiddenInput}
                     aria-hidden="true"
+                    name="profilePhoto"
                 />
                 <div className={styles.uploadButton}>
                     <Button
                         buttonName="Upload photo"
                         buttonColor="gray"
                         type="button"
-                        onClick={() => inputRef.current.click()}
+                        onClick={() => inputRef.current?.click()}
                     />
                 </div>
             </div>

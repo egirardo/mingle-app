@@ -3,7 +3,6 @@ import IconOnlyButton from "../Buttons/IconOnlyButton";
 import TextInput from "../Forms/InputFields/TextInput";
 import Button from "../Buttons/Button";
 import { useNavigate } from "react-router-dom";
-import Checkbox from "../Forms/Checkboxes/Checkbox";
 import RadioGroup from "../Forms/RadioButtons/RadioGroup";
 import CheckboxGroup from "../Forms/Checkboxes/CheckboxGroup";
 import PhotoUpload from "../Forms/InputFields/PhotoUpload";
@@ -53,7 +52,7 @@ const StudentSignUpPanel = () => {
 
                     <TextInput formLabel="Fun Fact" placeholder="Write something short about yourself" type="text" optional />
 
-                    <div className="aboutGroup">
+                    <div className={styles.aboutGroup}>
                         <TextInput formLabel="Let me tell you about..." placeholder="How I use AI in my design process" type="text" optional/>
                         <TextInput placeholder="Why I switched careers" type="text" optional/>
                         <TextInput placeholder="What I'm looking for in a project" type="text" optional/>
