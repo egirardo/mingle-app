@@ -8,9 +8,21 @@ export default function Question() {
   const navigate = useNavigate();
 
   const { currentQuestion } = mingle;
+  const { nextQuestion } = mingle;
 
+  // Checks if its the final round of the game
+  const isFinalRound =
+    mingle.index === mingle.questions.length - 1 ||
+    currentQuestion?.round === mingle.questions.length;
+
+  // When the question timer expires, finish the game on the last round;
+  // otherwise advance to the next round and navigate to the loading page.
   const handleExpire = () => {
-    // When the question timer expires, advances to the loading page
+    if (isFinalRound) {
+      navigate("/completion");
+      return;
+    }
+    nextQuestion?.();
     navigate("/loading");
   };
 
@@ -28,7 +40,7 @@ export default function Question() {
       </div>
       {/* temporary button */}
       <Button
-        buttonName="Explore participants"
+        buttonName="⭕ I talked to someone"
         buttonColor="gray"
         iconSrc="arrowRight"
       />
