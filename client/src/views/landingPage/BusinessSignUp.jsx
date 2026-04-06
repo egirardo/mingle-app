@@ -1,16 +1,11 @@
 import BusinessSignUpPanel from "../../components/SignUpPages/BusinessSignUpPanel.jsx";
-import NavBar from "../../components/NavBar/NavBar.jsx";
-import heroImage from "../../assets/hero.png";
+import LandingPageLayout from "./Layout/LandingPageLayout.jsx";
 
 function BusinessSignUp() {
   return (
-    <>
-    <NavBar />
-      <div className="hero-container">
-        <img src={heroImage} alt="" aria-hidden="true" className="hero-image" />
-      </div>
+    <LandingPageLayout>
       <BusinessSignUpPanel />
-    </>
+    </LandingPageLayout>
   );
 }
 
