@@ -2,21 +2,28 @@ import styles from "../Checkboxes/Checkbox.module.css";
 import RadioButton from "./RadioButton";
 import { useRef } from "react";
 
-export default function RadioGroup({ legend, radios, optional = false, required = false, subText, name }) {
+export default function RadioGroup({
+  legend,
+  radios,
+  optional = false,
+  required = false,
+  subText,
+  name,
+  onChange, // receives the selected value string e.g. "dd" or "1"
+}) {
   const hiddenInputRef = useRef(null);
   const radioRefs = useRef([]);
 
-  const handleRadioChange = () => {
-    if (!required || !hiddenInputRef.current) return;
+  const handleRadioChange = (e) => {
+    // Bubble selected value up to the parent form
+    if (onChange) onChange(e.target.value);
 
-    const isAtLeastOneChecked = radioRefs.current.some((ref) => ref?.checked);
-    // Set checked state so the hidden input is valid when at least one option is selected
-    hiddenInputRef.current.checked = isAtLeastOneChecked;
-    hiddenInputRef.current.setCustomValidity(
-      isAtLeastOneChecked ? "" : "Please select an option"
-    );
+    if (!required || !hiddenInputRef.current) return;
+    // Once any radio is selected the group is always valid
+    hiddenInputRef.current.checked = true;
+    hiddenInputRef.current.setCustomValidity("");
   };
-  
+
   const legendEl = (
     <legend className={styles.legend}>
       {legend}
@@ -53,7 +60,7 @@ export default function RadioGroup({ legend, radios, optional = false, required 
             value={radio.value ?? radio.id}
             onChange={handleRadioChange}
             ref={(el) => {
-              if (el) radioRefs.current[index] = el.querySelector('input');
+              if (el) radioRefs.current[index] = el.querySelector("input");
             }}
           />
         ))}
