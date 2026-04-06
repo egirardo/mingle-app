@@ -7,15 +7,16 @@ export default function Introduction() {
 
   const handleExpire = () => {
     // When the timer expires, start the game on the task page
-    navigate("/task");
+    // navigate("/task");
   };
 
   return (
-    <div className={styles.mingle}>
-      <h1>Welcome to Ignite Speed Mingle</h1>
+    <div className={styles.mingleIntroduction}>
+      {/* add app logo here */}
+      <h1 className={ styles.introductionHeader}>Welcome to Ignite Speed Mingle</h1>
       {/* date timer instead, temporary countdown timer for now*/}
       <Timer minutes={0.1} onExpire={handleExpire} />
-      <p>
+      <p className="introductionText">
         For the next 10 minutes, you’ll have short and fast interactions. We’ll
         guide you step by step.
       </p>
