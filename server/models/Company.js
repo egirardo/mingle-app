@@ -14,7 +14,6 @@ const companySchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      required: true,
       unique: true,
       lowercase: true,
       trim: true,
@@ -31,6 +30,16 @@ const companySchema = new mongoose.Schema(
       type: [{ type: String, trim: true }],
       default: [],
     },
+
+    about: {
+      type: String,
+      trim: true,
+    },
+
+    website: {
+      type: String,
+      trim: true,
+    },    
   },
   { timestamps: true }
 );

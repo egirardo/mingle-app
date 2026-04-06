@@ -91,7 +91,15 @@ router.post('/register', async (req, res) => {
     await studentProfile.save({ session });
 
     await session.commitTransaction();
-    res.status(201).json({ message: 'Student registered successfully' });
+    
+    // Sign JWT — expires in 1 day
+    const token = jwt.sign(
+      { id: studentAuth._id, type: 'student' },
+      process.env.JWT_SECRET,
+      { expiresIn: '1d' }
+    );
+
+    res.status(201).json({ token, message: 'Student registered successfully' });
 
   } catch (err) {
     await session.abortTransaction();

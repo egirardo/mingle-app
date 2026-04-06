@@ -1,9 +1,25 @@
 import { useId } from "react";
 import styles from "./TextInput.module.css";
 
-export default function TextInput({ formLabel, placeholder, id, type, subText, required = false, optional = false, className }) {
+export default function TextInput({
+  formLabel,
+  placeholder,
+  id,
+  name,
+  type,
+  subText,
+  required = false,
+  optional = false,
+  className,
+  value,
+  onChange,
+}) {
   const generatedId = useId();
   const inputId = id ?? generatedId;
+  // Use explicit name prop; fall back to inputId only as last resort.
+  // Previously this always fell back to the auto-generated id, which made
+  // it impossible to reference fields by a stable name.
+  const inputName = name ?? inputId;
 
   const label = formLabel ? (
     <label htmlFor={inputId} className={styles.inputLabel}>
@@ -24,11 +40,13 @@ export default function TextInput({ formLabel, placeholder, id, type, subText, r
       <input
         type={type}
         id={inputId}
-        name={inputId}
+        name={inputName}
         placeholder={placeholder}
         className={styles.textInput}
         required={required}
         aria-required={required}
+        value={value}
+        onChange={onChange}
       />
     </div>
   );
