@@ -25,10 +25,6 @@ const StudentSignUpPanel = () => {
     portfolio: "",
   });
 
-  // The image file is stored separately — it's uploaded via a different
-  // endpoint (PUT /api/students/profile/image) and requires a JWT token,
-  // so it can't be sent with the initial registration request.
-  // After registration the user logs in and can upload it from their profile.
   const [profileImage, setProfileImage] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -76,7 +72,27 @@ const StudentSignUpPanel = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message);
 
-      // Registration successful — redirect to login
+      // Registration successful — upload profile image if provided
+      if (profileImage && data.token) {
+        const formData = new FormData();
+        formData.append('profileImage', profileImage);
+
+        try {
+          const imageRes = await fetch('/api/students/profile/image', {
+            method: 'PUT',
+            headers: { 'Authorization': `Bearer ${data.token}` },
+            body: formData,
+          });
+
+          if (!imageRes.ok) {
+            console.warn('Image upload failed, but registration succeeded');
+          }
+        } catch (imgErr) {
+          console.warn('Could not upload profile image:', imgErr);
+        }
+      }
+
+      // Redirect to login
       navigate("/login");
     } catch (err) {
       setError(err.message || "Something went wrong. Please try again.");

@@ -34,7 +34,7 @@ export default function LoginPanel() {
       // the Authorization header as "Bearer <token>"
       localStorage.setItem("token", data.token);
 
-      navigate("/dashboard");
+      navigate("/"); // Once created, redirect to explore page instead, this is a placeholder
     } catch (err) {
       setError(err.message || "Something went wrong. Please try again.");
     } finally {
