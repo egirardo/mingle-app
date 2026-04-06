@@ -10,19 +10,18 @@ export default function Question() {
   const { currentQuestion } = mingle;
   const { nextQuestion } = mingle;
 
-  // Checks if its the final round of the game
+  // Checks if it's the final round of the game
   const isFinalRound =
     mingle.index === mingle.questions.length - 1 ||
     currentQuestion?.round === mingle.questions.length;
 
   // When the question timer expires, finish the game on the last round;
-  // otherwise advance to the next round and navigate to the loading page.
+  // otherwise navigate to the loading page.
   const handleExpire = () => {
     if (isFinalRound) {
       navigate("/completion");
       return;
     }
-    nextQuestion?.();
     navigate("/loading");
   };
 
