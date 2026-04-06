@@ -2,13 +2,15 @@ import Button from "../Buttons/Button";
 import IconOnlyButton from "../Buttons/IconOnlyButton";
 import styles from "./LoginPanel.module.css";
 import TextInput from "../Forms/InputFields/TextInput";
+import { useNavigate } from "react-router-dom";
 
 
 export default function LoginPanel() {
+    const navigate = useNavigate();
     return (
         <div className={styles.loginPanel}>
             <div className={styles.arrowButtonContainer}>
-                <IconOnlyButton iconSrc="arrowBack" buttonColor="transparent" ariaLabel="Go back to previous page" />
+                <IconOnlyButton iconSrc="arrowBack" buttonColor="transparent" ariaLabel="Go back to home page" onClick={() => navigate("/")}/>
             </div>
             <div className={styles.formContainer}>
                 <h1 className={styles.heading}>Log in</h1>

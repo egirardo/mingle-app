@@ -1,8 +1,11 @@
 import SignUpInfo from "../../components/LandingPage/SignUpInfo.jsx";
+import LandingPageLayout from "./Layout/LandingPageLayout.jsx";
 
 function Home() {
   return (
-    <SignUpInfo />
+    <LandingPageLayout>
+      <SignUpInfo />
+    </LandingPageLayout>
   );
 }
 

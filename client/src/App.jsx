@@ -1,7 +1,5 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import NavBar from "./components/NavBar/NavBar.jsx";
-import heroImage from "./assets/hero.png";
 import Home from "./views/landingPage/Home.jsx";
 import Login from "./views/landingPage/Login.jsx";
 import StudentSignUp from "./views/landingPage/StudentSignUp.jsx";
@@ -18,10 +16,6 @@ import MingleGameLayout from "./views/mingleGame/MingleGameLayout.jsx";
 function App() {
   return (
     <BrowserRouter>
-      {/* <NavBar />
-      <div className="hero-container">
-        <img src={heroImage} alt="" aria-hidden="true" className="hero-image" />
-      </div> */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />

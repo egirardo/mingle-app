@@ -1,9 +1,13 @@
 import LoginPanel from "../../components/LoginPage/LoginPanel.jsx";
+import LandingPageLayout from "./Layout/LandingPageLayout.jsx";
 
 function Login() {
-  return <LoginPanel />;
+  
+  return (
+    <LandingPageLayout>
+      <LoginPanel />
+    </LandingPageLayout>
+  );
 }
 
 export default Login;
-
-// temporary content until we have the actual login form ready.

@@ -1,7 +1,12 @@
 import StudentSignUpPanel from "../../components/SignUpPages/StudentSignUpPanel.jsx";
+import LandingPageLayout from "./Layout/LandingPageLayout.jsx";
 
 function StudentSignUp() {
-  return <StudentSignUpPanel />;
+  return (
+    <LandingPageLayout>
+      <StudentSignUpPanel />
+    </LandingPageLayout>
+  );
 }
 
 export default StudentSignUp;
