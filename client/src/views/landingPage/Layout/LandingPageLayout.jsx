@@ -1,12 +1,12 @@
 import NavBar from "../../../components/NavBar/NavBar.jsx";
-import heroImage from "../../../assets/hero.png";
+import backgroundImage from "../../../assets/background.png"
 
 function LandingPageLayout({ children }) {
   return (
     <>
       <NavBar />
       <div className="hero-container">
-        <img src={heroImage} alt="" aria-hidden="true" className="hero-image" />
+        <img src={backgroundImage} alt="" aria-hidden="true" className="hero-image" />
       </div>
       {children}
     </>

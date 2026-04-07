@@ -137,23 +137,49 @@ router.post('/login', async (req, res) => {
     if (!isMatch) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
+    
+    // DELETE THIS before going to production !!!!!!!!!
+    router.get('/all', async (req, res) => {
+      const profiles = await StudentProfile.find({}, 'studentId firstName lastName');
+      res.json(profiles);
+    });
 
+    
     // Sign JWT — expires in 1 day
     const token = jwt.sign(
       { id: student._id, type: 'student' },
       process.env.JWT_SECRET,
       { expiresIn: '1d' }
     );
-
+    
     res.status(200).json({ token, message: 'Login successful' });
-
+    
   } catch (err) {
     console.error('Login error:', err);
     res.status(500).json({ message: 'Server error during login' });
   }
 });
 
-// ─── GET PROFILE ──────────────────────────────────────────────────────────────
+// ─── GET PUBLIC PROFILE ───────────────────────────────────────────────────────
+// GET /api/students/profile/:id  — no auth required
+router.get('/profile/:id', async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return res.status(400).json({ message: 'Invalid student ID' });
+  }
+
+  try {
+    const profile = await StudentProfile.findOne({ studentId: req.params.id });
+    if (!profile) {
+      return res.status(404).json({ message: 'Profile not found' });
+    }
+
+    res.status(200).json(formatProfile(profile));
+  } catch (err) {
+    console.error('Get public profile error:', err);
+    res.status(500).json({ message: 'Server error retrieving profile' });
+  }
+});
+// ─── GET PRIVATE PROFILE ──────────────────────────────────────────────────────────────
 // GET /api/students/profile
 // Protected — requires token
 router.get('/profile', authMiddleware, async (req, res) => {
@@ -171,7 +197,7 @@ router.get('/profile', authMiddleware, async (req, res) => {
   }
 });
 
-// ─── UPDATE PROFILE ───────────────────────────────────────────────────────────
+// ─── UPDATE PRIVATE PROFILE ───────────────────────────────────────────────────────────
 // PUT /api/students/profile
 // Protected — requires token
 router.put('/profile', authMiddleware, async (req, res) => {
