@@ -2,7 +2,7 @@ import styles from "./Timer.module.css";
 import { useEffect, useState, useRef } from "react";
 
 // Props:
-// - targetDate - takes month, day, year, hour and min
+// - targetDate - ISO 8601 date string, takes Year-Month-DayTHour:Min:Second. Example "2026-04-22T15:00:00"
 // - onExpire (function) — optional callback fired when timer reaches 0
 
 export default function DateTimer({ targetDate, onExpire, className } = {}) {
@@ -67,10 +67,7 @@ export default function DateTimer({ targetDate, onExpire, className } = {}) {
   const pad = (n) => String(n).padStart(2, "0");
   const timeDisplay = `${pad(hours)}:${pad(mins)}:${pad(secs)}`;
 
-  const display = timeDisplay;
-  if (days > 0) {
-    display = `${days} Days, ${timeDisplay}`;
-  }
+  const display = days > 0 ? `${days} Days, ${timeDisplay}` : timeDisplay;
 
   const combined = `${styles.countdownTimer} ${className || ""}`.trim();
 

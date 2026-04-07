@@ -8,7 +8,6 @@ export default function Question() {
   const navigate = useNavigate();
 
   const { currentQuestion } = mingle;
-  const { nextQuestion } = mingle;
 
   // Checks if it's the final round of the game
   const isFinalRound =

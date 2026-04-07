@@ -21,15 +21,15 @@ export default function Introduction() {
       <h1 className={styles.introductionHeader}>
         Welcome to Ignite Speed Mingle
       </h1>
-      <DateTimer targetDate="04/06/2026 22:11" onExpire={handleExpire} />
-      {/* <DateTimer targetDate="04/22/2026 15:00" /> */}
+      <DateTimer targetDate="2026-04-07T12:42:00" onExpire={handleExpire} />
+      {/* <DateTimer targetDate="2026-04-22T15:00:00" /> */}
       {!expired ? (
-        <p className="introductionText">
+        <p className={styles.introductionText}>
           For the next 10 minutes, you’ll have short and fast interactions.
           We’ll guide you step by step.
         </p>
       ) : (
-        <p className="introductionText">
+        <p className={styles.introductionText}>
           Get ready to meet new people. Follow the instructions on your phone
           when the countdown drops.
         </p>
