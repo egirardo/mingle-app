@@ -2,6 +2,7 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import Timer from "../../components/Timer/Timer.jsx";
 import styles from "./MingleGame.module.css";
 import Button from "../../components/Buttons/Button";
+import yrgoLogo from "../../assets/yrgo-logo.svg";
 
 export default function Question() {
   const mingle = useOutletContext();
@@ -21,11 +22,12 @@ export default function Question() {
       navigate("/completion");
       return;
     }
-    navigate("/loading");
+    // navigate("/loading");
   };
 
   return (
-    <div className={`${styles.main} ${styles.mingle}`}>
+    <div className={`${styles.main} ${styles.mingle} ${styles.backgroundBlur}`}>
+      <img className={styles.yrgoLogo} src={yrgoLogo} alt="Yrgo logo" />
       <div className={styles.roundCountContainer}>
         <span>
           {currentQuestion?.round}/{mingle.questions.length}

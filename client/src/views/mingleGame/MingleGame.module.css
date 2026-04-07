@@ -47,19 +47,13 @@
   position: fixed;
   inset: 0;
   display: flex;
-  padding: 16px;
+  gap: 56px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   box-sizing: border-box;
   overflow: hidden;
-  text-align: center;
-  font-style: normal;
   color: white;
-  width: 393px;
-  height: 852px;
-  padding: 40px 0;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 56px;
 }
 
 /* Rounds */
@@ -162,19 +156,6 @@
   align-self: stretch;
   display: flex;
   flex-direction: column;
-}
-
-.mingleIntroduction {
-  position: fixed;
-  inset: 0;
-  display: flex;
-  gap: 56px;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  overflow: hidden;
-  color: white;
 }
 
 .introductionHeader {

@@ -11,13 +11,11 @@ export default function Introduction() {
     // When the timer expires, show follow-up text (and eventually start the game)
     setExpired(true);
     // to do: if server starts game, make it navigate to task
-    // navigate("/task");
+    navigate("/task");
   };
 
   return (
-    <div
-      className={`${styles.main} ${styles.mingleIntroduction} ${styles.backgroundBlur}`}
-    >
+    <div className={`${styles.main} ${styles.mingle} ${styles.backgroundBlur}`}>
       <img className={styles.yrgoLogo} src={yrgoLogo} alt="Yrgo logo" />
       <div className={styles.IntroductionTitleContainer}>
         <h3
