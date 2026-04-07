@@ -21,8 +21,11 @@ export default function Introduction() {
       <h1 className={styles.introductionHeader}>
         Welcome to Ignite Speed Mingle
       </h1>
-      <DateTimer targetDate="2026-04-07T12:42:00" onExpire={handleExpire} />
-      {/* <DateTimer targetDate="2026-04-22T15:00:00" /> */}
+      <DateTimer
+        targetDate="2026-04-07T13:00:00+02:00"
+        onExpire={handleExpire}
+      />
+      {/* <DateTimer targetDate="2026-04-22T15:00:00+02:00" /> */}
       {!expired ? (
         <p className={styles.introductionText}>
           For the next 10 minutes, you’ll have short and fast interactions.
