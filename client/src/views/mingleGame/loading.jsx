@@ -15,7 +15,7 @@ export default function Loading() {
   };
 
   return (
-    <div className={styles.mingleLoading}>
+    <div className={`${styles.main} ${styles.mingleLoading}`}>
       <h2>Well done!</h2>
       <div className={styles.roundCountContainer}>
         <span>

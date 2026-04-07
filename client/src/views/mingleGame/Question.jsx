@@ -25,7 +25,7 @@ export default function Question() {
   };
 
   return (
-    <div className={styles.mingle}>
+    <div className={`${styles.main} ${styles.mingle}`}>
       <div className={styles.roundCountContainer}>
         <span>
           {currentQuestion?.round}/{mingle.questions.length}

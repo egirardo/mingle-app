@@ -8,7 +8,12 @@
 
 .countdownTimer {
   font-family: "Technology",system-ui, "Segoe UI", "Helvetica Neue";
-  color: #000;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  height: fit-content;
   text-align: center;
   font-size: 40px;
   font-style: normal;
