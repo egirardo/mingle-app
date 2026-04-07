@@ -10,7 +10,7 @@
 }
 
 .mingle {
-    /* root for mingle */
+  /* root for mingle */
   --text-color: #000;
   --large-size: 28px;
   --body-size: 16px;
@@ -78,6 +78,44 @@
 }
 
 /* ---------------------------------------- */
+/* Introduction */
+/* ---------------------------------------- */
+
+.mingleIntroduction {
+  /* root for Introduction */
+  --text-color: #000;
+  --large-size: 28px;
+  --body-size: 16px;
+  --line-heading: 32px;
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.introductionHeader {
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 32px; /* 100% */
+  letter-spacing: -1px;
+}
+
+.introductionText {
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 22px; /* 110% */
+  letter-spacing: -1px;
+}
+
+/* ---------------------------------------- */
 /* Questions */
 /* ---------------------------------------- */
 
@@ -92,7 +130,7 @@
 /* ---------------------------------------- */
 
 .mingleLoading {
-    /* root for loading */
+  /* root for loading */
   --text-color: #000;
   --large-size: 28px;
   --body-size: 16px;
