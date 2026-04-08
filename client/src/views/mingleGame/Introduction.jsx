@@ -14,6 +14,8 @@ export default function Introduction() {
   useEffect(() => {
     connectSocket();
 
+    socket.emit("reset-game");
+
     const handleGameStarted = () => {
       mingle?.resetQuestions?.();
       navigate("/task");
