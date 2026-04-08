@@ -25,7 +25,7 @@ app.use("/api/companies", companyRoutes);
 
 // Socket.io
 io.on("connection", (socket) => {
-  console.log("✓ User connected");
+  console.log("✓ User connected:", socket.id);
 
   if (gameStarted) {
     socket.emit("game-started");
@@ -36,8 +36,12 @@ io.on("connection", (socket) => {
     io.emit("game-started");
   });
 
+  socket.on("reset-game", () => { 
+    gameStarted = false;
+  });
+
   socket.on("disconnect", () => {
-    console.log("✗ User disconnected");
+    console.log("✗ User disconnected:", socket.id);
   });
 });
 
@@ -66,7 +70,6 @@ const connectDB = async (retries = 5, delay = 1000) => {
       }
     }
   }
-
   return false;
 };
 
@@ -76,8 +79,6 @@ httpServer.listen(PORT, () => console.log(`✓ Server running on port ${PORT}`))
 // Connect to MongoDB in the background.
 connectDB().then((connected) => {
   if (!connected) {
-    console.warn(
-      "⚠ MongoDB is not connected yet, but the server is still running.",
-    );
+    console.warn("⚠ MongoDB is not connected yet, but the server is still running.");
   }
 });

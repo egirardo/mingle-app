@@ -21,12 +21,12 @@ export default function Completion() {
       />
 
       {/* temporary button */}
-      <Button
+      {/* <Button
         buttonName="back"
         buttonColor="redWhiteBorder"
         iconSrc="arrowRightWhite"
         onClick={() => navigate("/introduction")}
-      />
+      /> */}
     </div>
   );
 }

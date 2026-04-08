@@ -12,16 +12,20 @@ export default function Introduction() {
   const [expired, setExpired] = useState(false);
 
   useEffect(() => {
+    if (!socket.connected) {
+      socket.connect();
+    }
+
+    socket.emit("reset-game");
+    mingle?.resetQuestions?.();
+    setExpired(false);
+
     const handleGameStarted = () => {
       mingle?.resetQuestions?.();
       navigate("/task");
     };
 
     socket.on("game-started", handleGameStarted);
-
-    if (!socket.connected) {
-      socket.connect();
-    }
 
     return () => {
       socket.off("game-started", handleGameStarted);
@@ -34,16 +38,7 @@ export default function Introduction() {
 
   const handleStartClick = () => {
     mingle?.resetQuestions?.();
-
-    const emitStartGame = () => socket.emit("start-game");
-
-    if (socket.connected) {
-      emitStartGame();
-      return;
-    }
-
-    socket.once("connect", emitStartGame);
-    socket.connect();
+    socket.emit("start-game");
   };
 
   return (
@@ -68,12 +63,13 @@ export default function Introduction() {
           onExpire={handleExpire}
           className={styles.timer}
         />
-        {/* <DateTimer targetDate="2026-04-22T15:00:00+02:00" /> */}
+        {/* <DateTimer targetDate="2026-04-22T15:00:00+02:00" onExpire={handleExpire}
+          className={styles.timer} /> */}
         {!expired ? (
           <div>
             <p className={styles.textMediumRegular}>
-              For the next 10 minutes, you’ll have short and fast interactions.
-              We’ll guide you step by step.
+              For the next 10 minutes, you'll have short and fast interactions.
+              We'll guide you step by step.
             </p>
             <Button
               buttonName="Start"

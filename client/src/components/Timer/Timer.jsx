@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from "react";
 // Props:
 // - minutes (number): how many minutes to count down from (default 20)
 // - onExpire (function): optional callback fired when timer reaches 0
+// - autoRestart (boolean): restart timer when it reaches 0
 
 export default function Timer({
   minutes = 20,
@@ -30,15 +31,19 @@ export default function Timer({
       const remainingMs = endAtRef.current - Date.now();
 
       if (remainingMs <= 0) {
-        expiredRef.current = true;
+        if (!expiredRef.current) {
+          expiredRef.current = true;
 
-        if (autoRestart && durationMs > 0) {
-          endAtRef.current = Date.now() + durationMs;
-          setSecondsLeft(Math.ceil(durationMs / 1000));
-          return;
+          if (autoRestart && durationMs > 0) {
+            endAtRef.current = Date.now() + durationMs;
+            setSecondsLeft(Math.ceil(durationMs / 1000));
+            setTimeout(() => onExpireRef.current?.(), 0);
+            return;
+          }
+
+          setSecondsLeft(0);
+          setTimeout(() => onExpireRef.current?.(), 0);
         }
-
-        setSecondsLeft(0);
         return;
       }
 
@@ -48,10 +53,8 @@ export default function Timer({
     tick();
 
     const id = setInterval(tick, 250);
-    const handleVisibilityChange = () => {
-      tick();
-    };
 
+    const handleVisibilityChange = () => tick();
     document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
@@ -59,13 +62,6 @@ export default function Timer({
       document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, [durationMs, autoRestart]);
-
-  useEffect(() => {
-    if (expiredRef.current) {
-      expiredRef.current = false;
-      if (onExpireRef.current) onExpireRef.current();
-    }
-  }, [secondsLeft]);
 
   const mins = String(Math.floor(secondsLeft / 60)).padStart(2, "0");
   const secs = String(secondsLeft % 60).padStart(2, "0");
