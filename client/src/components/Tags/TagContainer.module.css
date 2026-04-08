@@ -1,4 +1,4 @@
-.tagContainer {
+.large {
     display: flex;
     padding: 0.5rem 1rem;
     flex-direction: row;
@@ -13,7 +13,18 @@
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* IE and Edge */
 }
+.small {
+    display: flex;
+    padding: 0;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.125rem;
+    width: 100%;
+    margin: 0;
+    flex-wrap: wrap;
+}
 
-.tagContainer::-webkit-scrollbar {
+.large::-webkit-scrollbar{
     display: none; /* Chrome, Safari, and Edge */
 }

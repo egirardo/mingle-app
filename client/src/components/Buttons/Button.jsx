@@ -17,6 +17,7 @@ export default function Button({
   buttonColor,
   variant,
   iconSrc,
+  ariaLabel,
   type = "button",
   ...buttonProps
 }) {
@@ -38,6 +39,7 @@ export default function Button({
       {...buttonProps}
       className={`${styles.button} ${icon ? styles.hasIcon : ""} ${colorClass} ${variantClass}`.trim()}
       type={type}
+      aria-label={ariaLabel}
     >
       <span className={`${styles.label} ${textClass}`.trim()}>
         {buttonName}

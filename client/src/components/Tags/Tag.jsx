@@ -1,5 +1,5 @@
 import styles from "./Tag.module.css";
 
-export default function Tag({ tagName }) {
-  return <li className={styles.tag}>{tagName}</li>;
+export default function Tag({ tagName, tagType="large" }) {
+  return <li className={styles[tagType]}>{tagName}</li>;
 }

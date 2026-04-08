@@ -5,12 +5,12 @@
 .button {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0rem;
   padding: 0.5rem 0.9rem;
   min-height: 36px;
   border: none;
   border-radius: 999px;
-  color: #000;
+  color: #fff;
   cursor: pointer;
   font-size: 14px;
   font-weight: 400;
@@ -40,7 +40,7 @@
 }
 
 .hasIcon {
-  padding-right: 40px;
+  padding-right: 32px;
 }
 
 /* --------------------------------------------------------- */
