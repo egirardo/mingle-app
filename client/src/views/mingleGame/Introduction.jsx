@@ -4,10 +4,7 @@ import styles from "./MingleGame.module.css";
 import DateTimer from "../../components/Timer/DateTimer.jsx";
 import yrgoLogo from "../../assets/yrgo-logo.svg";
 import Button from "../../components/Buttons/Button";
-import socket from "../../socket.js";
-
-// Introduction.jsx — decouple Start button from expired state,
-// and guard the emit with a connection check
+import socket, { connectSocket } from "../../socket.js";
 
 export default function Introduction() {
   const mingle = useOutletContext();
@@ -15,36 +12,32 @@ export default function Introduction() {
   const [expired, setExpired] = useState(false);
 
   useEffect(() => {
-    if (!socket.connected) {
-      socket.connect();
-    }
+    connectSocket();
 
     const handleGameStarted = () => {
       mingle?.resetQuestions?.();
       navigate("/task");
     };
 
+    const handleGameReset = () => {
+      mingle?.resetQuestions?.();
+      setExpired(false);
+    };
+
     socket.on("game-started", handleGameStarted);
+    socket.on("game-reset", handleGameReset);
 
     return () => {
       socket.off("game-started", handleGameStarted);
+      socket.off("game-reset", handleGameReset);
     };
-  }, [mingle?.resetQuestions, navigate]);
+  }, [mingle, navigate]);
 
   const handleExpire = () => {
     setExpired(true);
   };
 
   const handleStartClick = () => {
-    // Ensure socket is connected before emitting
-    if (!socket.connected) {
-      socket.connect();
-      socket.once("connect", () => {
-        mingle?.resetQuestions?.();
-        socket.emit("start-game");
-      });
-      return;
-    }
     mingle?.resetQuestions?.();
     socket.emit("start-game");
   };
@@ -53,7 +46,9 @@ export default function Introduction() {
     <div className={`${styles.main} ${styles.backgroundBlur}`}>
       <img className={styles.yrgoLogo} src={yrgoLogo} alt="Yrgo logo" />
       <div className={styles.IntroductionTitleContainer}>
-        <h3 className={`${styles.introductionHeader} ${styles.textMediumRegular}`}>
+        <h3
+          className={`${styles.introductionHeader} ${styles.textMediumRegular}`}
+        >
           Welcome to
         </h3>
         <h1 className={`${styles.introductionHeader} ${styles.textExtraLarge}`}>
@@ -65,22 +60,21 @@ export default function Introduction() {
       </div>
       <div className={styles.introductionInfoContainer}>
         <DateTimer
-          targetDate="2026-04-08T14:15+02:00"
+          targetDate="2026-04-22T15:00:00+02:00"
           onExpire={handleExpire}
           className={styles.timer}
         />
-        {expired ? (
-          <p className={styles.textMediumRegular}>
-            Get ready to meet new people. Follow the instructions on your phone
-            when the countdown reaches zero.
-          </p>
-        ) : (
+        {!expired ? (
           <p className={styles.textMediumRegular}>
             For the next 10 minutes, you'll have short and fast interactions.
             We'll guide you step by step.
           </p>
+        ) : (
+          <p className={styles.textMediumRegular}>
+            Get ready to meet new people. Follow the instructions on your phone
+            when the countdown reaches zero.
+          </p>
         )}
-        {/* Start button always visible regardless of timer state */}
         <Button
           buttonName="Start"
           buttonColor="redWhiteBorder"

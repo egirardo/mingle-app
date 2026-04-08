@@ -56,15 +56,6 @@ export default function DateTimer({ targetDate, onExpire, className } = {}) {
     return () => clearInterval(id);
   }, [targetDate]);
 
-  // ... rest of display logic unchanged
-
-  useEffect(() => {
-    if (expiredRef.current) {
-      expiredRef.current = false;
-      if (onExpireRef.current) onExpireRef.current();
-    }
-  }, [distance]);
-
   const days = Math.floor(distance / (1000 * 60 * 60 * 24));
   const hours = Math.floor(
     (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
