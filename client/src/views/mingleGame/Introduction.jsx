@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import styles from "./MingleGame.module.css";
 import DateTimer from "../../components/Timer/DateTimer.jsx";
 import yrgoLogo from "../../assets/yrgo-logo.svg";
@@ -7,33 +7,43 @@ import Button from "../../components/Buttons/Button";
 import socket from "../../socket.js";
 
 export default function Introduction() {
+  const mingle = useOutletContext();
   const navigate = useNavigate();
-  const [expired ] = useState(false);
+  const [expired, setExpired] = useState(false);
 
   useEffect(() => {
     const handleGameStarted = () => {
+      mingle?.resetQuestions?.();
       navigate("/task");
     };
 
     socket.on("game-started", handleGameStarted);
 
+    if (!socket.connected) {
+      socket.connect();
+    }
+
     return () => {
       socket.off("game-started", handleGameStarted);
     };
-  }, [navigate]);
+  }, [mingle, navigate]);
+
+  const handleExpire = () => {
+    setExpired(true);
+  };
 
   const handleStartClick = () => {
+    mingle?.resetQuestions?.();
+
     const emitStartGame = () => socket.emit("start-game");
 
     if (socket.connected) {
       emitStartGame();
-      navigate("/task");
       return;
     }
 
     socket.once("connect", emitStartGame);
     socket.connect();
-    navigate("/task");
   };
 
   return (

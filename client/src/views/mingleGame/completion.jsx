@@ -19,6 +19,14 @@ export default function Completion() {
         iconSrc="arrowRightWhite"
         onClick={() => navigate("/")}
       />
+
+      {/* temporary button */}
+      <Button
+        buttonName="back"
+        buttonColor="redWhiteBorder"
+        iconSrc="arrowRightWhite"
+        onClick={() => navigate("/introduction")}
+      />
     </div>
   );
 }
