@@ -1,5 +1,6 @@
 import styles from "./Button.module.css";
 import arrowRight from "../../assets/icons/arrow-right.svg";
+import arrowRightWhite from "../../assets/icons/arrow-right-white.svg";
 import checkmark from "../../assets/icons/check.svg";
 import arrow45 from "../../assets/icons/arrow-45.svg";
 
@@ -23,7 +24,7 @@ export default function Button({
   const colorClass = buttonColor ? (styles[buttonColor] ?? "") : "";
   const variantClass = variant ? (styles[variant] ?? "") : "";
   const textClass = variant ? (styles[`${variant}Text`] ?? "") : "";
-  const icons = { arrowRight, checkmark, arrow45 };
+  const icons = { arrowRight, arrowRightWhite, checkmark, arrow45 };
 
   // Icons
   let icon;

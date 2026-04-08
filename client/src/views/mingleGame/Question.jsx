@@ -36,7 +36,7 @@ export default function Question() {
         <Timer minutes={0.1} onExpire={handleExpire} className={styles.timer} />
         <div className={styles.questionDisplay}>
           <h3 className={styles.textLargeBold}>Question:</h3>
-          <p className={`${styles.textMediumRegular} ${styles.question}`}>
+          <p className={`${styles.textMediumRegular} ${styles.textBubble}`}>
             {currentQuestion?.question}
           </p>
         </div>
