@@ -1,16 +1,38 @@
-// import { useNavigate, useOutletContext } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./MingleGame.module.css";
 import DateTimer from "../../components/Timer/DateTimer.jsx";
 import yrgoLogo from "../../assets/yrgo-logo.svg";
+import Button from "../../components/Buttons/Button";
+import socket from "../../socket.js";
 
 export default function Introduction() {
-  const [expired, setExpired] = useState(false);
+  const navigate = useNavigate();
+  const [expired ] = useState(false);
 
-  const handleExpire = () => {
-    // When the timer expires, show follow-up text (and eventually start the game)
-    setExpired(true);
-    // to do: if server starts game, make it navigate to task
+  useEffect(() => {
+    const handleGameStarted = () => {
+      navigate("/task");
+    };
+
+    socket.on("game-started", handleGameStarted);
+
+    return () => {
+      socket.off("game-started", handleGameStarted);
+    };
+  }, [navigate]);
+
+  const handleStartClick = () => {
+    const emitStartGame = () => socket.emit("start-game");
+
+    if (socket.connected) {
+      emitStartGame();
+      navigate("/task");
+      return;
+    }
+
+    socket.once("connect", emitStartGame);
+    socket.connect();
     navigate("/task");
   };
 
@@ -32,16 +54,24 @@ export default function Introduction() {
       </div>
       <div className={styles.introductionInfoContainer}>
         <DateTimer
-          targetDate="2026-04-07T13:00+02:00"
+          targetDate="2026-04-08T14:15+02:00"
           onExpire={handleExpire}
           className={styles.timer}
         />
         {/* <DateTimer targetDate="2026-04-22T15:00:00+02:00" /> */}
         {!expired ? (
-          <p className={styles.textMediumRegular}>
-            For the next 10 minutes, you’ll have short and fast interactions.
-            We’ll guide you step by step.
-          </p>
+          <div>
+            <p className={styles.textMediumRegular}>
+              For the next 10 minutes, you’ll have short and fast interactions.
+              We’ll guide you step by step.
+            </p>
+            <Button
+              buttonName="Start"
+              buttonColor="redWhiteBorder"
+              iconSrc="arrowRightWhite"
+              onClick={handleStartClick}
+            />
+          </div>
         ) : (
           <p className={styles.textMediumRegular}>
             Get ready to meet new people. Follow the instructions on your phone
