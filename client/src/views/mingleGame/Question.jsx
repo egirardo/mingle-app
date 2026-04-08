@@ -23,20 +23,24 @@ export default function Question() {
       navigate("/completion");
       return;
     }
-    // navigate("/loading");
+    navigate("/loading");
   };
 
   return (
-    <div className={`${styles.main} ${styles.mingle} ${styles.backgroundBlur}`}>
+    <div className={`${styles.main} ${styles.backgroundBlur}`}>
       <img className={styles.yrgoLogo} src={yrgoLogo} alt="Yrgo logo" />
-      <RoundsDisplay
-        currentRound={currentQuestion?.round || 0}
-        className={styles.textLargeBold}
-      />
-      <Timer minutes={0.1} onExpire={handleExpire} className={styles.hidden} />
-      <div className={styles.instructionContainer}>
-        <p className={styles.textLargeBold}>Question</p>
-        <p className={styles.textMediumRegular}>{currentQuestion?.question}</p>
+      <div className={styles.questionContainer}>
+        <RoundsDisplay
+          currentRound={currentQuestion?.round || 0}
+          className={styles.textLargeBold}
+        />
+        <Timer minutes={0.1} onExpire={handleExpire} className={styles.timer} />
+        <div className={styles.questionDisplay}>
+          <h3 className={styles.textLargeBold}>Question:</h3>
+          <p className={`${styles.textMediumRegular} ${styles.question}`}>
+            {currentQuestion?.question}
+          </p>
+        </div>
       </div>
     </div>
   );

@@ -10,6 +10,14 @@
   height: 100vh;
   overflow: hidden;
   color: white;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 56px;
+  padding: 0 1rem;
+  box-sizing: border-box;
 }
 
 .backgroundBlur {
@@ -43,40 +51,22 @@
   height: 20px;
 }
 
-.mingle {
-  position: fixed;
-  inset: 0;
-  display: flex;
-  gap: 56px;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  overflow: hidden;
-  color: white;
-}
-
-/* Rounds */
 .roundCountContainer {
   display: flex;
-  padding: 4px 8px;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   gap: 8px;
+  padding: 4px 8px;
   width: 100vw;
   color: white;
 }
 
 .roundCountContainer span {
   font-size: var(--body-size);
-  font-weight: 400;
-  line-height: normal;
   letter-spacing: -0.48px;
 }
 
-/* visibility */
 .hidden {
-  visibility: hidden;
   display: none;
 }
 
@@ -86,7 +76,6 @@
 
 .textExtraLarge {
   color: white;
-  font-style: normal;
   letter-spacing: -1px;
   font-size: 32px;
   font-weight: 600;
@@ -95,7 +84,6 @@
 
 .textLarge {
   color: white;
-  font-style: normal;
   letter-spacing: -1px;
   font-size: 28px;
   font-weight: 400;
@@ -103,19 +91,16 @@
 }
 
 .textLargeBold {
-  font-size: var(--large-size);
-  font-weight: 600;
-  line-height: var(--line-heading);
+  color: white;
   letter-spacing: -1px;
   font-size: 28px;
+  font-weight: 600;
+  line-height: var(--line-heading);
   text-align: center;
-  font-style: normal;
-  color: white;
 }
 
 .textMedium {
   color: white;
-  font-style: normal;
   letter-spacing: -1px;
   font-size: 20px;
   font-weight: 600;
@@ -124,7 +109,6 @@
 
 .textMediumRegular {
   color: white;
-  font-style: normal;
   letter-spacing: -1px;
   font-size: 20px;
   font-weight: 400;
@@ -133,7 +117,6 @@
 
 .textSmall {
   color: white;
-  font-style: normal;
   letter-spacing: -1px;
   font-size: 16px;
   font-weight: 400;
@@ -142,7 +125,6 @@
 
 .textSmallBold {
   color: white;
-  font-style: normal;
   letter-spacing: -1px;
   font-size: 16px;
   font-weight: 600;
@@ -175,6 +157,39 @@
 /* Questions */
 /* ---------------------------------------- */
 
+.question {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 24px;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 40px;
+  background: #fff;
+  color: #000;
+  text-align: center;
+  word-break: break-word;
+}
+
+.questionContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 1.5rem;
+  width: 100%;
+}
+
+.questionContainer h3 {
+  margin: 0;
+}
+
+.questionDisplay {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
 /* ---------------------------------------- */
 /* Loading */
 /* ---------------------------------------- */
@@ -184,9 +199,9 @@
   inset: 0;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
   align-items: center;
   justify-content: center;
+  gap: 2rem;
   padding: 16px;
   box-sizing: border-box;
   overflow: hidden;
@@ -197,8 +212,8 @@
 /* Timer */
 /* ---------------------------------------- */
 
-.introductionTimer {
+.timer {
   width: 420px;
-  height: 80px;
-  font-size: 80px;
+  font-size: 100px;
+  align-self: center;
 }

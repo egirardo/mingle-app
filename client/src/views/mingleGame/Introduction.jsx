@@ -15,7 +15,7 @@ export default function Introduction() {
   };
 
   return (
-    <div className={`${styles.main} ${styles.mingle} ${styles.backgroundBlur}`}>
+    <div className={`${styles.main} ${styles.backgroundBlur}`}>
       <img className={styles.yrgoLogo} src={yrgoLogo} alt="Yrgo logo" />
       <div className={styles.IntroductionTitleContainer}>
         <h3
@@ -34,7 +34,7 @@ export default function Introduction() {
         <DateTimer
           targetDate="2026-04-07T13:00+02:00"
           onExpire={handleExpire}
-          className={styles.introductionTimer}
+          className={styles.timer}
         />
         {/* <DateTimer targetDate="2026-04-22T15:00:00+02:00" /> */}
         {!expired ? (
