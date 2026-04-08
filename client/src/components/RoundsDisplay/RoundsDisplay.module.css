@@ -1,0 +1,17 @@
+.roundCountContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.roundDisplay {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.roundDot {
+  width: 39.836px;
+  height: 39.836px;
+}

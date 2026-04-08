@@ -3,6 +3,7 @@ import Timer from "../../components/Timer/Timer.jsx";
 import styles from "./MingleGame.module.css";
 import Button from "../../components/Buttons/Button";
 import yrgoLogo from "../../assets/yrgo-logo.svg";
+import RoundsDisplay from "../../components/RoundsDisplay/RoundsDisplay.jsx";
 
 export default function Question() {
   const mingle = useOutletContext();
@@ -28,22 +29,15 @@ export default function Question() {
   return (
     <div className={`${styles.main} ${styles.mingle} ${styles.backgroundBlur}`}>
       <img className={styles.yrgoLogo} src={yrgoLogo} alt="Yrgo logo" />
-      <div className={styles.roundCountContainer}>
-        <span>
-          {currentQuestion?.round}/{mingle.questions.length}
-        </span>
-      </div>
+      <RoundsDisplay
+        currentRound={currentQuestion?.round || 0}
+        className={styles.textLargeBold}
+      />
       <Timer minutes={0.1} onExpire={handleExpire} className={styles.hidden} />
       <div className={styles.instructionContainer}>
-        <p className={styles.largeTextBold}>Ask</p>
-        <p className={styles.largeText}>{currentQuestion?.question}</p>
+        <p className={styles.textLargeBold}>Question</p>
+        <p className={styles.textMediumRegular}>{currentQuestion?.question}</p>
       </div>
-      {/* temporary button */}
-      <Button
-        buttonName="⭕ I talked to someone"
-        buttonColor="gray"
-        iconSrc="arrowRight"
-      />
     </div>
   );
 }
