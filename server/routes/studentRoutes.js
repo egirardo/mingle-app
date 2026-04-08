@@ -138,13 +138,6 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
     
-    // DELETE THIS before going to production !!!!!!!!!
-    router.get('/all', async (req, res) => {
-      const profiles = await StudentProfile.find({}, 'studentId firstName lastName');
-      res.json(profiles);
-    });
-
-    
     // Sign JWT — expires in 1 day
     const token = jwt.sign(
       { id: student._id, type: 'student' },

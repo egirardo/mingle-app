@@ -36,10 +36,18 @@
     padding: .5rem;
 }
 
-.buttonsContainer Button {
+.buttonsContainer button {
     margin: 0;
 }
 
+.buttonContainer {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    padding: .5rem;
+
+}
 .infoSection {
     display: flex;
     flex-direction: column;

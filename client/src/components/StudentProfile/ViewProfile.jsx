@@ -16,10 +16,15 @@ export default function ViewProfile() {
   const [currentUserId, setCurrentUserId] = useState(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("token"); // adjust key name if needed
+    const token = localStorage.getItem("token");
     if (token) {
-      const decoded = jwtDecode(token);
-      setCurrentUserId(decoded.id); // matches { id, type } from your middleware
+      try {
+        const decoded = jwtDecode(token);
+        setCurrentUserId(decoded.id);
+      } catch (err) {
+        localStorage.removeItem("token");
+        setCurrentUserId(null);
+      }
     }
   }, []);
 
@@ -48,11 +53,12 @@ export default function ViewProfile() {
   return (
     <div className={styles.viewProfileContainer}>
         <div className={styles.profileContainer}>
+          { profile.portfolio ? (
             <div className={styles.buttonsContainer}>
               <IconOnlyButton
                 iconSrc="arrowBack"
                 buttonColor="transparent"
-                aria-label="Go back to previous page"
+                ariaLabel="Go back to home page"
                 onClick={() => navigate("/")}
                 />
               <Button
@@ -60,11 +66,20 @@ export default function ViewProfile() {
                 iconSrc="arrow45"
                 buttonColor="transparent"
                 variant="textUnderline"
-                aria-label="External Portfolio Link"
+                ariaLabel="External Portfolio Link"
                 onClick={() => window.open(profile.portfolio, '_blank', 'noopener,noreferrer')}
-                />
+                /> 
+            </div> 
+            ) : (
+            <div className={styles.buttonContainer}>
+              <IconOnlyButton
+                iconSrc="arrowBack"
+                buttonColor="transparent"
+                ariaLabel="Go back to home page"
+                onClick={() => navigate("/")}
+              />
+            </div> ) }
 
-            </div>
                 {profile.profileImage
                     ? <img className={styles.profileImage} src={profile.profileImage} alt="Profile" />
                     : <img className={styles.profileImage} src={defaultAvatar} alt="Default avatar" />
@@ -101,7 +116,7 @@ export default function ViewProfile() {
                 buttonName="Edit Profile"
                 buttonColor="transparent"
                 variant="textUnderline"
-                aria-label="Edit Profile"
+                ariaLabel="Edit Profile"
                 onClick={() => navigate(`/students/${id}/edit`)}
               />
             )}
