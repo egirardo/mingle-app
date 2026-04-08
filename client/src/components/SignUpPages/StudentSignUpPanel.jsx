@@ -174,8 +174,8 @@ const StudentSignUpPanel = () => {
             name="program"
             onChange={(value) => setFormData((prev) => ({ ...prev, program: value }))}
             radios={[
-              { radioLabel: "DD", id: "dd", name: "program", value: "dd" },
-              { radioLabel: "WU", id: "wu", name: "program", value: "wu" },
+              { radioLabel: "Digital Designer", id: "DigitalDesigner", name: "program", value: "Digital Designer" },
+              { radioLabel: "Web Developer", id: "WebDeveloper", name: "program", value: "Web Developer" },
             ]}
           />
 
