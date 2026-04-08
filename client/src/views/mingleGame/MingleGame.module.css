@@ -62,7 +62,6 @@
 }
 
 .roundCountContainer span {
-  font-size: var(--body-size);
   letter-spacing: -0.48px;
 }
 
@@ -95,7 +94,7 @@
   letter-spacing: -1px;
   font-size: 28px;
   font-weight: 600;
-  line-height: var(--line-heading);
+  line-height: 32px;
   text-align: center;
 }
 

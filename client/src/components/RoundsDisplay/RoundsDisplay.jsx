@@ -10,7 +10,7 @@ export default function RoundsDisplay(props) {
   const questions = questionsJson.questions || [];
   const totalRounds = questions.length;
 
-  const roundDots = questions.map((question, index) => {
+  const roundDots = questions.map((_, index) => {
     const roundNumber = index + 1;
     const roundPlayed = roundNumber <= currentRound;
 
@@ -24,8 +24,7 @@ export default function RoundsDisplay(props) {
     );
   });
 
-  const containerClassName =
-    `${styles.roundCountContainer} ${className}`;
+  const containerClassName = `${styles.roundCountContainer} ${className}`;
 
   return (
     <div className={containerClassName}>
