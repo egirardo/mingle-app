@@ -74,6 +74,11 @@ io.on("connection", (socket) => {
 
 // MongoDB Connection with retry logic
 const connectDB = async (delay = 1000) => {
+  if (!process.env.MONGODB_URI) {
+    console.error("MONGODB_URI is not set. Check your .env file.");
+    return;
+  }
+
   while (true) {
     try {
       await mongoose.connect(process.env.MONGODB_URI, {

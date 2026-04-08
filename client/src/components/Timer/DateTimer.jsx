@@ -2,10 +2,10 @@ import styles from "./Timer.module.css";
 import { useEffect, useState, useRef } from "react";
 
 // Props:
-// - targetDate - ISO 8601 date string, takes Year-Month-DayTHour:Min:Second+Timezone. Example "2026-04-22T15:00:00+02:00"
+// - targetDate (string) — ISO 8601 string with Swedish timezone offset
+//                         Winter (CET):  "2026-01-22T15:00:00+01:00"
+//                         Summer (CEST): "2026-04-22T15:00:00+02:00"
 // - onExpire (function) — optional callback fired when timer reaches 0
-
-// DateTimer.jsx — fire onExpire immediately if target date is already past on mount
 
 export default function DateTimer({ targetDate, onExpire, className } = {}) {
   const initialDistance = (() => {
@@ -22,9 +22,11 @@ export default function DateTimer({ targetDate, onExpire, className } = {}) {
     onExpireRef.current = onExpire;
   }, [onExpire]);
 
-  // If already expired on mount, fire immediately
   useEffect(() => {
-    if (initialDistance === 0) {
+    if (!targetDate) return;
+    const countDownDate = new Date(targetDate).getTime();
+    if (Number.isNaN(countDownDate)) return;
+    if (countDownDate <= Date.now()) {
       onExpireRef.current?.();
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -40,7 +42,7 @@ export default function DateTimer({ targetDate, onExpire, className } = {}) {
     const remaining = Math.max(0, countDownDate - Date.now());
     setDistance(remaining);
 
-    if (remaining === 0) return; // Already handled by mount effect
+    if (remaining === 0) return;
 
     const id = setInterval(() => {
       const now = Date.now();
