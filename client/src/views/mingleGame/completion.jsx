@@ -1,10 +1,10 @@
 import styles from "./MingleGame.module.css";
 import Button from "../../components/Buttons/Button";
-import { useOutletContext } from "react-router-dom";
 import yrgoLogo from "../../assets/yrgo-logo.svg";
+import { useNavigate } from "react-router-dom";
 
 export default function Completion() {
-  const mingle = useOutletContext();
+  const navigate = useNavigate();
 
   return (
     <div className={`${styles.main} ${styles.backgroundBlur}`}>
@@ -17,6 +17,7 @@ export default function Completion() {
         buttonName="Explore participants"
         buttonColor="redWhiteBorder"
         iconSrc="arrowRightWhite"
+        onClick={() => navigate("/")}
       />
     </div>
   );
