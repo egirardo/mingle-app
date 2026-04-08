@@ -9,15 +9,43 @@ import companyRoutes from "./routes/companyRoutes.js";
 
 dotenv.config();
 const app = express();
+const corsOptions = {
+  origin: process.env.CLIENT_URL || "http://localhost:5173",
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  credentials: true,
+};
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
-  cors: { origin: process.env.CLIENT_URL || "http://localhost:5173" },
+  cors: corsOptions,
 });
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 let gameStarted = false;
+let dbReady = false;
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
+
+app.get("/healthz", (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
+
+app.get("/readyz", (req, res) => {
+  if (!dbReady) {
+    return res.status(503).json({ status: "not-ready", db: "disconnected" });
+  }
+
+  return res.status(200).json({ status: "ready", db: "connected" });
+});
+
+app.use("/api", (req, res, next) => {
+  if (!dbReady) {
+    return res.status(503).json({
+      message: "Service temporarily unavailable. Database is not connected.",
+    });
+  }
+
+  return next();
+});
 
 // Routes
 app.use("/api/students", studentRoutes);
@@ -36,8 +64,9 @@ io.on("connection", (socket) => {
     io.emit("game-started");
   });
 
-  socket.on("reset-game", () => { 
+  socket.on("reset-game", () => {
     gameStarted = false;
+    io.emit("game-reset");
   });
 
   socket.on("disconnect", () => {
@@ -54,6 +83,7 @@ const connectDB = async (retries = 5, delay = 1000) => {
         socketTimeoutMS: 45000,
       });
       console.log("✓ MongoDB connected successfully");
+      dbReady = true;
       return true;
     } catch (err) {
       console.error(
@@ -66,6 +96,7 @@ const connectDB = async (retries = 5, delay = 1000) => {
         delay *= 2;
       } else {
         console.error("✗ Failed to connect to MongoDB after all retries");
+        dbReady = false;
         return false;
       }
     }
@@ -79,6 +110,8 @@ httpServer.listen(PORT, () => console.log(`✓ Server running on port ${PORT}`))
 // Connect to MongoDB in the background.
 connectDB().then((connected) => {
   if (!connected) {
-    console.warn("⚠ MongoDB is not connected yet, but the server is still running.");
+    console.warn(
+      "⚠ MongoDB is not connected yet, but the server is still running.",
+    );
   }
 });

@@ -15,7 +15,7 @@ export default function Timer({
   const durationMs = Math.max(0, Number(minutes) || 0) * 60 * 1000;
   const [secondsLeft, setSecondsLeft] = useState(Math.ceil(durationMs / 1000));
   const endAtRef = useRef(Date.now() + durationMs);
-  const expiredRef = useRef(false);
+  const expiredThisCycleRef = useRef(false);
   const onExpireRef = useRef(onExpire);
 
   useEffect(() => {
@@ -25,25 +25,26 @@ export default function Timer({
   useEffect(() => {
     endAtRef.current = Date.now() + durationMs;
     setSecondsLeft(Math.ceil(durationMs / 1000));
-    expiredRef.current = false;
+    expiredThisCycleRef.current = false;
 
     const tick = () => {
       const remainingMs = endAtRef.current - Date.now();
 
       if (remainingMs <= 0) {
-        if (!expiredRef.current) {
-          expiredRef.current = true;
-
-          if (autoRestart && durationMs > 0) {
-            endAtRef.current = Date.now() + durationMs;
-            setSecondsLeft(Math.ceil(durationMs / 1000));
-            setTimeout(() => onExpireRef.current?.(), 0);
-            return;
-          }
-
-          setSecondsLeft(0);
-          setTimeout(() => onExpireRef.current?.(), 0);
+        if (expiredThisCycleRef.current) {
+          return;
         }
+
+        expiredThisCycleRef.current = true;
+        setSecondsLeft(0);
+        setTimeout(() => onExpireRef.current?.(), 0);
+
+        if (autoRestart && durationMs > 0) {
+          endAtRef.current = Date.now() + durationMs;
+          expiredThisCycleRef.current = false;
+          setSecondsLeft(Math.ceil(durationMs / 1000));
+        }
+
         return;
       }
 

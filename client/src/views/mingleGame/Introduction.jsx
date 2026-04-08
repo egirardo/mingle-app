@@ -16,10 +16,6 @@ export default function Introduction() {
       socket.connect();
     }
 
-    socket.emit("reset-game");
-    mingle?.resetQuestions?.();
-    setExpired(false);
-
     const handleGameStarted = () => {
       mingle?.resetQuestions?.();
       navigate("/task");
@@ -30,7 +26,7 @@ export default function Introduction() {
     return () => {
       socket.off("game-started", handleGameStarted);
     };
-  }, [mingle, navigate]);
+  }, [mingle?.resetQuestions, navigate]);
 
   const handleExpire = () => {
     setExpired(true);
