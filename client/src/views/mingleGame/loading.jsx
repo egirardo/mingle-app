@@ -1,6 +1,8 @@
 import { useNavigate, useOutletContext } from "react-router-dom";
 import styles from "./MingleGame.module.css";
 import Timer from "../../components/Timer/Timer.jsx";
+import yrgoLogo from "../../assets/yrgo-logo.svg";
+import RoundsDisplay from "../../components/RoundsDisplay/RoundsDisplay.jsx";
 
 export default function Loading() {
   const mingle = useOutletContext();
@@ -15,15 +17,15 @@ export default function Loading() {
   };
 
   return (
-    <div className={`${styles.main} ${styles.mingleLoading}`}>
-      <h2>Well done!</h2>
-      <div className={styles.roundCountContainer}>
-        <span>
-          {currentQuestion?.round}/{mingle.questions.length}
-        </span>
-      </div>
-      <p>Next round coming right up...</p>
-      <Timer minutes={0.1} onExpire={handleExpire} className={styles.hidden} />
+    <div className={`${styles.main} ${styles.backgroundBlur}`}>
+      <img className={styles.yrgoLogo} src={yrgoLogo} alt="Yrgo logo" />
+      <RoundsDisplay
+        currentRound={currentQuestion?.round || 0}
+        className={styles.textLargeBold}
+      />
+      <Timer minutes={0.1} onExpire={handleExpire} className={styles.timer} />
+      <h2 className={styles.textLargeBold}>Well done!</h2>
+      <p className={styles.textMediumRegular}>Next round coming right up...</p>
     </div>
   );
 }
