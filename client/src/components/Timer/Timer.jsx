@@ -11,8 +11,9 @@ export default function Timer({
   autoRestart = false,
   className,
 } = {}) {
-  const initialSeconds = Math.max(0, Number(minutes) || 0) * 60;
-  const [secondsLeft, setSecondsLeft] = useState(initialSeconds);
+  const durationMs = Math.max(0, Number(minutes) || 0) * 60 * 1000;
+  const [secondsLeft, setSecondsLeft] = useState(Math.ceil(durationMs / 1000));
+  const endAtRef = useRef(Date.now() + durationMs);
   const expiredRef = useRef(false);
   const onExpireRef = useRef(onExpire);
 
@@ -21,25 +22,43 @@ export default function Timer({
   }, [onExpire]);
 
   useEffect(() => {
-    setSecondsLeft(Math.max(0, Number(minutes) || 0) * 60);
+    endAtRef.current = Date.now() + durationMs;
+    setSecondsLeft(Math.ceil(durationMs / 1000));
     expiredRef.current = false;
 
-    const id = setInterval(() => {
-      setSecondsLeft((prev) => {
-        if (prev <= 1) {
-          expiredRef.current = true;
-          if (autoRestart) {
-            return Math.max(0, Number(minutes) || 0) * 60;
-          }
-          clearInterval(id);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
+    const tick = () => {
+      const remainingMs = endAtRef.current - Date.now();
 
-    return () => clearInterval(id);
-  }, [minutes, autoRestart]);
+      if (remainingMs <= 0) {
+        expiredRef.current = true;
+
+        if (autoRestart && durationMs > 0) {
+          endAtRef.current = Date.now() + durationMs;
+          setSecondsLeft(Math.ceil(durationMs / 1000));
+          return;
+        }
+
+        setSecondsLeft(0);
+        return;
+      }
+
+      setSecondsLeft(Math.ceil(remainingMs / 1000));
+    };
+
+    tick();
+
+    const id = setInterval(tick, 250);
+    const handleVisibilityChange = () => {
+      tick();
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      clearInterval(id);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [durationMs, autoRestart]);
 
   useEffect(() => {
     if (expiredRef.current) {
