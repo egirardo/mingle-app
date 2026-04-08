@@ -12,7 +12,7 @@
 }
 .inputLabel {
     text-align: left;
-    color: black;
+    color: #fff;
     font-size: 1rem;
     font-weight: 700;
     letter-spacing: -.03rem;
@@ -20,11 +20,23 @@
     margin: 0;
 }
 .textInput {
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    border: 1px solid #9B9797;
-    background: rgba(255, 255, 255, 0.60);
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-radius: 2.5rem;
+    height: 2.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.30);
+    background: rgba(255, 255, 255, 0.30);
     width: 100%;
+}
+
+.textInput::placeholder {
+    color: #fff;
+    font-size: 0.875rem;
+    font-style: italic;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.02625rem;
 }
 
 .subText {
@@ -40,7 +52,7 @@
 
 .optional {
     font-size: 1rem;
-    color: grey;
+    color: #D5D5D5;
     font-style: italic;
     font-weight: 400;
 }
