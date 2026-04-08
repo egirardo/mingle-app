@@ -1,13 +1,29 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 import defaultAvatar from "../../assets/default-avatar.png"; // Placeholder image for students without a profile picture
 import styles from "./ViewProfile.module.css";
+import IconOnlyButton from "../Buttons/IconOnlyButton";
+import Button from "../Buttons/Button";
+import TagContainer from "../Tags/TagContainer";
 
 export default function ViewProfile() {
+  const navigate = useNavigate();
   const { id } = useParams(); // expects route: /students/:id
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [currentUserId, setCurrentUserId] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token"); // adjust key name if needed
+    if (token) {
+      const decoded = jwtDecode(token);
+      setCurrentUserId(decoded.id); // matches { id, type } from your middleware
+    }
+  }, []);
+
+  const isOwner = currentUserId && profile?.studentId === currentUserId;
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -30,30 +46,68 @@ export default function ViewProfile() {
   if (error) return <p>{error}</p>;
 
   return (
-    <div className={styles.profileContainer}>
-        
+    <div className={styles.viewProfileContainer}>
+        <div className={styles.profileContainer}>
+            <div className={styles.buttonsContainer}>
+              <IconOnlyButton
+                iconSrc="arrowBack"
+                buttonColor="transparent"
+                aria-label="Go back to previous page"
+                onClick={() => navigate("/")}
+                />
+              <Button
+                buttonName="Portfolio"
+                iconSrc="arrow45"
+                buttonColor="transparent"
+                variant="textUnderline"
+                aria-label="External Portfolio Link"
+                onClick={() => window.open(profile.portfolio, '_blank', 'noopener,noreferrer')}
+                />
 
-        <h1>{profile.firstName} {profile.lastName}</h1>
-        <p>{profile.program}</p>
+            </div>
+                {profile.profileImage
+                    ? <img className={styles.profileImage} src={profile.profileImage} alt="Profile" />
+                    : <img className={styles.profileImage} src={defaultAvatar} alt="Default avatar" />
+                }
+          <section className={styles.infoSection}>
 
-    
-        {profile.profileImage
-            ? <img className={styles.profileImage} src={profile.profileImage} alt="Profile" />
-            : <img className={styles.profileImage} src={defaultAvatar} alt="Default avatar" />
-        }
+            <div className={styles.headingContainer}>
 
-        {/* Skills is an array — map over it */}
-        {profile.skills.map((skill) => (
-            <span key={skill}>{skill}</span>
-        ))}
+              <div className={styles.headings}>
+                <h1 className={styles.heading}>{profile.firstName} {profile.lastName}</h1>
+                <p className={styles.subHeading}>{profile.program}</p>
+              </div>
+              
+              <TagContainer tags={[...profile.skills]} tagType="small" />
 
-        {/* Questions is an array of up to 3 strings */}
-        {profile.questions.map((answer, i) => (
-            <p key={i}>{answer}</p>
-        ))}
+            </div>
 
-        <p>{profile.about}</p>
-        <a href={profile.portfolio}>{profile.portfolio}</a>
+            <div className={styles.textContainer}>
+
+              <h2 className={styles.sectionHeading}>Fun Fact</h2>
+              <p>{profile.about}</p>
+
+            </div>
+
+            <div className={styles.textContainer}>
+              <h2 className={styles.sectionHeading}>Ask Me About</h2>
+              {profile.questions.map((answer, i) => (
+                  <p key={i}>{answer}</p>
+              ))}
+            </div>
+
+            {isOwner && (
+              <Button
+                buttonName="Edit Profile"
+                buttonColor="transparent"
+                variant="textUnderline"
+                aria-label="Edit Profile"
+                onClick={() => navigate(`/students/${id}/edit`)}
+              />
+            )}
+
+          </section>
+        </div>
     </div>
   );
 }

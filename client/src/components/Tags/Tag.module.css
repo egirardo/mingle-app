@@ -1,4 +1,4 @@
-.tag {
+.large {
     display: flex;
     padding: 0.5rem 1rem;
     flex-direction: column;
@@ -9,4 +9,18 @@
     background: var(--color-tag-default);
     color: var(--text-h);
     text-transform: uppercase;
+}
+
+.small  {
+    display: flex;
+    padding: 0.25rem .63rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 6.25rem;
+    background: var(--color-tag-default);
+    color: var(--text-h);
+    text-transform: uppercase;
+    font-size: .75rem;
 }
