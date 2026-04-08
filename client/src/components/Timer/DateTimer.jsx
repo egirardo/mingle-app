@@ -5,6 +5,8 @@ import { useEffect, useState, useRef } from "react";
 // - targetDate - ISO 8601 date string, takes Year-Month-DayTHour:Min:Second+Timezone. Example "2026-04-22T15:00:00+02:00"
 // - onExpire (function) — optional callback fired when timer reaches 0
 
+// DateTimer.jsx — fire onExpire immediately if target date is already past on mount
+
 export default function DateTimer({ targetDate, onExpire, className } = {}) {
   const initialDistance = (() => {
     if (!targetDate) return 0;
@@ -12,43 +14,49 @@ export default function DateTimer({ targetDate, onExpire, className } = {}) {
     if (Number.isNaN(countDownDate)) return 0;
     return Math.max(0, countDownDate - new Date().getTime());
   })();
+
   const [distance, setDistance] = useState(initialDistance);
-  const expiredRef = useRef(false);
   const onExpireRef = useRef(onExpire);
 
   useEffect(() => {
     onExpireRef.current = onExpire;
   }, [onExpire]);
 
+  // If already expired on mount, fire immediately
+  useEffect(() => {
+    if (initialDistance === 0) {
+      onExpireRef.current?.();
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   useEffect(() => {
     const countDownDate = new Date(targetDate).getTime();
 
     if (!targetDate || Number.isNaN(countDownDate)) {
       setDistance(0);
-      expiredRef.current = false;
       return;
     }
 
-    setDistance(Math.max(0, countDownDate - new Date().getTime()));
-    expiredRef.current = false;
+    const remaining = Math.max(0, countDownDate - Date.now());
+    setDistance(remaining);
+
+    if (remaining === 0) return; // Already handled by mount effect
 
     const id = setInterval(() => {
-      setDistance(() => {
-        const now = new Date().getTime();
-        const remaining = Math.max(0, countDownDate - now);
+      const now = Date.now();
+      const rem = Math.max(0, countDownDate - now);
+      setDistance(rem);
 
-        if (remaining <= 0) {
-          expiredRef.current = true;
-          clearInterval(id);
-          return 0;
-        }
-
-        return remaining;
-      });
+      if (rem <= 0) {
+        clearInterval(id);
+        onExpireRef.current?.();
+      }
     }, 1000);
 
     return () => clearInterval(id);
   }, [targetDate]);
+
+  // ... rest of display logic unchanged
 
   useEffect(() => {
     if (expiredRef.current) {
