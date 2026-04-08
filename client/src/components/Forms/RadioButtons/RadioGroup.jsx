@@ -27,7 +27,7 @@ export default function RadioGroup({
   const legendEl = (
     <legend className={styles.legend}>
       {legend}
-      {required && <span aria-hidden="true" style={{ color: "grey", fontStyle: "italic" }}> *</span>}
+      {required && <span aria-hidden="true" className={styles.optional}> *</span>}
       {optional && <span aria-hidden="true" className={styles.optional}> (optional)</span>}
     </legend>
   );

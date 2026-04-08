@@ -1,8 +1,9 @@
 /* General SignUp Panel Styles */
 
 .signUpPanel {
-    background: rgba(255, 255, 255, 0.80);
-    backdrop-filter: blur(2px);
+    background: var(--panel-bg);
+    backdrop-filter: blur(25px);
+    border-radius: 1rem 1rem 0 0;
     position: absolute;
     top: 38vh;
     left: 0;
