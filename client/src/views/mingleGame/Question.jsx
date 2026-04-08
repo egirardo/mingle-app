@@ -1,7 +1,8 @@
 import { useNavigate, useOutletContext } from "react-router-dom";
 import Timer from "../../components/Timer/Timer.jsx";
 import styles from "./MingleGame.module.css";
-import Button from "../../components/Buttons/Button";
+import yrgoLogo from "../../assets/yrgo-logo.svg";
+import RoundsDisplay from "../../components/RoundsDisplay/RoundsDisplay.jsx";
 
 export default function Question() {
   const mingle = useOutletContext();
@@ -25,23 +26,21 @@ export default function Question() {
   };
 
   return (
-    <div className={styles.mingle}>
-      <div className={styles.roundCountContainer}>
-        <span>
-          {currentQuestion?.round}/{mingle.questions.length}
-        </span>
+    <div className={`${styles.main} ${styles.backgroundBlur}`}>
+      <img className={styles.yrgoLogo} src={yrgoLogo} alt="Yrgo logo" />
+      <div className={styles.questionContainer}>
+        <RoundsDisplay
+          currentRound={currentQuestion?.round || 0}
+          className={styles.textLargeBold}
+        />
+        <Timer minutes={0.1} onExpire={handleExpire} className={styles.timer} />
+        <div className={styles.questionDisplay}>
+          <h3 className={styles.textLargeBold}>Question:</h3>
+          <p className={`${styles.textMediumRegular} ${styles.question}`}>
+            {currentQuestion?.question}
+          </p>
+        </div>
       </div>
-      <Timer minutes={0.1} onExpire={handleExpire} className={styles.hidden} />
-      <div className={styles.instructionContainer}>
-        <p className={styles.largeTextBold}>Ask</p>
-        <p className={styles.largeText}>{currentQuestion?.question}</p>
-      </div>
-      {/* temporary button */}
-      <Button
-        buttonName="⭕ I talked to someone"
-        buttonColor="gray"
-        iconSrc="arrowRight"
-      />
     </div>
   );
 }

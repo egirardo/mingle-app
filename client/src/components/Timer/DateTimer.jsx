@@ -66,10 +66,16 @@ export default function DateTimer({ targetDate, onExpire, className } = {}) {
 
   const pad = (n) => String(n).padStart(2, "0");
   const timeDisplay = `${pad(hours)}:${pad(mins)}:${pad(secs)}`;
+  const minuteSecondDisplay = `${pad(mins)}:${pad(secs)}`;
   const dayLabel = days === 1 ? "Day" : "Days";
 
-  const display =
-    days > 0 ? `${days} ${dayLabel}, ${timeDisplay}` : timeDisplay;
+  let display = minuteSecondDisplay;
+
+  if (days > 0) {
+    display = `${days} ${dayLabel}, ${timeDisplay}`;
+  } else if (hours > 0) {
+    display = timeDisplay;
+  }
 
   const combined = `${styles.countdownTimer} ${className || ""}`.trim();
 

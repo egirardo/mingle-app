@@ -2,27 +2,21 @@
   "questions": [
     {
       "id": 1,
-      "task": "Talk to someone near you",
+      "task": "Find someone near you",
       "round": 1,
       "question": "What kind of projects do you enjoy working on?"
     },
     {
       "id": 2,
-      "task": "Talk to someone new",
+      "task": "Find someone new to talk to",
       "round": 2,
       "question": "What do you want to learn during your LIA?"
     },
     {
       "id": 3,
-      "task": "Talk to someone in a different field",
+      "task": "Find someone new",
       "round": 3,
       "question": "How do you usually collaborate with others?"
-    },
-    {
-      "id": 4,
-      "task": "Talk to someone you haven’t met yet",
-      "round": 4,
-      "question": "What makes a good LIA experience for you?"
     }
   ]
 }
