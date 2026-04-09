@@ -9,7 +9,14 @@ import socket, { connectSocket } from "../../socket.js";
 export default function Introduction() {
   const mingle = useOutletContext();
   const navigate = useNavigate();
-  const [expired, setExpired] = useState(false);
+  const [expired, setExpired] = useState(() => {
+    const saved = localStorage.getItem("gameExpired");
+    return saved ? JSON.parse(saved) : false;
+  });
+
+  useEffect(() => {
+    localStorage.setItem("gameExpired", JSON.stringify(expired));
+  }, [expired]);
 
   useEffect(() => {
     connectSocket();
@@ -24,6 +31,7 @@ export default function Introduction() {
     const handleGameReset = () => {
       mingle?.resetQuestions?.();
       setExpired(false);
+      localStorage.removeItem("gameExpired");
     };
 
     socket.on("game-started", handleGameStarted);
@@ -62,19 +70,24 @@ export default function Introduction() {
       </div>
       <div className={styles.introductionInfoContainer}>
         <DateTimer
-          targetDate="2026-04-22T15:00:00+02:00"
+          targetDate="2026-04-09T12:26:00+02:00"
           onExpire={handleExpire}
           className={styles.timer}
         />
+        {/* <DateTimer
+          targetDate="2026-04-22T15:00:00+02:00"
+          onExpire={handleExpire}
+          className={styles.timer}
+        /> */}
         {!expired ? (
-          <p className={styles.textMediumRegular}>
-            For the next 10 minutes, you'll have short and fast interactions.
-            We'll guide you step by step.
-          </p>
-        ) : (
           <p className={styles.textMediumRegular}>
             Get ready to meet new people. Follow the instructions on your phone
             when the countdown reaches zero.
+          </p>
+        ) : (
+          <p className={styles.textMediumRegular}>
+            For the next 10 minutes, you'll have short and fast interactions.
+            We'll guide you step by step.
           </p>
         )}
         <Button
@@ -82,6 +95,7 @@ export default function Introduction() {
           buttonColor="redWhiteBorder"
           iconSrc="arrowRightWhite"
           onClick={handleStartClick}
+          style={{ display: expired ? "flex" : "none" }}
         />
       </div>
     </div>

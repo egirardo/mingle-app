@@ -17,6 +17,7 @@ export default function DateTimer({ targetDate, onExpire, className } = {}) {
 
   const [distance, setDistance] = useState(initialDistance);
   const onExpireRef = useRef(onExpire);
+  const expiredRef = useRef(false);
 
   useEffect(() => {
     onExpireRef.current = onExpire;
@@ -26,10 +27,11 @@ export default function DateTimer({ targetDate, onExpire, className } = {}) {
     if (!targetDate) return;
     const countDownDate = new Date(targetDate).getTime();
     if (Number.isNaN(countDownDate)) return;
-    if (countDownDate <= Date.now()) {
+    if (countDownDate <= Date.now() && !expiredRef.current) {
+      expiredRef.current = true;
       onExpireRef.current?.();
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [targetDate]);
 
   useEffect(() => {
     const countDownDate = new Date(targetDate).getTime();
@@ -42,14 +44,24 @@ export default function DateTimer({ targetDate, onExpire, className } = {}) {
     const remaining = Math.max(0, countDownDate - Date.now());
     setDistance(remaining);
 
-    if (remaining === 0) return;
+    if (remaining === 0) {
+      if (!expiredRef.current) {
+        expiredRef.current = true;
+        onExpireRef.current?.();
+      }
+      return;
+    }
+
+    // Reset the expiry flag for a new countdown
+    expiredRef.current = false;
 
     const id = setInterval(() => {
       const now = Date.now();
       const rem = Math.max(0, countDownDate - now);
       setDistance(rem);
 
-      if (rem <= 0) {
+      if (rem <= 0 && !expiredRef.current) {
+        expiredRef.current = true;
         clearInterval(id);
         onExpireRef.current?.();
       }
