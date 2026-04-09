@@ -30,7 +30,6 @@
 
 .icon {
   position: absolute;
-  right: 1.125rem;
   top: 50%;
   transform: translateY(-50%);
   width: 14px;
@@ -38,13 +37,30 @@
   pointer-events: none;
 }
 
+.iconRight {
+  right: 1.125rem;
+}
+
+.iconLeft {
+  left: .75rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  transform: translateY(-55%);
+}
+
 .iconOnly {
   width: .875rem;
   height: .875rem;
 }
 
-.hasIcon {
+/* Padding to make room for the icon on the right */
+.hasIconRight {
   padding-right: 2.75rem;
+}
+
+/* Padding to make room for the icon on the left */
+.hasIconLeft {
+  padding-left: 2.75rem;
 }
 
 /* --------------------------------------------------------- */
@@ -82,10 +98,13 @@
 /* Variants */
 /* --------------------------------------------------------- */
 
-
-
 .textUnderline {
   text-decoration: underline;
+  text-decoration-style: solid;
+  text-decoration-skip-ink: auto;
+  text-decoration-thickness: auto;
+  text-underline-offset: .115rem;
+  text-underline-position: from-font;
 }
 
 /* background colors */
@@ -97,11 +116,9 @@
   background-color: rgba(255, 255, 255, 0.3);
 }
 
-
 /* Combo Buttons */
 
-
-.redWhiteText {
+.redWhiteBorder {
   background-color: rgba(229, 21, 54, 1);
   color: white;
 }
