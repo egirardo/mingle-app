@@ -53,10 +53,6 @@ app.use("/api/companies", companyRoutes);
 io.on("connection", (socket) => {
   console.log("User connected:", socket.id);
 
-  if (gameStarted) {
-    socket.emit("game-started");
-  }
-
   socket.on("start-game", () => {
     gameStarted = true;
     io.emit("game-started");

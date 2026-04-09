@@ -21,12 +21,6 @@ export default function Introduction() {
   }, [mingle]);
 
   useEffect(() => {
-    // Reset expired state when component mounts
-    setExpired(false);
-    localStorage.removeItem("gameExpired");
-  }, []);
-
-  useEffect(() => {
     localStorage.setItem("gameExpired", JSON.stringify(expired));
   }, [expired]);
 
@@ -44,24 +38,21 @@ export default function Introduction() {
       localStorage.removeItem("gameExpired");
     };
 
-    // Only listen for game-started when expired (ready to start)
-    if (expired) {
-      socket.on("game-started", handleGameStarted);
-    }
+    socket.on("game-started", handleGameStarted);
     socket.on("game-reset", handleGameReset);
 
     return () => {
       socket.off("game-started", handleGameStarted);
       socket.off("game-reset", handleGameReset);
     };
-  }, [navigate, expired]);
+  }, [navigate]);
 
   const handleExpire = () => {
     setExpired(true);
   };
 
   const handleStartClick = () => {
-    mingle?.resetQuestions?.();
+    resetQuestionsRef.current?.();
     socket.emit("start-game");
   };
 
@@ -83,7 +74,7 @@ export default function Introduction() {
       </div>
       <div className={styles.introductionInfoContainer}>
         <DateTimer
-          targetDate="2026-04-09T12:46:00+02:00"
+          targetDate="2026-04-09T13:43:00+02:00"
           onExpire={handleExpire}
           className={styles.timer}
         />
