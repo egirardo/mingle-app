@@ -104,12 +104,11 @@ export default function Start() {
           className={styles.timer}
         /> */}
       <p className={`${styles.textMediumRegular} ${styles.startText}`}>
-        Get ready to meet new people. 
-        Follow the instructions on your phone.
+        Get ready to meet new people. Follow the instructions on your phone.
       </p>
       <Button
         buttonName="Start"
-        buttonColor="redWhiteBorder"
+        buttonColor="redWhiteText"
         iconSrc="arrowRightWhite"
         onClick={handleStartClick}
       />
