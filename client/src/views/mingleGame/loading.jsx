@@ -3,7 +3,7 @@ import styles from "./MingleGame.module.css";
 import Timer from "../../components/Timer/Timer.jsx";
 import yrgoLogo from "../../assets/yrgo-logo.svg";
 import RoundsDisplay from "../../components/RoundsDisplay/RoundsDisplay.jsx";
-import { usePlayBeep } from "../../Hooks/usePlayBeep.js";
+import { usePlayBeep } from "../../Hooks/useAudio.js";
 
 export default function Loading() {
   const mingle = useOutletContext();

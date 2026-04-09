@@ -2,7 +2,7 @@ import styles from "./MingleGame.module.css";
 import Button from "../../components/Buttons/Button";
 import yrgoLogo from "../../assets/yrgo-logo.svg";
 import { useNavigate } from "react-router-dom";
-import { usePlayBeep } from "../../Hooks/usePlayBeep.js";
+import { usePlayBeep } from "../../Hooks/useAudio.js";
 
 export default function Completion() {
   const navigate = useNavigate();
