@@ -78,7 +78,7 @@ export default function LoginPanel() {
           />
           <Button
             buttonName={loading ? "Logging in..." : "Log in"}
-            buttonColor="gray"
+            variant="redWhiteBorder"
             type="submit"
             iconSrc="arrowRight"
             disabled={loading}

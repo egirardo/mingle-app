@@ -6,14 +6,17 @@
   display: inline-flex;
   align-items: center;
   gap: 0rem;
-  padding: 0.5rem 0.9rem;
-  min-height: 36px;
+  padding: 0.125rem 1rem;
+  height: 2.25rem;
   border: none;
-  border-radius: 999px;
+  border-radius: 6.25rem;
   color: #fff;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 1rem;
+  font-style: normal;
   font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.03rem;
   position: relative;
   margin: .5rem;
 }
@@ -21,12 +24,13 @@
 .label {
   flex: 1;
   text-align: center;
-  line-height: 1;
+  font-style: normal;
+  line-height: normal;
 }
 
 .icon {
   position: absolute;
-  right: 10px;
+  right: 1.125rem;
   top: 50%;
   transform: translateY(-50%);
   width: 14px;
@@ -40,7 +44,7 @@
 }
 
 .hasIcon {
-  padding-right: 32px;
+  padding-right: 2.75rem;
 }
 
 /* --------------------------------------------------------- */
@@ -78,10 +82,6 @@
 /* Variants */
 /* --------------------------------------------------------- */
 
-/* Borders */
-.blackBorder {
-  border: 1px solid #000;
-}
 
 
 .textUnderline {
@@ -94,18 +94,15 @@
 }
 
 .gray {
-  background-color: #D9D9D9;
+  background-color: rgba(255, 255, 255, 0.3);
 }
 
 
 /* Combo Buttons */
-.whiteGrayBorder {
-  border: 1px solid #9B9797;
-  background-color: white;
-}
+
 
 .redWhiteBorder {
-  background-color: #E51536;
+  background-color: rgba(229, 21, 54, 1);
   border: 1px solid white;
   color: white;
 }
