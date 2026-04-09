@@ -1,15 +1,23 @@
+.navWrapper {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.01);
+    backdrop-filter: blur(25px);
+    transition: background 0.2s;
+}
+
+.navWrapperOpen {
+    background: rgba(0, 0, 0, 0.30);
+}
+
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgba(255, 255, 255, 0.80);
-    -webkit-backdrop-filter: blur(25px);
-    color: #000;
+    color: #FFF;
     padding: 3.5rem 10px 10px 10px;
-    position: sticky;
-    top: 0;
-    z-index: 100;  
-    
+    /* padding-top: calc(env(--safe-area-inset-top)); */ /* this is for the iOS notch, but it seems to cause some issues with the layout, so I'm commenting it out for now */
 }
 
 .logo img,
@@ -24,18 +32,15 @@
 }
 
 .menu {
-    position: absolute;
-    top: 100%;
-    right: 0;
     width: 100%;
-    background: rgba(255, 255, 255, 0.80);
-    -webkit-backdrop-filter: blur(25px);
-    list-style: none;
     margin: 0;
+    list-style: none;
     padding: 10px 0;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    text-align: right;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .menu li {
@@ -46,12 +51,25 @@
 .menu a {
     display: inline-block;
     padding: 8px 12px;
-    color: #000;
+    color: #FFF;
     text-decoration: none;
     transition: all 0.2s;
     border-radius: 20px;
 }
 
-.menu a:hover {
-    background-color: #D9D9D9;
+.regExpButtonWrapper button {
+    margin-bottom: 0rem;
+}
+
+.regExpButtonWrapper {
+    margin: 1rem 0 .5rem 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.studentLoginButton {
+    margin-top: 1rem;
 }
