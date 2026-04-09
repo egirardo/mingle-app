@@ -1,17 +1,59 @@
-// import { useNavigate, useOutletContext } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import styles from "./MingleGame.module.css";
 import DateTimer from "../../components/Timer/DateTimer.jsx";
 import yrgoLogo from "../../assets/yrgo-logo.svg";
+import Button from "../../components/Buttons/Button";
+import socket, { connectSocket } from "../../socket.js";
 
 export default function Introduction() {
-  const [expired, setExpired] = useState(false);
+  const mingle = useOutletContext();
+  const navigate = useNavigate();
+  const resetQuestionsRef = useRef(mingle?.resetQuestions);
+
+  const [expired, setExpired] = useState(() => {
+    const saved = localStorage.getItem("gameExpired");
+    return saved ? JSON.parse(saved) : false;
+  });
+
+  useEffect(() => {
+    resetQuestionsRef.current = mingle?.resetQuestions;
+  }, [mingle]);
+
+  useEffect(() => {
+    localStorage.setItem("gameExpired", JSON.stringify(expired));
+  }, [expired]);
+
+  useEffect(() => {
+    connectSocket();
+
+    const handleGameStarted = () => {
+      resetQuestionsRef.current?.();
+      navigate("/task");
+    };
+
+    const handleGameReset = () => {
+      resetQuestionsRef.current?.();
+      setExpired(false);
+      localStorage.removeItem("gameExpired");
+    };
+
+    socket.on("game-started", handleGameStarted);
+    socket.on("game-reset", handleGameReset);
+
+    return () => {
+      socket.off("game-started", handleGameStarted);
+      socket.off("game-reset", handleGameReset);
+    };
+  }, [navigate]);
 
   const handleExpire = () => {
-    // When the timer expires, show follow-up text (and eventually start the game)
     setExpired(true);
-    // to do: if server starts game, make it navigate to task
-    navigate("/task");
+  };
+
+  const handleStartClick = () => {
+    resetQuestionsRef.current?.();
+    socket.emit("start-game");
   };
 
   return (
@@ -32,22 +74,33 @@ export default function Introduction() {
       </div>
       <div className={styles.introductionInfoContainer}>
         <DateTimer
-          targetDate="2026-04-07T13:00+02:00"
+          targetDate="2026-04-09T13:43:00+02:00"
           onExpire={handleExpire}
           className={styles.timer}
         />
-        {/* <DateTimer targetDate="2026-04-22T15:00:00+02:00" /> */}
+        {/* <DateTimer
+          targetDate="2026-04-22T15:00:00+02:00"
+          onExpire={handleExpire}
+          className={styles.timer}
+        /> */}
         {!expired ? (
-          <p className={styles.textMediumRegular}>
-            For the next 10 minutes, you’ll have short and fast interactions.
-            We’ll guide you step by step.
-          </p>
-        ) : (
           <p className={styles.textMediumRegular}>
             Get ready to meet new people. Follow the instructions on your phone
             when the countdown reaches zero.
           </p>
+        ) : (
+          <p className={styles.textMediumRegular}>
+            For the next 10 minutes, you'll have short and fast interactions.
+            We'll guide you step by step.
+          </p>
         )}
+        <Button
+          buttonName="Start"
+          buttonColor="redWhiteBorder"
+          iconSrc="arrowRightWhite"
+          onClick={handleStartClick}
+          style={{ display: expired ? "flex" : "none" }}
+        />
       </div>
     </div>
   );

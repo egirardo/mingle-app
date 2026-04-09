@@ -2,7 +2,9 @@ import styles from "./Timer.module.css";
 import { useEffect, useState, useRef } from "react";
 
 // Props:
-// - targetDate - ISO 8601 date string, takes Year-Month-DayTHour:Min:Second+Timezone. Example "2026-04-22T15:00:00+02:00"
+// - targetDate (string) — ISO 8601 string with Swedish timezone offset
+//                         Winter (CET):  "2026-01-22T15:00:00+01:00"
+//                         Summer (CEST): "2026-04-22T15:00:00+02:00"
 // - onExpire (function) — optional callback fired when timer reaches 0
 
 export default function DateTimer({ targetDate, onExpire, className } = {}) {
@@ -12,50 +14,61 @@ export default function DateTimer({ targetDate, onExpire, className } = {}) {
     if (Number.isNaN(countDownDate)) return 0;
     return Math.max(0, countDownDate - new Date().getTime());
   })();
+
   const [distance, setDistance] = useState(initialDistance);
-  const expiredRef = useRef(false);
   const onExpireRef = useRef(onExpire);
+  const expiredRef = useRef(false);
 
   useEffect(() => {
     onExpireRef.current = onExpire;
   }, [onExpire]);
 
   useEffect(() => {
+    if (!targetDate) return;
+    const countDownDate = new Date(targetDate).getTime();
+    if (Number.isNaN(countDownDate)) return;
+    if (countDownDate <= Date.now() && !expiredRef.current) {
+      expiredRef.current = true;
+      onExpireRef.current?.();
+    }
+  }, [targetDate]);
+
+  useEffect(() => {
     const countDownDate = new Date(targetDate).getTime();
 
     if (!targetDate || Number.isNaN(countDownDate)) {
       setDistance(0);
-      expiredRef.current = false;
       return;
     }
 
-    setDistance(Math.max(0, countDownDate - new Date().getTime()));
+    const remaining = Math.max(0, countDownDate - Date.now());
+    setDistance(remaining);
+
+    if (remaining === 0) {
+      if (!expiredRef.current) {
+        expiredRef.current = true;
+        onExpireRef.current?.();
+      }
+      return;
+    }
+
+    // Reset the expiry flag for a new countdown
     expiredRef.current = false;
 
     const id = setInterval(() => {
-      setDistance(() => {
-        const now = new Date().getTime();
-        const remaining = Math.max(0, countDownDate - now);
+      const now = Date.now();
+      const rem = Math.max(0, countDownDate - now);
+      setDistance(rem);
 
-        if (remaining <= 0) {
-          expiredRef.current = true;
-          clearInterval(id);
-          return 0;
-        }
-
-        return remaining;
-      });
+      if (rem <= 0 && !expiredRef.current) {
+        expiredRef.current = true;
+        clearInterval(id);
+        onExpireRef.current?.();
+      }
     }, 1000);
 
     return () => clearInterval(id);
   }, [targetDate]);
-
-  useEffect(() => {
-    if (expiredRef.current) {
-      expiredRef.current = false;
-      if (onExpireRef.current) onExpireRef.current();
-    }
-  }, [distance]);
 
   const days = Math.floor(distance / (1000 * 60 * 60 * 24));
   const hours = Math.floor(

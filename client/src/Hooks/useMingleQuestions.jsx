@@ -11,6 +11,10 @@ export function useMingleQuestions() {
     setIndex((i) => (i + 1) % questions.length);
   };
 
+  const resetQuestions = () => {
+    setIndex(0);
+  };
+
   const currentQuestion = questions[index] || null;
   const questionText = currentQuestion
     ? currentQuestion.question
@@ -20,6 +24,7 @@ export function useMingleQuestions() {
     currentQuestion,
     questionText,
     nextQuestion,
+    resetQuestions,
     index,
     questions,
   };

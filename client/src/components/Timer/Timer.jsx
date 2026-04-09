@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from "react";
 // Props:
 // - minutes (number): how many minutes to count down from (default 20)
 // - onExpire (function): optional callback fired when timer reaches 0
+// - autoRestart (boolean): restart timer when it reaches 0
 
 export default function Timer({
   minutes = 20,
@@ -11,9 +12,10 @@ export default function Timer({
   autoRestart = false,
   className,
 } = {}) {
-  const initialSeconds = Math.max(0, Number(minutes) || 0) * 60;
-  const [secondsLeft, setSecondsLeft] = useState(initialSeconds);
-  const expiredRef = useRef(false);
+  const durationMs = Math.max(0, Number(minutes) || 0) * 60 * 1000;
+  const [secondsLeft, setSecondsLeft] = useState(Math.ceil(durationMs / 1000));
+  const endAtRef = useRef(Date.now() + durationMs);
+  const expiredThisCycleRef = useRef(false);
   const onExpireRef = useRef(onExpire);
 
   useEffect(() => {
@@ -21,32 +23,46 @@ export default function Timer({
   }, [onExpire]);
 
   useEffect(() => {
-    setSecondsLeft(Math.max(0, Number(minutes) || 0) * 60);
-    expiredRef.current = false;
+    endAtRef.current = Date.now() + durationMs;
+    setSecondsLeft(Math.ceil(durationMs / 1000));
+    expiredThisCycleRef.current = false;
 
-    const id = setInterval(() => {
-      setSecondsLeft((prev) => {
-        if (prev <= 1) {
-          expiredRef.current = true;
-          if (autoRestart) {
-            return Math.max(0, Number(minutes) || 0) * 60;
-          }
-          clearInterval(id);
-          return 0;
+    const tick = () => {
+      const remainingMs = endAtRef.current - Date.now();
+
+      if (remainingMs <= 0) {
+        if (expiredThisCycleRef.current) {
+          return;
         }
-        return prev - 1;
-      });
-    }, 1000);
 
-    return () => clearInterval(id);
-  }, [minutes, autoRestart]);
+        expiredThisCycleRef.current = true;
+        setSecondsLeft(0);
+        setTimeout(() => onExpireRef.current?.(), 0);
 
-  useEffect(() => {
-    if (expiredRef.current) {
-      expiredRef.current = false;
-      if (onExpireRef.current) onExpireRef.current();
-    }
-  }, [secondsLeft]);
+        if (autoRestart && durationMs > 0) {
+          endAtRef.current = Date.now() + durationMs;
+          expiredThisCycleRef.current = false;
+          setSecondsLeft(Math.ceil(durationMs / 1000));
+        }
+
+        return;
+      }
+
+      setSecondsLeft(Math.ceil(remainingMs / 1000));
+    };
+
+    tick();
+
+    const id = setInterval(tick, 250);
+
+    const handleVisibilityChange = () => tick();
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      clearInterval(id);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [durationMs, autoRestart]);
 
   const mins = String(Math.floor(secondsLeft / 60)).padStart(2, "0");
   const secs = String(secondsLeft % 60).padStart(2, "0");
