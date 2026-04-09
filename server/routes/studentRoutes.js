@@ -3,10 +3,18 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import multer from 'multer';
+import { v2 as cloudinary } from 'cloudinary';
+import { Readable } from 'stream';
 import { fileTypeFromBuffer } from 'file-type';
 import StudentAuth from '../models/StudentAuth.js';
 import StudentProfile from '../models/StudentProfile.js';
 import authMiddleware from '../middleware/authMiddleware.js';
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 const router = express.Router();
 
@@ -27,22 +35,28 @@ const upload = multer({
   },
 });
 
+const uploadToCloudinary = (buffer, mimeType) => {
+  return new Promise((resolve, reject) => {
+    const uploadStream = cloudinary.uploader.upload_stream(
+      { folder: 'mingle-app', resource_type: 'image' },
+      (error, result) => {
+        if (error) reject(error);
+        else resolve(result);
+      }
+    );
+    Readable.from(buffer).pipe(uploadStream);
+  });
+};
 // ─── HELPER: Format profile for response ────────────────────────────────────
 // Converts the binary image to a base64 data URL the frontend can use directly
 // e.g. <img src={profile.profileImage} />
 // Falls back to null if no image — frontend should show a default avatar
 const formatProfile = (profile) => {
   const obj = profile.toObject();
-
-  // Explode questions string back into an array
   obj.questions = obj.questions ? obj.questions.split('||') : [];
 
-  // Convert binary buffer to base64 data URL
-  if (obj.profileImage?.data) {
-    obj.profileImage = `data:${obj.profileImage.contentType};base64,${obj.profileImage.data.toString('base64')}`;
-  } else {
-    obj.profileImage = null; // Frontend handles showing default avatar when null
-  }
+  // profileImage is now just a URL string from Cloudinary
+  obj.profileImage = obj.profileImage || null;
 
   return obj;
 };
@@ -266,14 +280,11 @@ router.put(
         });
       }
 
+      const cloudinaryResult = await uploadToCloudinary(req.file.buffer, detectedType.mime);
+
       const updatedProfile = await StudentProfile.findOneAndUpdate(
         { studentId: req.user.id },
-        {
-          $set: {
-            'profileImage.data': req.file.buffer,                  // Binary buffer from multer
-            'profileImage.contentType': detectedType.mime,         // Use detected MIME type, not client-supplied
-          },
-        },
+        { $set: { profileImage: cloudinaryResult.secure_url } },
         { new: true }
       );
 

@@ -74,14 +74,14 @@ const StudentSignUpPanel = () => {
 
       // Registration successful — upload profile image if provided
       if (profileImage && data.token) {
-        const formData = new FormData();
-        formData.append('profileImage', profileImage);
+        const imageFormData = new FormData();
+        imageFormData.append('profileImage', profileImage);
 
         try {
           const imageRes = await fetch('/api/students/profile/image', {
             method: 'PUT',
             headers: { 'Authorization': `Bearer ${data.token}` },
-            body: formData,
+            body: imageFormData,
           });
 
           if (!imageRes.ok) {
