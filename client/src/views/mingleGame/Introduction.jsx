@@ -5,11 +5,21 @@ import DateTimer from "../../components/Timer/DateTimer.jsx";
 import yrgoLogo from "../../assets/yrgo-logo.svg";
 import Button from "../../components/Buttons/Button";
 import socket, { connectSocket } from "../../socket.js";
+import {
+  usePlayBeep,
+  usePlaySound,
+  useUnlockAudio,
+} from "../../Hooks/useAudio.js";
+import instructionsAudio from "../../assets/audio/instructions.mp3";
 
 export default function Introduction() {
   const mingle = useOutletContext();
   const navigate = useNavigate();
+  const playBeep = usePlayBeep();
+  const playInstructions = usePlaySound(instructionsAudio);
   const resetQuestionsRef = useRef(mingle?.resetQuestions);
+
+  useUnlockAudio();
 
   const [expired, setExpired] = useState(() => {
     const saved = localStorage.getItem("gameExpired");
@@ -29,6 +39,7 @@ export default function Introduction() {
 
     const handleGameStarted = () => {
       resetQuestionsRef.current?.();
+      playBeep();
       navigate("/task");
     };
 
@@ -49,6 +60,8 @@ export default function Introduction() {
 
   const handleExpire = () => {
     setExpired(true);
+    // Try to play instructions audio (may be blocked by autoplay policy)
+    playInstructions();
   };
 
   const handleStartClick = () => {
@@ -74,7 +87,7 @@ export default function Introduction() {
       </div>
       <div className={styles.introductionInfoContainer}>
         <DateTimer
-          targetDate="2026-04-09T13:43:00+02:00"
+          targetDate="2026-04-09T15:47:00+02:00"
           onExpire={handleExpire}
           className={styles.timer}
         />
