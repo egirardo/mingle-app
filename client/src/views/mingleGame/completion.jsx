@@ -2,9 +2,11 @@ import styles from "./MingleGame.module.css";
 import Button from "../../components/Buttons/Button";
 import yrgoLogo from "../../assets/yrgo-logo.svg";
 import { useNavigate } from "react-router-dom";
+import { usePlayBeep } from "../../Hooks/usePlayBeep.js";
 
 export default function Completion() {
   const navigate = useNavigate();
+  const playBeep = usePlayBeep();
 
   return (
     <div className={`${styles.main} ${styles.backgroundBlur}`}>
@@ -17,7 +19,10 @@ export default function Completion() {
         buttonName="Explore participants"
         buttonColor="redWhiteBorder"
         iconSrc="arrowRightWhite"
-        onClick={() => navigate("/")}
+        onClick={() => {
+          playBeep();
+          navigate("/");
+        }}
       />
     </div>
   );

@@ -3,10 +3,12 @@ import Timer from "../../components/Timer/Timer.jsx";
 import styles from "./MingleGame.module.css";
 import yrgoLogo from "../../assets/yrgo-logo.svg";
 import RoundsDisplay from "../../components/RoundsDisplay/RoundsDisplay.jsx";
+import { usePlayBeep } from "../../Hooks/usePlayBeep.js";
 
 export default function Question() {
   const mingle = useOutletContext();
   const navigate = useNavigate();
+  const playBeep = usePlayBeep();
 
   const { currentQuestion } = mingle;
 
@@ -18,6 +20,7 @@ export default function Question() {
   // When the question timer expires, finish the game on the last round;
   // otherwise navigate to the loading page.
   const handleExpire = () => {
+    playBeep();
     if (isFinalRound) {
       navigate("/completion");
       return;
