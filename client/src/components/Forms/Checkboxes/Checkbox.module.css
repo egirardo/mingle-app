@@ -23,6 +23,7 @@
   color: white;
   cursor: pointer;
   background: rgba(138, 157, 198, 0.30);
+  border: 1px solid rgba(138, 157, 198, 0.00);
 }
 
 .checkbox input:checked + label {

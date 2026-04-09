@@ -24,8 +24,8 @@ export default function SignUpInfo() {
                     </div>
                 </div>
                 <div className={styles.buttonsContainer}>
-                    <Button buttonName="Student" buttonColor="gray" iconSrc="arrowRight" onClick={() => navigate('/signup/student')} />
-                    <Button buttonName="Company" buttonColor="gray" iconSrc="arrowRight" onClick={() => navigate('/signup/business')} />
+                    <Button buttonName="Student" variant="redWhiteBorder" iconSrc="arrowRight" onClick={() => navigate('/signup/student')} />
+                    <Button buttonName="Company" variant="redWhiteBorder" iconSrc="arrowRight" onClick={() => navigate('/signup/business')} />
                 </div>
                 <div className={styles.loginContainer}>
                     <div className={styles.loginGroup}>
@@ -33,7 +33,7 @@ export default function SignUpInfo() {
                         <p className={styles.loginText}>Already signed up?</p>
                         <img src={SignUpLine} alt="" aria-hidden="true" className={styles.loginLine} />
                     </div>
-                    <Button buttonName="Log in and explore" variant="whiteGrayBorder" iconSrc="arrowRight" onClick={() => navigate('/login')} />
+                    <Button buttonName="Log in and explore" variant="gray" iconSrc="arrowRight" onClick={() => navigate('/login')} />
                 </div>
             </div>
         </div>
