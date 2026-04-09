@@ -16,7 +16,7 @@ export default function Start() {
   const mingle = useOutletContext();
   const navigate = useNavigate();
   const playBeep = usePlayBeep();
-  const [audioFailed, setAudioFailed] = useState(false);  
+  const [audioFailed, setAudioFailed] = useState(false);
   const playInstructions = usePlaySound(instructionsAudio, () =>
     setAudioFailed(true),
   );
@@ -79,13 +79,12 @@ export default function Start() {
 
   return (
     <div className={`${styles.main} ${styles.backgroundBlur}`}>
-      <img className={styles.yrgoLogo} src={yrgoLogo} alt="Yrgo logo" />
+      <h3
+        className={`${styles.introductionHeader} ${styles.textMediumRegular}`}
+      >
+        Welcome to
+      </h3>
       <div className={styles.IntroductionTitleContainer}>
-        <h3
-          className={`${styles.introductionHeader} ${styles.textMediumRegular}`}
-        >
-          Welcome to
-        </h3>
         <h1 className={`${styles.introductionHeader} ${styles.textExtraLarge}`}>
           LIA FUSION
         </h1>
@@ -93,28 +92,27 @@ export default function Start() {
           Speed Mingle
         </h2>
       </div>
-      <div className={styles.introductionInfoContainer}>
-        <DateTimer
-          targetDate="2026-04-09T19:56:00+02:00"
-          onExpire={handleExpire}
-          className={styles.timer}
-        />
-        {/* <DateTimer
+      {/* move timer "lobby" page soon, and maye audio play when it switches screens instead */}
+      <DateTimer
+        targetDate="2026-04-09T19:56:00+02:00"
+        onExpire={handleExpire}
+        className={`${styles.timer} ${styles.hidden}`}
+      />
+      {/* <DateTimer
           targetDate="2026-04-22T15:00:00+02:00"
           onExpire={handleExpire}
           className={styles.timer}
         /> */}
-        <p className={styles.textMediumRegular}>
-          Get ready to meet new people. Follow the instructions on your phone
-          when the countdown reaches zero.
-        </p>
-        <Button
-          buttonName="Start"
-          buttonColor="redWhiteBorder"
-          iconSrc="arrowRightWhite"
-          onClick={handleStartClick}
-        />
-      </div>
+      <p className={`${styles.textMediumRegular} ${styles.startText}`}>
+        Get ready to meet new people. 
+        Follow the instructions on your phone.
+      </p>
+      <Button
+        buttonName="Start"
+        buttonColor="redWhiteBorder"
+        iconSrc="arrowRightWhite"
+        onClick={handleStartClick}
+      />
     </div>
   );
 }

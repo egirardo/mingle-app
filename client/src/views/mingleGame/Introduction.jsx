@@ -58,12 +58,16 @@ export default function Introduction() {
         >
           Welcome to
         </h3>
-        <h1 className={`${styles.introductionHeader} ${styles.textExtraLarge}`}>
-          LIA FUSION
-        </h1>
-        <h2 className={`${styles.introductionHeader} ${styles.textLarge}`}>
-          Speed Mingle
-        </h2>
+        <div>
+          <h1
+            className={`${styles.introductionHeader} ${styles.textExtraLarge}`}
+          >
+            LIA FUSION
+          </h1>
+          <h2 className={`${styles.introductionHeader} ${styles.textLarge}`}>
+            Speed Mingle
+          </h2>
+        </div>
       </div>
       <div className={styles.introductionInfoContainer}>
         <DateTimer

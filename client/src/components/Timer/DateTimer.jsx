@@ -80,12 +80,11 @@ export default function DateTimer({ targetDate, onExpire, className } = {}) {
   const pad = (n) => String(n).padStart(2, "0");
   const timeDisplay = `${pad(hours)}:${pad(mins)}:${pad(secs)}`;
   const minuteSecondDisplay = `${pad(mins)}:${pad(secs)}`;
-  const dayLabel = days === 1 ? "Day" : "Days";
 
   let display = minuteSecondDisplay;
 
   if (days > 0) {
-    display = `${days} ${dayLabel}, ${timeDisplay}`;
+    display = `${days}:${timeDisplay}`;
   } else if (hours > 0) {
     display = timeDisplay;
   }
