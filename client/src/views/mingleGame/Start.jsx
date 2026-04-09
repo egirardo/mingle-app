@@ -2,7 +2,6 @@ import { useEffect, useState, useRef } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import styles from "./MingleGame.module.css";
 import DateTimer from "../../components/Timer/DateTimer.jsx";
-import yrgoLogo from "../../assets/yrgo-logo.svg";
 import Button from "../../components/Buttons/Button";
 import socket, { connectSocket } from "../../socket.js";
 import {
@@ -16,7 +15,7 @@ export default function Start() {
   const mingle = useOutletContext();
   const navigate = useNavigate();
   const playBeep = usePlayBeep();
-  const [audioFailed, setAudioFailed] = useState(false);
+  const [, setAudioFailed] = useState(false);
   const playInstructions = usePlaySound(instructionsAudio, () =>
     setAudioFailed(true),
   );
@@ -92,7 +91,7 @@ export default function Start() {
           Speed Mingle
         </h2>
       </div>
-      {/* move timer "lobby" page soon, and maye audio play when it switches screens instead */}
+      {/* NOTE: move timer "lobby" page soon, and make audio play when it switches screens instead */}
       <DateTimer
         targetDate="2026-04-09T19:56:00+02:00"
         onExpire={handleExpire}
