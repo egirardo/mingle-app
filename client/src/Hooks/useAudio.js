@@ -10,14 +10,13 @@ export function useUnlockAudio() {
         context.resume();
       }
 
-      // Also create and play a silent audio to unlock playback
       const emptyBuffer = context.createBuffer(1, 1, 22050);
       const source = context.createBufferSource();
       source.buffer = emptyBuffer;
       source.connect(context.destination);
+      source.onended = () => context.close(); // Close context after playback
       source.start(0);
 
-      // Remove listener after first interaction
       document.removeEventListener("click", unlockAudio);
     };
 
@@ -37,45 +36,32 @@ export function usePlaySound(audioFile, onPlaybackBlocked) {
 
   // Preload audio element once
   useEffect(() => {
-    if (!audioRef.current) {
-      const audio = new Audio(audioFile);
-      audio.preload = "auto";
-      audioRef.current = audio;
-    }
+    const audio = new Audio(audioFile);
+    audio.preload = "auto";
+    audioRef.current = audio;
   }, [audioFile]);
 
   const play = useCallback(() => {
     if (!audioRef.current || isPlayingRef.current) return;
 
     const audio = audioRef.current;
-    audio.currentTime = 0; // Reset to start
+    audio.currentTime = 0;
     isPlayingRef.current = true;
+    audio.onended = () => (isPlayingRef.current = false);
 
-    const playPromise = audio.play();
-    if (playPromise !== undefined) {
-      playPromise
-        .then(() => {
-          // Audio playing successfully
-        })
-        .catch((err) => {
-          if (err.name === "NotAllowedError") {
-            console.warn(
-              "Audio playback blocked by autoplay policy. User interaction required.",
-            );
-            // Notify parent component of blocked playback
-            onPlaybackBlocked?.();
-          } else if (err.name !== "AbortError") {
-            // AbortError is expected when audio is interrupted
-            console.error("Failed to play sound:", err);
-          }
-        })
-        .finally(() => {
-          isPlayingRef.current = false;
-        });
-    } else {
-      // For older browsers that don't return a promise
-      isPlayingRef.current = false;
-    }
+    audio.play().catch((err) => {
+      if (err.name !== "AbortError") {
+        if (err.name === "NotAllowedError") {
+          console.warn(
+            "Audio playback blocked by autoplay policy. User interaction required.",
+          );
+          onPlaybackBlocked?.();
+        } else {
+          console.error("Failed to play sound:", err);
+        }
+        isPlayingRef.current = false;
+      }
+    });
   }, [audioFile, onPlaybackBlocked]);
 
   return play;

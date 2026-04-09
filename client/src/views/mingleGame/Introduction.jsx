@@ -16,20 +16,15 @@ export default function Introduction() {
   const mingle = useOutletContext();
   const navigate = useNavigate();
   const playBeep = usePlayBeep();
-  const playInstructions = usePlaySound(instructionsAudio, () =>
-    setAudioBlockedWarning(true),
-  );
+  const playInstructions = usePlaySound(instructionsAudio);
   const resetQuestionsRef = useRef(mingle?.resetQuestions);
 
-  // Unlock audio on first user interaction
   useUnlockAudio();
 
   const [expired, setExpired] = useState(() => {
     const saved = localStorage.getItem("gameExpired");
     return saved ? JSON.parse(saved) : false;
   });
-
-  const [audioBlockedWarning, setAudioBlockedWarning] = useState(false);
 
   useEffect(() => {
     resetQuestionsRef.current = mingle?.resetQuestions;
@@ -71,7 +66,6 @@ export default function Introduction() {
 
   const handleStartClick = () => {
     resetQuestionsRef.current?.();
-    setAudioBlockedWarning(false);
     socket.emit("start-game");
   };
 
@@ -93,7 +87,7 @@ export default function Introduction() {
       </div>
       <div className={styles.introductionInfoContainer}>
         <DateTimer
-          targetDate="2026-04-09T15:21:00+02:00"
+          targetDate="2026-04-09T15:47:00+02:00"
           onExpire={handleExpire}
           className={styles.timer}
         />
