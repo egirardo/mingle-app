@@ -13,6 +13,7 @@ import Completion from "./views/mingleGame/Completion.jsx";
 import Loading from "./views/mingleGame/Loading.jsx";
 import Introduction from "./views/mingleGame/Introduction.jsx";
 import MingleGameLayout from "./views/mingleGame/MingleGameLayout.jsx";
+import Start from "./views/mingleGame/Start.jsx";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/signup/business" element={<BusinessSignUp />} />
         <Route path="/students/:id" element={<StudentProfile />} />
         <Route element={<MingleGameLayout />}>
+          <Route path="/start" element={<Start />} />
           <Route path="/introduction" element={<Introduction />} />
           <Route path="/task" element={<Task />} />
           <Route path="/question" element={<Question />} />

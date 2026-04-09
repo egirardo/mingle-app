@@ -3,14 +3,26 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import styles from "./MingleGame.module.css";
 import DateTimer from "../../components/Timer/DateTimer.jsx";
 import yrgoLogo from "../../assets/yrgo-logo.svg";
+import Button from "../../components/Buttons/Button";
 import socket, { connectSocket } from "../../socket.js";
-import { usePlayBeep } from "../../Hooks/useAudio.js";
+import {
+  usePlayBeep,
+  usePlaySound,
+  useUnlockAudio,
+} from "../../Hooks/useAudio.js";
+import instructionsAudio from "../../assets/audio/instructions.mp3";
 
-export default function Introduction() {
+export default function Start() {
   const mingle = useOutletContext();
   const navigate = useNavigate();
   const playBeep = usePlayBeep();
+  const [audioFailed, setAudioFailed] = useState(false);  
+  const playInstructions = usePlaySound(instructionsAudio, () =>
+    setAudioFailed(true),
+  );
   const resetQuestionsRef = useRef(mingle?.resetQuestions);
+
+  useUnlockAudio();
 
   const [expired, setExpired] = useState(() => {
     const saved = localStorage.getItem("gameExpired");
@@ -30,7 +42,6 @@ export default function Introduction() {
 
     const handleGameStarted = () => {
       resetQuestionsRef.current?.();
-      playBeep();
       navigate("/task");
     };
 
@@ -47,7 +58,24 @@ export default function Introduction() {
       socket.off("game-started", handleGameStarted);
       socket.off("game-reset", handleGameReset);
     };
-  }, [navigate, playBeep]);
+  }, [navigate]);
+
+  // Play instructions audio only on this page when timer expires
+  useEffect(() => {
+    if (expired) {
+      playInstructions();
+    }
+  }, [expired, playInstructions]);
+
+  const handleExpire = () => {
+    setExpired(true);
+  };
+
+  const handleStartClick = () => {
+    resetQuestionsRef.current?.();
+    playBeep();
+    socket.emit("start-game");
+  };
 
   return (
     <div className={`${styles.main} ${styles.backgroundBlur}`}>
@@ -67,20 +95,25 @@ export default function Introduction() {
       </div>
       <div className={styles.introductionInfoContainer}>
         <DateTimer
-          targetDate="2026-04-22T15:00:00+02:00"
+          targetDate="2026-04-09T19:56:00+02:00"
+          onExpire={handleExpire}
           className={styles.timer}
         />
-        {!expired ? (
-          <p className={styles.textMediumRegular}>
-            Get ready to meet new people. Follow the instructions on your phone
-            when the countdown reaches zero.
-          </p>
-        ) : (
-          <p className={styles.textMediumRegular}>
-            For the next 10 minutes, you'll have short and fast interactions.
-            We'll guide you step by step.
-          </p>
-        )}
+        {/* <DateTimer
+          targetDate="2026-04-22T15:00:00+02:00"
+          onExpire={handleExpire}
+          className={styles.timer}
+        /> */}
+        <p className={styles.textMediumRegular}>
+          Get ready to meet new people. Follow the instructions on your phone
+          when the countdown reaches zero.
+        </p>
+        <Button
+          buttonName="Start"
+          buttonColor="redWhiteBorder"
+          iconSrc="arrowRightWhite"
+          onClick={handleStartClick}
+        />
       </div>
     </div>
   );
