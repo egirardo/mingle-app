@@ -13,17 +13,6 @@ export default function NavBar() {
         setIsMenuOpen((prevIsMenuOpen) => !prevIsMenuOpen);
     };
 
-    const closeMenu = () => {
-        setIsMenuOpen(false);
-    };
-
-    const menuItems = [
-        { label: 'Registration', to: '/signup/student' },
-        { label: 'Explore Participants', to: '/explore' },
-        { label: 'Student Login', to: '/login' },
-        { label: 'Likes', to: '/likes' }
-    ];
-
     return (
         <div className={`${styles.navWrapper} ${isMenuOpen ? styles.navWrapperOpen : ''}`}>
             <nav className={styles.navbar}>
@@ -45,7 +34,7 @@ export default function NavBar() {
             </nav>
 
             {isMenuOpen && (
-                <ul id="nav-menu" className={styles.menu}>
+                <div id="nav-menu" className={styles.menu}>
                     <div className={styles.regExpButtonWrapper}>
                         <Button
                             buttonName="Register"
@@ -67,7 +56,8 @@ export default function NavBar() {
                         ariaLabel="About and Contact"
                         onClick={() => navigate("/about")}
                     />
-                    <li>
+                    
+                    <div className={styles.studentLoginButton}>
                         <Button
                             buttonName="Student Login"
                             buttonColor="transparent"
@@ -75,11 +65,13 @@ export default function NavBar() {
                             iconLeft={true}
                             variant="textUnderline"
                             ariaLabel="Student Login"
+                            onClick={() => navigate("/login")}
                         />
-                    </li>
+                    </div>
                     
                     
-                </ul>
+                    
+                </div>
             )}
         </div>
     );

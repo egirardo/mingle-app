@@ -1,7 +1,7 @@
 .navWrapper {
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 1000;
     background: rgba(255, 255, 255, 0.01);
     backdrop-filter: blur(25px);
     transition: background 0.2s;
@@ -17,6 +17,7 @@
     align-items: center;
     color: #FFF;
     padding: 3.5rem 10px 10px 10px;
+    /* padding-top: calc(env(--safe-area-inset-top)); */ /* this is for the iOS notch, but it seems to cause some issues with the layout, so I'm commenting it out for now */
 }
 
 .logo img,
@@ -69,6 +70,6 @@
     justify-content: center;
 }
 
-ul li:last-child {
+.studentLoginButton {
     margin-top: 1rem;
 }
