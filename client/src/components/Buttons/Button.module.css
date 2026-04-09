@@ -101,7 +101,8 @@
 /* Combo Buttons */
 
 
-.redWhiteText {
+.redWhiteBorder {
   background-color: rgba(229, 21, 54, 1);
+  border: 1px solid white;
   color: white;
 }
