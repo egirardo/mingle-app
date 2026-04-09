@@ -19,7 +19,6 @@ export default function Completion() {
         iconSrc="arrowRightWhite"
         onClick={() => navigate("/")}
       />
-
     </div>
   );
 }

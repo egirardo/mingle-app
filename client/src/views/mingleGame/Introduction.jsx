@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import styles from "./MingleGame.module.css";
 import DateTimer from "../../components/Timer/DateTimer.jsx";
@@ -9,10 +9,22 @@ import socket, { connectSocket } from "../../socket.js";
 export default function Introduction() {
   const mingle = useOutletContext();
   const navigate = useNavigate();
+  const resetQuestionsRef = useRef(mingle?.resetQuestions);
+
   const [expired, setExpired] = useState(() => {
     const saved = localStorage.getItem("gameExpired");
     return saved ? JSON.parse(saved) : false;
   });
+
+  useEffect(() => {
+    resetQuestionsRef.current = mingle?.resetQuestions;
+  }, [mingle]);
+
+  useEffect(() => {
+    // Reset expired state when component mounts
+    setExpired(false);
+    localStorage.removeItem("gameExpired");
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("gameExpired", JSON.stringify(expired));
@@ -21,27 +33,28 @@ export default function Introduction() {
   useEffect(() => {
     connectSocket();
 
-    socket.emit("reset-game");
-
     const handleGameStarted = () => {
-      mingle?.resetQuestions?.();
+      resetQuestionsRef.current?.();
       navigate("/task");
     };
 
     const handleGameReset = () => {
-      mingle?.resetQuestions?.();
+      resetQuestionsRef.current?.();
       setExpired(false);
       localStorage.removeItem("gameExpired");
     };
 
-    socket.on("game-started", handleGameStarted);
+    // Only listen for game-started when expired (ready to start)
+    if (expired) {
+      socket.on("game-started", handleGameStarted);
+    }
     socket.on("game-reset", handleGameReset);
 
     return () => {
       socket.off("game-started", handleGameStarted);
       socket.off("game-reset", handleGameReset);
     };
-  }, [mingle, navigate]);
+  }, [navigate, expired]);
 
   const handleExpire = () => {
     setExpired(true);
@@ -70,7 +83,7 @@ export default function Introduction() {
       </div>
       <div className={styles.introductionInfoContainer}>
         <DateTimer
-          targetDate="2026-04-09T12:26:00+02:00"
+          targetDate="2026-04-09T12:46:00+02:00"
           onExpire={handleExpire}
           className={styles.timer}
         />
