@@ -109,7 +109,7 @@
 /* ---------------------------------------- */
 
 .main {
-  background-image: url("../../assets/mingle_lobby_bg.png");
+  background-image: url("../src/assets/mingle_bg.png");
   background-position: center;
   background-size: cover;
   width: 100vw;
