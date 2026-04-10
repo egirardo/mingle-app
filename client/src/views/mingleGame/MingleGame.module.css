@@ -1,63 +1,91 @@
-
 /* ---------------------------------------- */
 /* Typography */
 /* ---------------------------------------- */
 
 .textExtraLarge {
   color: white;
-  letter-spacing: -1px;
-  font-size: 32px;
+  letter-spacing: -0.0625rem;
+  font-size: 2rem;
   font-weight: 600;
-  line-height: 32px;
+  line-height: 2rem;
 }
 
 .textLarge {
   color: white;
-  letter-spacing: -1px;
-  font-size: 28px;
+  letter-spacing: -0.0625rem;
+  font-size: 1.75rem;
   font-weight: 400;
-  line-height: 32px;
+  line-height: 2rem;
 }
 
 .textLargeBold {
   color: white;
-  letter-spacing: -1px;
-  font-size: 28px;
+  letter-spacing: -0.0625rem;
+  font-size: 1.75rem;
   font-weight: 600;
-  line-height: 32px;
+  line-height: 2rem;
   text-align: center;
 }
 
 .textMedium {
   color: white;
-  letter-spacing: -1px;
-  font-size: 20px;
+  letter-spacing: -0.0625rem;
+  font-size: 1.25rem;
   font-weight: 600;
-  line-height: 22px;
+  line-height: 1.375rem;
 }
 
 .textMediumRegular {
   color: white;
-  letter-spacing: -1px;
-  font-size: 20px;
+  letter-spacing: -0.0625rem;
+  font-size: 1.25rem;
   font-weight: 400;
-  line-height: 22px;
+  line-height: 1.375rem;
 }
 
 .textSmall {
   color: white;
-  letter-spacing: -1px;
-  font-size: 16px;
+  letter-spacing: -0.0625rem;
+  font-size: 1rem;
   font-weight: 400;
-  line-height: 32px;
+  line-height: 2rem;
 }
 
 .textSmallBold {
   color: white;
-  letter-spacing: -1px;
-  font-size: 16px;
+  letter-spacing: -0.0625rem;
+  font-size: 1rem;
   font-weight: 600;
-  line-height: 32px;
+  line-height: 2rem;
+}
+
+@media (min-width: 64rem) {
+  .textExtraLarge {
+    color: white;
+    font-size: 6rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 5.4375rem;
+    letter-spacing: -0.125rem;
+  }
+
+  .textLarge {
+    color: white;
+    font-size: 6rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 5.4375rem;
+    letter-spacing: -0.125rem;
+  }
+
+  .textMediumRegular {
+    color: white;
+    font-size: 2.25rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 97%;
+    letter-spacing: -0.0625rem;
+  }
 }
 
 /* ---------------------------------------- */
@@ -77,7 +105,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 30px;
+  gap: 3.5rem;
   padding: 0 1rem;
   box-sizing: border-box;
 }
@@ -93,8 +121,8 @@
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(25px);
-  -webkit-backdrop-filter: blur(25px);
+  backdrop-filter: blur(1.5625rem);
+  -webkit-backdrop-filter: blur(1.5625rem);
   z-index: 0;
   pointer-events: none;
 }
@@ -106,25 +134,25 @@
 
 .yrgoLogo {
   position: absolute;
-  top: 64px;
+  top: 4rem;
   left: 50%;
   transform: translateX(-50%);
-  width: 80px;
-  height: 20px;
+  width: 5rem;
+  height: 1.25rem;
 }
 
 .roundCountContainer {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 4px 8px;
+  gap: 0.5rem;
+  padding: 0.25rem 0.5rem;
   width: 100vw;
   color: white;
 }
 
 .roundCountContainer span {
-  letter-spacing: -0.48px;
+  letter-spacing: -0.03rem;
 }
 
 .hidden {
@@ -135,13 +163,29 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 16px 24px;
+  padding: 1rem 1.5rem;
   box-sizing: border-box;
-  border-radius: 40px;
+  border-radius: 2.5rem;
   background: #fff;
   color: #000;
   text-align: center;
   word-break: break-word;
+}
+
+@media (min-width: 64rem) {
+  .main {
+    gap: 2.875rem;
+  }
+}
+
+/* ---------------------------------------- */
+/* Start */
+/* ---------------------------------------- */
+
+.startText {
+  width: 60%;
+  text-wrap: balance;
+  text-align: center;
 }
 
 /* ---------------------------------------- */
@@ -152,6 +196,7 @@
   align-self: stretch;
   display: flex;
   flex-direction: column;
+  gap: 1.5rem;
 }
 
 .introductionHeader {
@@ -174,7 +219,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 1.25rem;
   padding: 1.5rem;
   width: 100%;
 }
@@ -186,7 +231,7 @@
 .questionDisplay {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 1.125rem;
 }
 
 /* ---------------------------------------- */
@@ -194,7 +239,7 @@
 /* ---------------------------------------- */
 
 .timer {
-  width: 420px;
-  font-size: 100px;
+  width: 26.25rem;
+  font-size: 6.25rem;
   align-self: center;
 }

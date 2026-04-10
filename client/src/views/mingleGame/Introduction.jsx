@@ -3,23 +3,14 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import styles from "./MingleGame.module.css";
 import DateTimer from "../../components/Timer/DateTimer.jsx";
 import yrgoLogo from "../../assets/yrgo-logo.svg";
-import Button from "../../components/Buttons/Button";
 import socket, { connectSocket } from "../../socket.js";
-import {
-  usePlayBeep,
-  usePlaySound,
-  useUnlockAudio,
-} from "../../Hooks/useAudio.js";
-import instructionsAudio from "../../assets/audio/instructions.mp3";
+import { usePlayBeep } from "../../Hooks/useAudio.js";
 
 export default function Introduction() {
   const mingle = useOutletContext();
   const navigate = useNavigate();
   const playBeep = usePlayBeep();
-  const playInstructions = usePlaySound(instructionsAudio);
   const resetQuestionsRef = useRef(mingle?.resetQuestions);
-
-  useUnlockAudio();
 
   const [expired, setExpired] = useState(() => {
     const saved = localStorage.getItem("gameExpired");
@@ -56,18 +47,7 @@ export default function Introduction() {
       socket.off("game-started", handleGameStarted);
       socket.off("game-reset", handleGameReset);
     };
-  }, [navigate]);
-
-  const handleExpire = () => {
-    setExpired(true);
-    // Try to play instructions audio (may be blocked by autoplay policy)
-    playInstructions();
-  };
-
-  const handleStartClick = () => {
-    resetQuestionsRef.current?.();
-    socket.emit("start-game");
-  };
+  }, [navigate, playBeep]);
 
   return (
     <div className={`${styles.main} ${styles.backgroundBlur}`}>
@@ -78,24 +58,22 @@ export default function Introduction() {
         >
           Welcome to
         </h3>
-        <h1 className={`${styles.introductionHeader} ${styles.textExtraLarge}`}>
-          LIA FUSION
-        </h1>
-        <h2 className={`${styles.introductionHeader} ${styles.textLarge}`}>
-          Speed Mingle
-        </h2>
+        <div>
+          <h1
+            className={`${styles.introductionHeader} ${styles.textExtraLarge}`}
+          >
+            LIA FUSION
+          </h1>
+          <h2 className={`${styles.introductionHeader} ${styles.textLarge}`}>
+            Speed Mingle
+          </h2>
+        </div>
       </div>
       <div className={styles.introductionInfoContainer}>
         <DateTimer
-          targetDate="2026-04-09T15:47:00+02:00"
-          onExpire={handleExpire}
+          targetDate="2026-04-22T15:00:00+02:00"
           className={styles.timer}
         />
-        {/* <DateTimer
-          targetDate="2026-04-22T15:00:00+02:00"
-          onExpire={handleExpire}
-          className={styles.timer}
-        /> */}
         {!expired ? (
           <p className={styles.textMediumRegular}>
             Get ready to meet new people. Follow the instructions on your phone
@@ -107,13 +85,6 @@ export default function Introduction() {
             We'll guide you step by step.
           </p>
         )}
-        <Button
-          buttonName="Start"
-          buttonColor="redWhiteBorder"
-          iconSrc="arrowRightWhite"
-          onClick={handleStartClick}
-          style={{ display: expired ? "flex" : "none" }}
-        />
       </div>
     </div>
   );

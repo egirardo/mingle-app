@@ -4,7 +4,6 @@ import styles from "./MingleGame.module.css";
 import yrgoLogo from "../../assets/yrgo-logo.svg";
 import RoundsDisplay from "../../components/RoundsDisplay/RoundsDisplay.jsx";
 import { usePlayBeep } from "../../Hooks/useAudio.js";
-
 export default function Task() {
   const mingle = useOutletContext();
   const navigate = useNavigate();
