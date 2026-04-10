@@ -54,7 +54,7 @@ export default function PhotoUpload({
         <div className={styles.uploadButton}>
           <Button
             buttonName="Upload photo"
-            buttonColor="gray"
+            variant="primaryGray"
             type="button"
             onClick={() => inputRef.current?.click()}
           />

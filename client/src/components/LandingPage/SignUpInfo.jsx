@@ -18,8 +18,8 @@ export default function SignUpInfo() {
                         And start exploring the students and companies attending beforehand.
                     </p>
                 <div className={styles.buttonsContainer}>
-                    <Button buttonName="Student" variant="redWhiteBorder" iconSrc="arrowRight" onClick={() => navigate('/signup/student')} />
-                    <Button buttonName="Company" variant="redWhiteBorder" iconSrc="arrowRight" onClick={() => navigate('/signup/business')} />
+                    <Button buttonName="Student" variant="primaryRed" iconSrc="arrowRight" onClick={() => navigate('/signup/student')} />
+                    <Button buttonName="Company" variant="primaryRed" iconSrc="arrowRight" onClick={() => navigate('/signup/business')} />
                 </div>
                 </div>
             </div>
@@ -29,7 +29,7 @@ export default function SignUpInfo() {
                         <p className={styles.loginText}>Already signed up?</p>
                         <img src={SignUpLine} alt="" aria-hidden="true" className={styles.loginLine} />
                     </div>
-                    <Button buttonName="Log in and explore" variant="gray" iconSrc="arrowRight" onClick={() => navigate('/login')} />
+                    <Button buttonName="Log in and explore" variant="primaryGray" iconSrc="arrowRight" onClick={() => navigate('/login')} />
                 </div>
             </div>
         </div>
