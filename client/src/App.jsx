@@ -14,6 +14,7 @@ import Loading from "./views/mingleGame/Loading.jsx";
 import Introduction from "./views/mingleGame/Introduction.jsx";
 import MingleGameLayout from "./views/mingleGame/MingleGameLayout.jsx";
 import Start from "./views/mingleGame/Start.jsx";
+import Lobby from "./views/mingleGame/Lobby.jsx";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/signup/business" element={<BusinessSignUp />} />
         <Route path="/students/:id" element={<StudentProfile />} />
         <Route element={<MingleGameLayout />}>
+          <Route path="/lobby" element={<Lobby />} />
           <Route path="/start" element={<Start />} />
           <Route path="/introduction" element={<Introduction />} />
           <Route path="/task" element={<Task />} />

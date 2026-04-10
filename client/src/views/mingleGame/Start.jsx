@@ -1,11 +1,11 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import styles from "./MingleGame.module.css";
-import DateTimer from "../../components/Timer/DateTimer.jsx";
 import Button from "../../components/Buttons/Button";
 import socket, { connectSocket } from "../../socket.js";
 import {
-  usePlayBeep,
+  // commenting out in case the designers want a beep sound after the button is. pressed
+  // usePlayBeep,
   usePlaySound,
   useUnlockAudio,
 } from "../../Hooks/useAudio.js";
@@ -14,7 +14,10 @@ import instructionsAudio from "../../assets/audio/instructions.mp3";
 export default function Start() {
   const mingle = useOutletContext();
   const navigate = useNavigate();
-  const playBeep = usePlayBeep();
+
+  // commenting out in case the designers want a beep sound after the button is. pressed
+  // const playBeep = usePlayBeep();
+
   const [, setAudioFailed] = useState(false);
   const playInstructions = usePlaySound(instructionsAudio, () =>
     setAudioFailed(true),
@@ -59,20 +62,17 @@ export default function Start() {
     };
   }, [navigate]);
 
-  // Play instructions audio only on this page when timer expires
+  // Play instructions audio when page loads
   useEffect(() => {
-    if (expired) {
-      playInstructions();
-    }
-  }, [expired, playInstructions]);
-
-  const handleExpire = () => {
-    setExpired(true);
-  };
+    playInstructions();
+  }, [playInstructions]);
 
   const handleStartClick = () => {
     resetQuestionsRef.current?.();
-    playBeep();
+
+    // commenting out in case the designers want a beep sound after the button is. pressed
+    // playBeep();
+
     socket.emit("start-game");
   };
 
@@ -91,17 +91,6 @@ export default function Start() {
           Speed Mingle
         </h2>
       </div>
-      {/* NOTE: move timer "lobby" page soon, and make audio play when it switches screens instead */}
-      <DateTimer
-        targetDate="2026-04-09T19:56:00+02:00"
-        onExpire={handleExpire}
-        className={`${styles.timer} ${styles.hidden}`}
-      />
-      {/* <DateTimer
-          targetDate="2026-04-22T15:00:00+02:00"
-          onExpire={handleExpire}
-          className={styles.timer}
-        /> */}
       <p className={`${styles.textMediumRegular} ${styles.startText}`}>
         Get ready to meet new people. Follow the instructions on your phone.
       </p>
