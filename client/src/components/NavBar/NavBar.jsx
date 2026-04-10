@@ -7,6 +7,7 @@ import Button from '../Buttons/Button';
 
 export default function NavBar() {
     const navigate = useNavigate();
+
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const toggleMenu = () => {
@@ -38,21 +39,20 @@ export default function NavBar() {
                     <div className={styles.regExpButtonWrapper}>
                         <Button
                             buttonName="Register"
-                            variant="redWhiteBorder"
+                            variant="primaryRed"
                             ariaLabel="Register"
                             onClick={() => navigate("/")}
                         />
                         <Button
                             buttonName="Explore"
-                            buttonColor="gray"
+                            variant="primaryGray"
                             ariaLabel="Explore"
                             onClick={() => navigate("/explore")}
                         />
                     </div>
                     <Button
                         buttonName="About and Contact"
-                        buttonColor="transparent"
-                        variant="textUnderline"
+                        variant="transparentUnderlinePrimary"
                         ariaLabel="About and Contact"
                         onClick={() => navigate("/about")}
                     />
@@ -63,7 +63,7 @@ export default function NavBar() {
                             buttonColor="transparent"
                             iconSrc="profileIcon"
                             iconLeft={true}
-                            variant="textUnderline"
+                            variant="transparentUnderlinePrimary"
                             ariaLabel="Student Login"
                             onClick={() => navigate("/login")}
                         />

@@ -157,7 +157,7 @@ const BusinessSignUpPanel = () => {
 
           <Button
             buttonName={loading ? "Registering..." : "Register"}
-            variant="redWhiteBorder"
+            variant="primaryRed"
             type="submit"
             iconSrc="arrowRight"
             disabled={loading}

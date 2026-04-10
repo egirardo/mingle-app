@@ -58,14 +58,13 @@ export default function ViewProfile() {
               <IconOnlyButton
                 iconSrc="arrowBack"
                 buttonColor="transparent"
-                ariaLabel="Go back to home page"
-                onClick={() => navigate("/")}
+                ariaLabel="Go back to previous page"
+                onClick={() => navigate(-1)}
                 />
               <Button
                 buttonName="Portfolio"
                 iconSrc="arrow45"
-                buttonColor="transparent"
-                variant="textUnderline"
+                variant="transparentUnderlinePrimary"
                 ariaLabel="External Portfolio Link"
                 onClick={() => window.open(profile.portfolio, '_blank', 'noopener,noreferrer')}
                 /> 
@@ -75,8 +74,8 @@ export default function ViewProfile() {
               <IconOnlyButton
                 iconSrc="arrowBack"
                 buttonColor="transparent"
-                ariaLabel="Go back to home page"
-                onClick={() => navigate("/")}
+                ariaLabel="Go back to previous page"
+                onClick={() => navigate(-1)}
               />
             </div> ) }
 
@@ -114,8 +113,7 @@ export default function ViewProfile() {
             {isOwner && (
               <Button
                 buttonName="Edit Profile"
-                buttonColor="transparent"
-                variant="textUnderline"
+                variant="transparentUnderlinePrimary"
                 ariaLabel="Edit Profile"
                 onClick={() => navigate(`/students/${id}/edit`)}
               />
