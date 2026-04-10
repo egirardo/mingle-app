@@ -9,7 +9,7 @@ import StudentProfile from "./views/landingPage/StudentProfile.jsx";
 // mingle
 import Question from "./views/mingleGame/Question.jsx";
 import Task from "./views/mingleGame/Task.jsx";
-import Completion from "./views/mingleGame/lompletion.jsx";
+import Completion from "./views/mingleGame/completion.jsx";
 import Loading from "./views/mingleGame/loading.jsx";
 import Introduction from "./views/mingleGame/Introduction.jsx";
 import MingleGameLayout from "./views/mingleGame/MingleGameLayout.jsx";
