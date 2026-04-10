@@ -26,18 +26,9 @@ export default function Start() {
 
   useUnlockAudio();
 
-  const [expired] = useState(() => {
-    const saved = localStorage.getItem("gameExpired");
-    return saved ? JSON.parse(saved) : false;
-  });
-
   useEffect(() => {
     resetQuestionsRef.current = mingle?.resetQuestions;
   }, [mingle]);
-
-  useEffect(() => {
-    localStorage.setItem("gameExpired", JSON.stringify(expired));
-  }, [expired]);
 
   useEffect(() => {
     connectSocket();
@@ -49,7 +40,6 @@ export default function Start() {
 
     const handleGameReset = () => {
       resetQuestionsRef.current?.();
-      localStorage.removeItem("gameExpired");
     };
 
     socket.on("game-started", handleGameStarted);
@@ -102,14 +92,14 @@ export default function Start() {
           // audio instructions button
           <Button
             buttonName="Play Instructions"
-            buttonColor="redWhiteText"
+            buttonColor="primaryRed"
             onClick={handlePlayInstructions}
           />
         )}
         {/* game start button */}
         <Button
           buttonName="Start"
-          buttonColor="redWhiteText"
+          buttonColor="primaryRed"
           iconSrc="arrowRightWhite"
           onClick={handleStartClick}
         />

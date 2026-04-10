@@ -112,7 +112,7 @@
   background-image: url("../src/assets/mingle_bg.png");
   background-position: center;
   background-size: cover;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   overflow: hidden;
   color: white;
