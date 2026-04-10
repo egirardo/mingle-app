@@ -19,6 +19,16 @@
   letter-spacing: -0.03rem;
   position: relative;
   margin: .5rem;
+  transition: opacity 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
+}
+
+.button:active {
+  opacity: 0.85;
+  transform: scale(0.98);
+}
+
+.button:focus-visible {
+  outline: 1px solid #fff;
 }
 
 .label {

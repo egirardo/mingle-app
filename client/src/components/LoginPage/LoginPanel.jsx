@@ -6,13 +6,7 @@ import styles from "./LoginPanel.module.css";
 import TextInput from "../Forms/InputFields/TextInput";
 
 export default function LoginPanel() {
-  const [selectedButtons, setSelectedButtons] = useState({});
   const navigate = useNavigate();
-
-  const handleButtonClick = (buttonId, destination) => {
-    setSelectedButtons({ ...selectedButtons, [buttonId]: true });
-    navigate(destination);
-  };
 
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
@@ -55,7 +49,7 @@ export default function LoginPanel() {
           iconSrc="arrowBack"
           buttonColor={selectedButtons.back ? 'secondaryTransparent' : 'transparent'}
           ariaLabel="Go back to previous page"
-          onClick={() => handleButtonClick('back', -1)}
+          onClick={() => navigate(-1)}
         />
       </div>
       <div className={styles.formContainer}>
@@ -84,7 +78,7 @@ export default function LoginPanel() {
           />
           <Button
             buttonName={loading ? "Logging in..." : "Log in"}
-            variant={selectedButtons.login ? 'secondaryRed' : 'primaryRed'}
+            variant="primaryRed"
             type="submit"
             iconSrc="arrowRight"
             disabled={loading}

@@ -3,16 +3,9 @@ import Button from "../Buttons/Button";
 import SignUpLine from "../../assets/sign-up-line.svg";
 import DragExpand from "../../assets/icons/drag-expand.svg";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 
 export default function SignUpInfo() {
-    const [selectedButtons, setSelectedButtons] = useState({});
     const navigate = useNavigate();
-
-    const handleButtonClick = (buttonId, destination) => {
-        setSelectedButtons({ ...selectedButtons, [buttonId]: true });
-        navigate(destination);
-    };
 
     return (
         <div className={styles.signUpInfo}>
@@ -25,8 +18,8 @@ export default function SignUpInfo() {
                         And start exploring the students and companies attending beforehand.
                     </p>
                 <div className={styles.buttonsContainer}>
-                    <Button buttonName="Student" variant={selectedButtons.student ? 'secondaryRed' : 'primaryRed'} iconSrc="arrowRight" onClick={() => handleButtonClick('student', '/signup/student')} />
-                    <Button buttonName="Company" variant={selectedButtons.company ? 'secondaryRed' : 'primaryRed'} iconSrc="arrowRight" onClick={() => handleButtonClick('company', '/signup/business')} />
+                    <Button buttonName="Student" variant="primaryRed" iconSrc="arrowRight" onClick={() => navigate('/signup/student')} />
+                    <Button buttonName="Company" variant="primaryRed" iconSrc="arrowRight" onClick={() => navigate('/signup/business')} />
                 </div>
                 </div>
             </div>

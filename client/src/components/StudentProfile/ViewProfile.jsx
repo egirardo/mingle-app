@@ -8,13 +8,7 @@ import Button from "../Buttons/Button";
 import TagContainer from "../Tags/TagContainer";
 
 export default function ViewProfile() {
-  const [selectedButtons, setSelectedButtons] = useState({});
   const navigate = useNavigate();
-
-  const handleButtonClick = (buttonId, destination) => {
-    setSelectedButtons({ ...selectedButtons, [buttonId]: true });
-    navigate(destination);
-  };
   const { id } = useParams(); // expects route: /students/:id
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -64,13 +58,13 @@ export default function ViewProfile() {
               <IconOnlyButton
                 iconSrc="arrowBack"
                 buttonColor="transparent"
-                ariaLabel="Go back to home page"
-                onClick={() => handleButtonClick('back', "/")}
+                ariaLabel="Go back to previous page"
+                onClick={() => navigate(-1)}
                 />
               <Button
                 buttonName="Portfolio"
                 iconSrc="arrow45"
-                variant={selectedButtons.portfolio ? 'transparentUnderlineSecondary' : 'transparentUnderlinePrimary'}
+                variant="transparentUnderlinePrimary"
                 ariaLabel="External Portfolio Link"
                 onClick={() => window.open(profile.portfolio, '_blank', 'noopener,noreferrer')}
                 /> 
@@ -80,8 +74,8 @@ export default function ViewProfile() {
               <IconOnlyButton
                 iconSrc="arrowBack"
                 buttonColor="transparent"
-                ariaLabel="Go back to home page"
-                onClick={() => handleButtonClick('back', "/")}
+                ariaLabel="Go back to previous page"
+                onClick={() => navigate(-1)}
               />
             </div> ) }
 
@@ -119,9 +113,9 @@ export default function ViewProfile() {
             {isOwner && (
               <Button
                 buttonName="Edit Profile"
-                variant={selectedButtons.edit ? 'transparentUnderlineSecondary' : 'transparentUnderlinePrimary'}
+                variant="transparentUnderlinePrimary"
                 ariaLabel="Edit Profile"
-                onClick={() => handleButtonClick('edit', `/students/${id}/edit`)}
+                onClick={() => navigate(`/students/${id}/edit`)}
               />
             )}
 

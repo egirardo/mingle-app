@@ -8,13 +8,7 @@ import CheckboxGroup from "../Forms/Checkboxes/CheckboxGroup";
 import RadioGroup from "../Forms/RadioButtons/RadioGroup";
 
 const BusinessSignUpPanel = () => {
-  const [selectedButtons, setSelectedButtons] = useState({});
   const navigate = useNavigate();
-
-  const handleButtonClick = (buttonId, destination) => {
-    setSelectedButtons({ ...selectedButtons, [buttonId]: true });
-    navigate(destination);
-  };
 
   const [formData, setFormData] = useState({
     company: "",
@@ -73,7 +67,7 @@ const BusinessSignUpPanel = () => {
           iconSrc="arrowBack"
           buttonColor="transparent"
           ariaLabel="Go back to home page"
-          onClick={() => handleButtonClick('back', "/")}
+          onClick={() => navigate("/")}
         />
       </div>
       <div className={styles.formContainer}>
@@ -163,7 +157,7 @@ const BusinessSignUpPanel = () => {
 
           <Button
             buttonName={loading ? "Registering..." : "Register"}
-            variant={selectedButtons.register ? 'secondaryRed' : 'primaryRed'}
+            variant="primaryRed"
             type="submit"
             iconSrc="arrowRight"
             disabled={loading}
