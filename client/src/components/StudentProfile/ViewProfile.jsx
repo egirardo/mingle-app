@@ -6,6 +6,7 @@ import styles from "./ViewProfile.module.css";
 import IconOnlyButton from "../Buttons/IconOnlyButton";
 import Button from "../Buttons/Button";
 import TagContainer from "../Tags/TagContainer";
+import { apiFetch } from "../../api";
 
 export default function ViewProfile() {
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ export default function ViewProfile() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await fetch(`/api/students/profile/${id}`);
+        const res = await apiFetch(`/api/students/profile/${id}`);
         const data = await res.json();
         if (!res.ok) throw new Error(data.message);
         setProfile(data);

@@ -26,6 +26,7 @@
     border: 1px solid rgba(255, 255, 255, 0.30);
     background: rgba(255, 255, 255, 0.30);
     width: 100%;
+    color: white;
 }
 
 .textInput::placeholder {

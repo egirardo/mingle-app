@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import RadioGroup from "../Forms/RadioButtons/RadioGroup";
 import CheckboxGroup from "../Forms/Checkboxes/CheckboxGroup";
 import PhotoUpload from "../Forms/InputFields/PhotoUpload";
+import { apiFetch } from "../../api";
 
 const StudentSignUpPanel = () => {
   const navigate = useNavigate();
@@ -52,7 +53,7 @@ const StudentSignUpPanel = () => {
 
     setLoading(true);
     try {
-      const res = await fetch("/api/students/register", {
+      const res = await apiFetch("/api/students/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -74,14 +75,14 @@ const StudentSignUpPanel = () => {
 
       // Registration successful — upload profile image if provided
       if (profileImage && data.token) {
-        const formData = new FormData();
-        formData.append('profileImage', profileImage);
+        const imageFormData = new FormData();
+        imageFormData.append('profileImage', profileImage);
 
         try {
-          const imageRes = await fetch('/api/students/profile/image', {
+          const imageRes = await apiFetch('/api/students/profile/image', {
             method: 'PUT',
             headers: { 'Authorization': `Bearer ${data.token}` },
-            body: formData,
+            body: imageFormData,
           });
 
           if (!imageRes.ok) {
