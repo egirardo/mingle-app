@@ -47,7 +47,7 @@ export default function LoginPanel() {
       <div className={styles.arrowButtonContainer}>
         <IconOnlyButton
           iconSrc="arrowBack"
-          buttonColor={selectedButtons.back ? 'secondaryTransparent' : 'transparent'}
+          buttonColor="transparent"
           ariaLabel="Go back to previous page"
           onClick={() => navigate(-1)}
         />
