@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import multer from 'multer';
+import dotenv from 'dotenv';
 import { v2 as cloudinary } from 'cloudinary';
 import { Readable } from 'stream';
 import { fileTypeFromBuffer } from 'file-type';
@@ -10,11 +11,13 @@ import StudentAuth from '../models/StudentAuth.js';
 import StudentProfile from '../models/StudentProfile.js';
 import authMiddleware from '../middleware/authMiddleware.js';
 
+dotenv.config(); // keeping this and dotenv import in depsite claude's suggestions because the cloudinary config relies on these env vars.
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
+
 
 const router = express.Router();
 

@@ -4,6 +4,7 @@ import Button from "../Buttons/Button";
 import IconOnlyButton from "../Buttons/IconOnlyButton";
 import styles from "./LoginPanel.module.css";
 import TextInput from "../Forms/InputFields/TextInput";
+import { apiFetch } from "../../api";
 
 export default function LoginPanel() {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ export default function LoginPanel() {
     setLoading(true);
 
     try {
-      const res = await fetch("/api/students/login", {
+      const res = await apiFetch("/api/students/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

@@ -6,6 +6,7 @@ import Button from "../Buttons/Button";
 import { useNavigate } from "react-router-dom";
 import CheckboxGroup from "../Forms/Checkboxes/CheckboxGroup";
 import RadioGroup from "../Forms/RadioButtons/RadioGroup";
+import { apiFetch } from "../../api";
 
 const BusinessSignUpPanel = () => {
   const navigate = useNavigate();
@@ -34,7 +35,7 @@ const BusinessSignUpPanel = () => {
     setLoading(true);
 
     try {
-      const res = await fetch("/api/companies/profile", {
+      const res = await apiFetch("/api/companies/profile", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
