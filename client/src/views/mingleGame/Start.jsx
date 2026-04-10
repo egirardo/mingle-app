@@ -13,7 +13,13 @@ import instructionsAudio from "../../assets/audio/instructions.mp3";
 
 export default function Start() {
   const mingle = useOutletContext();
+  const [selectedButtons, setSelectedButtons] = useState({});
   const navigate = useNavigate();
+
+  const handleButtonClick = (buttonId, destination) => {
+    setSelectedButtons({ ...selectedButtons, [buttonId]: true });
+    navigate(destination);
+  };
   const playBeep = usePlayBeep();
   const [, setAudioFailed] = useState(false);
   const playInstructions = usePlaySound(instructionsAudio, () =>
@@ -107,7 +113,7 @@ export default function Start() {
       </p>
       <Button
         buttonName="Start"
-        buttonColor="redWhiteText"
+        variant="redWhitePrimary"
         iconSrc="arrowRightWhite"
         onClick={handleStartClick}
       />

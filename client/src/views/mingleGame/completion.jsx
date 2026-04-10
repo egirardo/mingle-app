@@ -3,9 +3,16 @@ import Button from "../../components/Buttons/Button";
 import yrgoLogo from "../../assets/yrgo-logo.svg";
 import { useNavigate } from "react-router-dom";
 import { usePlayBeep } from "../../Hooks/useAudio.js";
+import { useState } from "react";
 
 export default function Completion() {
+  const [selectedButtons, setSelectedButtons] = useState({});
   const navigate = useNavigate();
+
+  const handleButtonClick = (buttonId, destination) => {
+    setSelectedButtons({ ...selectedButtons, [buttonId]: true });
+    navigate(destination);
+  };
   const playBeep = usePlayBeep();
 
   return (
@@ -17,11 +24,11 @@ export default function Completion() {
       </div>
       <Button
         buttonName="Explore participants"
-        buttonColor="redWhiteBorder"
+        variant={selectedButtons.back ? 'secondaryRed' : 'primaryRed'}
         iconSrc="arrowRightWhite"
         onClick={() => {
           playBeep();
-          navigate("/");
+          handleButtonClick('back', "/");
         }}
       />
     </div>

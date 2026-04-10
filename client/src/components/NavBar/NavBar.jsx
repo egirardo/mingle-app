@@ -6,7 +6,13 @@ import hamburgerIcon from '../../assets/hamburger-icon.svg';
 import Button from '../Buttons/Button';
 
 export default function NavBar() {
+    const [selectedButtons, setSelectedButtons] = useState({});
     const navigate = useNavigate();
+
+    const handleButtonClick = (buttonId, destination) => {
+        setSelectedButtons({ ...selectedButtons, [buttonId]: true });
+        navigate(destination);
+    };
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const toggleMenu = () => {
@@ -38,23 +44,22 @@ export default function NavBar() {
                     <div className={styles.regExpButtonWrapper}>
                         <Button
                             buttonName="Register"
-                            variant="redWhiteBorder"
+                            variant={selectedButtons.register ? 'secondaryRed' : 'primaryRed'}
                             ariaLabel="Register"
-                            onClick={() => navigate("/")}
+                            onClick={() => handleButtonClick('register', "/")}
                         />
                         <Button
                             buttonName="Explore"
-                            buttonColor="gray"
+                            variant={selectedButtons.explore ? 'secondaryGray' : 'primaryGray'}
                             ariaLabel="Explore"
-                            onClick={() => navigate("/explore")}
+                            onClick={() => handleButtonClick('explore', "/explore")}
                         />
                     </div>
                     <Button
                         buttonName="About and Contact"
-                        buttonColor="transparent"
-                        variant="textUnderline"
+                        variant={selectedButtons.about ? 'transparentUnderlineSecondary' : 'transparentUnderlinePrimary'}
                         ariaLabel="About and Contact"
-                        onClick={() => navigate("/about")}
+                        onClick={() => handleButtonClick('about', "/about")}
                     />
                     
                     <div className={styles.studentLoginButton}>
@@ -63,9 +68,9 @@ export default function NavBar() {
                             buttonColor="transparent"
                             iconSrc="profileIcon"
                             iconLeft={true}
-                            variant="textUnderline"
+                            variant={selectedButtons.login ? 'transparentUnderlineSecondary' : 'transparentUnderlinePrimary'}
                             ariaLabel="Student Login"
-                            onClick={() => navigate("/login")}
+                            onClick={() => handleButtonClick('login', "/login")}
                         />
                     </div>
                     

@@ -12,6 +12,7 @@ import profileIcon from "../../assets/icons/profile.svg";
 // `variant` (string): maps to variant/modifier classes (e.g. `blackBorder`, `textUnderline`)
 // `iconSrc` (string|import): optional icon to show on the right (or left if `iconLeft` is true)
 // `iconLeft` (bool): if true, renders the icon on the left instead of the right
+// `isSelected` (bool): if true, applies aria-pressed="true" for accessibility
 // `type` (string): button type, defaults to "button"
 // `...buttonProps`: any other native button props (onClick, disabled, title, data-*) are forwarded
 
@@ -21,6 +22,7 @@ export default function Button({
   variant,
   iconSrc,
   iconLeft = false,
+  isSelected = false,
   ariaLabel,
   type = "button",
   ...buttonProps
@@ -51,6 +53,7 @@ export default function Button({
       className={`${styles.button} ${icon ? (iconLeft ? styles.hasIconLeft : styles.hasIconRight) : ""} ${colorClass} ${variantClass}`.trim()}
       type={type}
       aria-label={ariaLabel}
+      aria-pressed={isSelected}
     >
       {iconLeft && iconEl}
       <span className={`${styles.label} ${textClass}`.trim()}>

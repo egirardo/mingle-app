@@ -9,7 +9,13 @@ import CheckboxGroup from "../Forms/Checkboxes/CheckboxGroup";
 import PhotoUpload from "../Forms/InputFields/PhotoUpload";
 
 const StudentSignUpPanel = () => {
+  const [selectedButtons, setSelectedButtons] = useState({});
   const navigate = useNavigate();
+
+  const handleButtonClick = (buttonId, destination) => {
+    setSelectedButtons({ ...selectedButtons, [buttonId]: true });
+    navigate(destination);
+  };
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -108,7 +114,7 @@ const StudentSignUpPanel = () => {
           iconSrc="arrowBack"
           buttonColor="transparent"
           ariaLabel="Go back to home page"
-          onClick={() => navigate("/")}
+          onClick={() => handleButtonClick('back', "/")}
         />
       </div>
       <div className={styles.formContainer}>
@@ -243,7 +249,7 @@ const StudentSignUpPanel = () => {
 
           <Button
             buttonName={loading ? "Registering..." : "Register"}
-            variant="redWhiteBorder"
+            variant={selectedButtons.register ? 'secondaryRed' : 'primaryRed'}
             type="submit"
             iconSrc="arrowRight"
             disabled={loading}

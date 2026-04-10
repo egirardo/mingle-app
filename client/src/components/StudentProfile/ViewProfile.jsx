@@ -8,7 +8,13 @@ import Button from "../Buttons/Button";
 import TagContainer from "../Tags/TagContainer";
 
 export default function ViewProfile() {
+  const [selectedButtons, setSelectedButtons] = useState({});
   const navigate = useNavigate();
+
+  const handleButtonClick = (buttonId, destination) => {
+    setSelectedButtons({ ...selectedButtons, [buttonId]: true });
+    navigate(destination);
+  };
   const { id } = useParams(); // expects route: /students/:id
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -59,13 +65,12 @@ export default function ViewProfile() {
                 iconSrc="arrowBack"
                 buttonColor="transparent"
                 ariaLabel="Go back to home page"
-                onClick={() => navigate("/")}
+                onClick={() => handleButtonClick('back', "/")}
                 />
               <Button
                 buttonName="Portfolio"
                 iconSrc="arrow45"
-                buttonColor="transparent"
-                variant="textUnderline"
+                variant={selectedButtons.portfolio ? 'transparentUnderlineSecondary' : 'transparentUnderlinePrimary'}
                 ariaLabel="External Portfolio Link"
                 onClick={() => window.open(profile.portfolio, '_blank', 'noopener,noreferrer')}
                 /> 
@@ -76,7 +81,7 @@ export default function ViewProfile() {
                 iconSrc="arrowBack"
                 buttonColor="transparent"
                 ariaLabel="Go back to home page"
-                onClick={() => navigate("/")}
+                onClick={() => handleButtonClick('back', "/")}
               />
             </div> ) }
 
@@ -114,10 +119,9 @@ export default function ViewProfile() {
             {isOwner && (
               <Button
                 buttonName="Edit Profile"
-                buttonColor="transparent"
-                variant="textUnderline"
+                variant={selectedButtons.edit ? 'transparentUnderlineSecondary' : 'transparentUnderlinePrimary'}
                 ariaLabel="Edit Profile"
-                onClick={() => navigate(`/students/${id}/edit`)}
+                onClick={() => handleButtonClick('edit', `/students/${id}/edit`)}
               />
             )}
 

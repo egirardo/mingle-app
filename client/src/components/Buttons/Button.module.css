@@ -98,7 +98,19 @@
 /* Variants */
 /* --------------------------------------------------------- */
 
-.textUnderline {
+.transparentUnderlinePrimary {
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.0);
+  text-decoration: underline;
+  text-decoration-style: solid;
+  text-decoration-skip-ink: auto;
+  text-decoration-thickness: auto;
+  text-underline-offset: .115rem;
+  text-underline-position: from-font;
+}
+.transparentUnderlineSecondary {
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 1);
   text-decoration: underline;
   text-decoration-style: solid;
   text-decoration-skip-ink: auto;
@@ -107,19 +119,40 @@
   text-underline-position: from-font;
 }
 
-/* background colors */
+/* Button Color */
+
 .transparent {
   background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.0);
 }
 
-.gray {
-  background-color: rgba(255, 255, 255, 0.3);
-}
+
 
 /* Combo Buttons */
 
-.redWhiteBorder {
+.transparentPrimary {
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.0);
+}
+.transparentSecondary {
+  background-color: transparent;
+  border: 1px solid white;
+}
+
+.primaryRed {
+  background-color: rgba(229, 21, 54, 1);
+  border: 1px solid rgba(229, 21, 54, 0.0);
+}
+.secondaryRed {
   background-color: rgba(229, 21, 54, 1);
   border: 1px solid white;
-  color: white;
+}
+
+.primaryGray {
+  background-color: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.0);
+}
+.secondaryGray {
+  background-color: rgba(255, 255, 255, 0.3);
+  border: 1px solid white;
 }
