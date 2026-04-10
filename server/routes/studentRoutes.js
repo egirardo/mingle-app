@@ -12,10 +12,17 @@ import StudentProfile from '../models/StudentProfile.js';
 import authMiddleware from '../middleware/authMiddleware.js';
 
 dotenv.config(); // keeping this and dotenv import in depsite claude's suggestions because the cloudinary config relies on these env vars.
+const { CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET } = process.env;
+
+if (!CLOUDINARY_CLOUD_NAME || !CLOUDINARY_API_KEY || !CLOUDINARY_API_SECRET) {
+  console.error('Missing Cloudinary environment variables. Check CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, and CLOUDINARY_API_SECRET.');
+  process.exit(1);
+}
+
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
+  cloud_name: CLOUDINARY_CLOUD_NAME,
+  api_key: CLOUDINARY_API_KEY,
+  api_secret: CLOUDINARY_API_SECRET,
 });
 
 
@@ -38,10 +45,15 @@ const upload = multer({
   },
 });
 
-const uploadToCloudinary = (buffer, mimeType) => {
+const uploadToCloudinary = (buffer, userId) => {
   return new Promise((resolve, reject) => {
     const uploadStream = cloudinary.uploader.upload_stream(
-      { folder: 'mingle-app', resource_type: 'image' },
+      {
+        folder: 'mingle-app',
+        resource_type: 'image',
+        public_id: `profile-${userId}`, // deterministic — overwrites the same asset on every update
+        overwrite: true,
+      },
       (error, result) => {
         if (error) reject(error);
         else resolve(result);
@@ -51,9 +63,7 @@ const uploadToCloudinary = (buffer, mimeType) => {
   });
 };
 // ─── HELPER: Format profile for response ────────────────────────────────────
-// Converts the binary image to a base64 data URL the frontend can use directly
-// e.g. <img src={profile.profileImage} />
-// Falls back to null if no image — frontend should show a default avatar
+// Returns cloudinary URL for profileImage and splits questions string into array
 const formatProfile = (profile) => {
   const obj = profile.toObject();
   obj.questions = obj.questions ? obj.questions.split('||') : [];
@@ -283,7 +293,7 @@ router.put(
         });
       }
 
-      const cloudinaryResult = await uploadToCloudinary(req.file.buffer, detectedType.mime);
+      const cloudinaryResult = await uploadToCloudinary(req.file.buffer, req.user.id);
 
       const updatedProfile = await StudentProfile.findOneAndUpdate(
         { studentId: req.user.id },
