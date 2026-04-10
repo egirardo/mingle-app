@@ -77,7 +77,7 @@ export default function Start() {
   };
 
   return (
-    <div className={`${styles.main} ${styles.backgroundBlur}`}>
+    <div className={`${styles.main} ${styles.backgroundBlurFilter}`}>
       <h3
         className={`${styles.introductionHeader} ${styles.textMediumRegular}`}
       >
