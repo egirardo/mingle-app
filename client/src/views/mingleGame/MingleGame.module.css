@@ -74,13 +74,6 @@
     letter-spacing: -0.125rem;
   }
 
-  .textMediumRegular {
-    font-size: 2.25rem;
-    font-weight: 400;
-    line-height: 97%;
-    letter-spacing: -0.0625rem;
-  }
-
   .textMedium {
     font-size: 3rem;
     font-weight: 400;
@@ -91,15 +84,22 @@
   .textMediumBold {
     font-size: 3rem;
     font-weight: 700;
-    line-height: 3.25rem; /* 108.333% */
+    line-height: 3.25rem;
     margin: 0;
+    letter-spacing: -0.0625rem;
+  }
+
+  .textMediumRegular {
+    font-size: 2.25rem;
+    font-weight: 400;
+    line-height: 97%;
     letter-spacing: -0.0625rem;
   }
 
   .textSmall {
     font-size: 2rem;
     font-weight: 400;
-    line-height: 97%; /* 1.94rem */
+    line-height: 97%;
     letter-spacing: -0.08rem;
   }
 }
@@ -117,17 +117,12 @@
   overflow: hidden;
   color: white;
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 3.5rem;
-  padding: 0;
-  margin: 0;
   box-sizing: border-box;
   scrollbar-width: none;
 }
@@ -144,6 +139,23 @@
 
 .backgroundDarkFilter {
   background: rgba(0, 0, 0, 0.3);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3.5rem;
+  width: 100%;
+  padding: 0 2rem;
+  box-sizing: border-box;
 }
 
 .yrgoLogo {
@@ -185,17 +197,6 @@
   word-break: break-word;
 }
 
-@media (min-width: 64rem) {
-  .mainGrid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    height: auto;
-    min-height: 100vh;
-    justify-content: space-between;
-    align-items: center;
-  }
-}
-
 /* ---------------------------------------- */
 /* Lobby */
 /* ---------------------------------------- */
@@ -206,6 +207,14 @@
 }
 
 @media (min-width: 64rem) {
+  .mainGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    min-height: 100vh;
+    justify-content: space-between;
+    align-items: center;
+  }
+
   .textContainerDesktop {
     padding: 1.5rem;
     display: flex;
@@ -296,8 +305,7 @@
 @media (min-width: 64rem) {
   .timer {
     font-size: 8rem;
-    font-style: normal;
     font-weight: 400;
-    line-height: 150%; /* 12rem */
+    line-height: 150%;
   }
 }

@@ -77,29 +77,34 @@ export default function Start() {
   };
 
   return (
-    <div className={`${styles.main} ${styles.backgroundBlurFilter}`}>
-      <h3
-        className={`${styles.introductionHeader} ${styles.textMediumRegular}`}
-      >
-        Welcome to
-      </h3>
-      <div className={styles.IntroductionTitleContainer}>
-        <h1 className={`${styles.introductionHeader} ${styles.textExtraLarge}`}>
-          LIA FUSION
-        </h1>
-        <h2 className={`${styles.introductionHeader} ${styles.textLarge}`}>
-          Speed Mingle
-        </h2>
+    <section className={styles.main}>
+      <div className={`${styles.overlay} ${styles.backgroundBlurFilter}`} />
+      <div className={styles.content}>
+        <h3
+          className={`${styles.introductionHeader} ${styles.textMediumRegular}`}
+        >
+          Welcome to
+        </h3>
+        <div className={styles.IntroductionTitleContainer}>
+          <h1
+            className={`${styles.introductionHeader} ${styles.textExtraLarge}`}
+          >
+            LIA FUSION
+          </h1>
+          <h2 className={`${styles.introductionHeader} ${styles.textLarge}`}>
+            Speed Mingle
+          </h2>
+        </div>
+        <p className={`${styles.textMediumRegular} ${styles.startText}`}>
+          Get ready to meet new people. Follow the instructions on your phone.
+        </p>
+        <Button
+          buttonName="Start"
+          buttonColor="redWhiteText"
+          iconSrc="arrowRightWhite"
+          onClick={handleStartClick}
+        />
       </div>
-      <p className={`${styles.textMediumRegular} ${styles.startText}`}>
-        Get ready to meet new people. Follow the instructions on your phone.
-      </p>
-      <Button
-        buttonName="Start"
-        buttonColor="redWhiteText"
-        iconSrc="arrowRightWhite"
-        onClick={handleStartClick}
-      />
-    </div>
+    </section>
   );
 }

@@ -12,10 +12,10 @@ export default function Lobby() {
   };
 
   return (
-    <div className={`${styles.main} ${styles.mainGrid}`}>
+    <section className={`${styles.main} ${styles.mainGrid}`}>
       <div className={`${styles.timerContainerDesktop}`}>
         <DateTimer
-          targetDate="2026-04-10T18:13:00+02:00"
+          targetDate="2026-04-10T22:13:00+02:00"
           onExpire={handleExpire}
           className={`${styles.timer}`}
         />
@@ -40,10 +40,11 @@ export default function Lobby() {
           when the countdown reaches zero.
         </p>
         <div>
+          {/* TEMPORARY IMG */}
           <p className={styles.textSmall}>Scan me!</p>
           <img src={QrCode} className={`${styles.qrCode}`} alt="" />
         </div>
       </div>
-    </div>
+    </section>
   );
 }
