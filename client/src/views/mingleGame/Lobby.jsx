@@ -7,7 +7,7 @@ export default function Lobby() {
   const navigate = useNavigate();
 
   const handleExpire = () => {
-    // When the question timer expires, advance to the next round and navigate to the task page
+    // When the timer expires, navigates to the start screen
     navigate("/start");
   };
 
@@ -42,7 +42,7 @@ export default function Lobby() {
         <div>
           {/* TEMPORARY IMG */}
           <p className={styles.textSmall}>Scan me!</p>
-          <img src={QrCode} className={`${styles.qrCode}`} alt="" />
+          <img src={QrCode} alt="a qr-code which reroutes to the introduction page" />
         </div>
       </div>
     </section>

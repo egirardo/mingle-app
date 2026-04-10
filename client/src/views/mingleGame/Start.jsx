@@ -4,7 +4,7 @@ import styles from "./MingleGame.module.css";
 import Button from "../../components/Buttons/Button";
 import socket, { connectSocket } from "../../socket.js";
 import {
-  // commenting out in case the designers want a beep sound after the button is. pressed
+  // commenting out in case the designers want a beep sound after the button is pressed
   // usePlayBeep,
   usePlaySound,
   useUnlockAudio,
@@ -15,10 +15,10 @@ export default function Start() {
   const mingle = useOutletContext();
   const navigate = useNavigate();
 
-  // commenting out in case the designers want a beep sound after the button is. pressed
+  // commenting out in case the designers want a beep sound after the button is pressed
   // const playBeep = usePlayBeep();
 
-  const [, setAudioFailed] = useState(false);
+  const [audioFailed, setAudioFailed] = useState(false);
   const playInstructions = usePlaySound(instructionsAudio, () =>
     setAudioFailed(true),
   );
@@ -26,7 +26,7 @@ export default function Start() {
 
   useUnlockAudio();
 
-  const [expired, setExpired] = useState(() => {
+  const [expired] = useState(() => {
     const saved = localStorage.getItem("gameExpired");
     return saved ? JSON.parse(saved) : false;
   });
@@ -49,7 +49,6 @@ export default function Start() {
 
     const handleGameReset = () => {
       resetQuestionsRef.current?.();
-      setExpired(false);
       localStorage.removeItem("gameExpired");
     };
 
@@ -62,17 +61,18 @@ export default function Start() {
     };
   }, [navigate]);
 
-  // Play instructions audio when page loads
+  // Attempt to play instructions when page loads
   useEffect(() => {
     playInstructions();
   }, [playInstructions]);
 
+  // Play audio instructions audio only after user interaction
+  const handlePlayInstructions = () => {
+    playInstructions();
+  };
+
   const handleStartClick = () => {
     resetQuestionsRef.current?.();
-
-    // commenting out in case the designers want a beep sound after the button is. pressed
-    // playBeep();
-
     socket.emit("start-game");
   };
 
@@ -98,6 +98,15 @@ export default function Start() {
         <p className={`${styles.textMediumRegular} ${styles.startText}`}>
           Get ready to meet new people. Follow the instructions on your phone.
         </p>
+        {audioFailed && (
+          // audio instructions button
+          <Button
+            buttonName="Play Instructions"
+            buttonColor="redWhiteText"
+            onClick={handlePlayInstructions}
+          />
+        )}
+        {/* game start button */}
         <Button
           buttonName="Start"
           buttonColor="redWhiteText"
