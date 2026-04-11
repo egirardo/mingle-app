@@ -1,0 +1,13 @@
+name: Deploy to Render
+on:
+  push:
+    branches: [dev] # Trigger on push to dev
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: 
+      name: production
+      url: https://lia-fusion-dedl.onrender.com/
+    steps:
+      - name: Trigger Render Deploy Hook
+        run: curl -s "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
