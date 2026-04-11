@@ -1,9 +1,9 @@
 import { useNavigate, useOutletContext } from "react-router-dom";
-import Timer from "../../components/Timer/Timer.jsx";
-import styles from "./MingleGame.module.css";
-import yrgoLogo from "../../assets/yrgo-logo.svg";
-import RoundsDisplay from "../../components/RoundsDisplay/RoundsDisplay.jsx";
-import { usePlayBeep } from "../../Hooks/useAudio.js";
+import Timer from "../../../components/Timer/Timer.jsx";
+import styles from "../MingleGame.module.css";
+import yrgoLogo from "../../../assets/yrgo-logo.svg";
+import RoundsDisplay from "../../../components/RoundsDisplay/RoundsDisplay.jsx";
+import { usePlayBeep } from "../../../Hooks/useAudio.js";
 export default function Task() {
   const mingle = useOutletContext();
   const navigate = useNavigate();
@@ -14,7 +14,7 @@ export default function Task() {
   // When the task timer expires, navigate to the Question page
   const handleExpire = () => {
     playBeep();
-    // navigate("/question");
+    navigate("/start/question");
   };
 
   return (

@@ -1,22 +1,19 @@
 import { useNavigate, useOutletContext } from "react-router-dom";
-import styles from "./MingleGame.module.css";
-import Timer from "../../components/Timer/Timer.jsx";
-import yrgoLogo from "../../assets/yrgo-logo.svg";
-import RoundsDisplay from "../../components/RoundsDisplay/RoundsDisplay.jsx";
-import { usePlayBeep } from "../../Hooks/useAudio.js";
+import styles from "../MingleGame.module.css";
+import Timer from "../../../components/Timer/Timer.jsx";
+import yrgoLogo from "../../../assets/yrgo-logo.svg";
+import RoundsDisplay from "../../../components/RoundsDisplay/RoundsDisplay.jsx";
 
 export default function Loading() {
   const mingle = useOutletContext();
   const navigate = useNavigate();
-  const playBeep = usePlayBeep();
 
   const { currentQuestion, nextQuestion } = mingle;
 
   const handleExpire = () => {
     // When the question timer expires, advance to the next round and navigate to the task page
     nextQuestion?.();
-    playBeep();
-    // navigate("/task");
+    navigate("/task");
   };
 
   return (

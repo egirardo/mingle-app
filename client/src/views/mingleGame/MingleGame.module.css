@@ -2,6 +2,14 @@
 /* Typography */
 /* ---------------------------------------- */
 
+.textXXL {
+  color: white;
+  font-size: 4rem;
+  font-weight: 600;
+  line-height: 2rem; /* 50% */
+  letter-spacing: -0.0625rem;
+}
+
 .textExtraLarge {
   color: white;
   letter-spacing: -0.0625rem;
@@ -67,6 +75,13 @@
 }
 
 @media (min-width: 64rem) {
+  .textXXL {
+    font-size: 8rem;
+    font-weight: 700;
+    line-height: 150%; /* 12rem */
+    letter-spacing: -0.32rem;
+  }
+
   .textExtraLarge {
     font-size: 6rem;
     font-weight: 700;

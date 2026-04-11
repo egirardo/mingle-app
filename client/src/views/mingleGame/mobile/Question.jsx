@@ -1,15 +1,12 @@
 import { useNavigate, useOutletContext } from "react-router-dom";
-import Timer from "../../components/Timer/Timer.jsx";
-import styles from "./MingleGame.module.css";
-import yrgoLogo from "../../assets/yrgo-logo.svg";
-import RoundsDisplay from "../../components/RoundsDisplay/RoundsDisplay.jsx";
-import { usePlayBeep } from "../../Hooks/useAudio.js";
+import Timer from "../../../components/Timer/Timer.jsx";
+import styles from "../MingleGame.module.css";
+import yrgoLogo from "../../../assets/yrgo-logo.svg";
+import RoundsDisplay from "../../../components/RoundsDisplay/RoundsDisplay.jsx";
 
 export default function Question() {
   const mingle = useOutletContext();
   const navigate = useNavigate();
-  const playBeep = usePlayBeep();
-
   const { currentQuestion } = mingle;
 
   // Checks if it's the final round of the game
@@ -20,18 +17,17 @@ export default function Question() {
   // When the question timer expires, finish the game on the last round;
   // otherwise navigate to the loading page.
   const handleExpire = () => {
-    playBeep();
     if (isFinalRound) {
-      // navigate("/completion");
+      navigate("/completion");
       return;
     }
-    // navigate("/loading");
+    navigate("/loading");
   };
 
   return (
     <div className={`${styles.main} ${styles.backgroundBlur}`}>
       <img className={styles.yrgoLogo} src={yrgoLogo} alt="Yrgo logo" />
-      <div className={styles.questionContainer}>
+      <div className={`${styles.timerContainerDesktop}`}>
         <RoundsDisplay
           currentRound={currentQuestion?.round || 0}
           className={styles.textLargeBold}
