@@ -18,16 +18,27 @@ export default function Task() {
   };
 
   return (
-    <div className={`${styles.main} ${styles.backgroundBlur}`}>
-      <img className={styles.yrgoLogo} src={yrgoLogo} alt="Yrgo logo" />
-      <RoundsDisplay
-        currentRound={currentQuestion?.round || 0}
-        className={styles.textLargeBold}
-      />
-      <Timer minutes={0.1} onExpire={handleExpire} className={styles.timer} />
-      <p className={`${styles.textMediumRegular} ${styles.textBubble}`}>
-        {currentQuestion?.task}
-      </p>
-    </div>
+    <section className={styles.main}>
+      <div className={`${styles.overlay} ${styles.backgroundBlurFilter}`} />
+      <div className={styles.content}>
+        <img className={styles.yrgoLogo} src={yrgoLogo} alt="Yrgo logo" />
+        <RoundsDisplay
+          currentRound={currentQuestion?.round || 0}
+          className={styles.textLargeBold}
+        />
+        <div className={styles.taskContainer}>
+          <Timer
+            minutes={0.1}
+            onExpire={handleExpire}
+            className={styles.timer}
+          />
+          <p
+            className={`${styles.textMediumBold} ${styles.textBubble} ${styles.task}`}
+          >
+            {currentQuestion?.task}
+          </p>
+        </div>
+      </div>
+    </section>
   );
 }

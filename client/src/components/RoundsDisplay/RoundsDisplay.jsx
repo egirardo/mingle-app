@@ -28,7 +28,7 @@ export default function RoundsDisplay(props) {
 
   return (
     <div className={containerClassName}>
-      <span>Round {currentRound}</span>
+      <span>ROUND {currentRound}</span>
       <div className={styles.roundDisplay}>{roundDots}</div>
     </div>
   );
