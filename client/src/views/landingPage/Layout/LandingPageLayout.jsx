@@ -1,12 +1,14 @@
+
+import LandingPageBackgroundVideo from "../../../components/LandingPage/BackgroundVideo.jsx";
 import NavBar from "../../../components/NavBar/NavBar.jsx";
-import backgroundImage from "../../../assets/background.png"
+
 
 function LandingPageLayout({ children }) {
   return (
     <>
       <NavBar />
       <div className="hero-container">
-        <img src={backgroundImage} alt="" aria-hidden="true" className="hero-image" />
+        <LandingPageBackgroundVideo />
       </div>
       {children}
     </>
