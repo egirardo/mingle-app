@@ -22,10 +22,10 @@ export default function Question() {
   const handleExpire = () => {
     playBeep();
     if (isFinalRound) {
-      navigate("/completion");
+      // navigate("/completion");
       return;
     }
-    navigate("/loading");
+    // navigate("/loading");
   };
 
   return (
