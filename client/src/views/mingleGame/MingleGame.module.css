@@ -197,6 +197,16 @@
   word-break: break-word;
 }
 
+@media (min-width: 64rem) {
+  .yrgoLogo {
+    position: none;
+    left: 6rem;
+    top: -15%;
+    width: 11rem;
+    height: 4.3rem;
+  }
+}
+
 /* ---------------------------------------- */
 /* Lobby */
 /* ---------------------------------------- */

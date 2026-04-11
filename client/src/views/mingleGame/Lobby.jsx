@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./MingleGame.module.css";
 import DateTimer from "../../components/Timer/DateTimer.jsx";
+import yrgoLogo from "../../assets/yrgo-logo.svg";
 import QrCode from "../../assets/icons/qr-code.svg";
 
 export default function Lobby() {
@@ -14,6 +15,7 @@ export default function Lobby() {
   return (
     <section className={`${styles.main} ${styles.mainGrid}`}>
       <div className={`${styles.timerContainerDesktop}`}>
+        <img className={styles.yrgoLogo} src={yrgoLogo} alt="Yrgo logo" />
         <DateTimer
           targetDate="2026-04-10T22:13:00+02:00"
           onExpire={handleExpire}
