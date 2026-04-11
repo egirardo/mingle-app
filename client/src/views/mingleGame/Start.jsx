@@ -104,7 +104,7 @@ export default function Start() {
               iconSrc="sound"
               buttonColor="transparent"
               onClick={handlePlayInstructions}
-              aria-label="Play instructions"
+              ariaLabel="Play instructions"
             />
           )}
         </div>
