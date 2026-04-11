@@ -59,8 +59,15 @@
 }
 
 .iconOnly {
-  width: .875rem;
-  height: .875rem;
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+@media (min-width: 64rem) {
+  .iconOnly{
+    width: 2.75rem;
+    height: 2.75rem;
+  }
 }
 
 /* Padding to make room for the icon on the right */

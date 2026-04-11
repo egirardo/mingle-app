@@ -91,14 +91,6 @@ export default function Start() {
         <p className={`${styles.textMediumRegular} ${styles.startText}`}>
           Get ready to meet new people. Follow the instructions on your phone.
         </p>
-        {audioFailed && (
-          <IconOnlyButton
-            iconSrc="sound"
-            buttonColor="transparent"
-            onClick={handlePlayInstructions}
-            aria-label="Play instructions"
-          />
-        )}
         {/* game start button */}
         <Button
           buttonName="Start"
@@ -106,6 +98,16 @@ export default function Start() {
           iconSrc="arrowRightWhite"
           onClick={handleStartClick}
         />
+        <div className={styles.soundButton}>
+          {audioFailed && (
+            <IconOnlyButton
+              iconSrc="sound"
+              buttonColor="transparent"
+              onClick={handlePlayInstructions}
+              aria-label="Play instructions"
+            />
+          )}
+        </div>
       </div>
     </section>
   );

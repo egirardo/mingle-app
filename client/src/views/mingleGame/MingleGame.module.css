@@ -165,6 +165,7 @@
   transform: translateX(-50%);
   width: 5rem;
   height: 1.25rem;
+  z-index: 10;
 }
 
 .roundCountContainer {
@@ -199,11 +200,24 @@
 
 @media (min-width: 64rem) {
   .yrgoLogo {
-    position: none;
-    left: 6rem;
-    top: -15%;
+    position: fixed;
+    top: 1rem;
+    left: 0.05rem;
+    transform: none;
     width: 11rem;
     height: 4.3rem;
+    z-index: 10;
+  }
+
+  .soundButton {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    transform: none;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0.5rem;
+    z-index: 10;
   }
 }
 
