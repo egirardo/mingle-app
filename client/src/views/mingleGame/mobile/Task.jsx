@@ -16,14 +16,14 @@ export default function Task() {
 
   return (
     <section className={styles.main}>
-      <div className={`${styles.overlay} ${styles.backgroundBlurFilter}`} />
+      <div className={`${styles.overlay} ${styles.backgroundDarkFilter}`} />
       <div className={styles.content}>
-        <img className={styles.yrgoLogo} src={yrgoLogo} alt="Yrgo logo" />
-        <RoundsDisplay
-          currentRound={currentQuestion?.round || 0}
-          className={styles.textLargeBold}
-        />
-        <div className={styles.taskContainer}>
+        <div className={styles.mobileContainer}>
+          <img className={styles.yrgoLogo} src={yrgoLogo} alt="Yrgo logo" />
+          <RoundsDisplay
+            currentRound={currentQuestion?.round || 0}
+            className={styles.textLargeBold}
+          />
           <Timer
             minutes={0.1}
             onExpire={handleExpire}

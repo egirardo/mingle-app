@@ -21,25 +21,32 @@ export default function Question() {
       navigate("/completion");
       return;
     }
-    navigate("/loading");
+    // navigate("/loading");
   };
 
   return (
-    <div className={`${styles.main} ${styles.backgroundBlur}`}>
+    <section className={styles.main}>
       <img className={styles.yrgoLogo} src={yrgoLogo} alt="Yrgo logo" />
-      <div className={`${styles.timerContainerDesktop}`}>
-        <RoundsDisplay
-          currentRound={currentQuestion?.round || 0}
-          className={styles.textLargeBold}
-        />
-        <Timer minutes={0.1} onExpire={handleExpire} className={styles.timer} />
-        <div className={styles.questionDisplay}>
-          <h3 className={styles.textLargeBold}>Question:</h3>
-          <p className={`${styles.textMediumRegular} ${styles.textBubble}`}>
-            {currentQuestion?.question}
-          </p>
+      <div className={`${styles.overlay} ${styles.backgroundDarkFilter}`} />
+      <div className={styles.content}>
+        <div className={styles.mobileContainer}>
+          <RoundsDisplay
+            currentRound={currentQuestion?.round || 0}
+            className={styles.textLargeBold}
+          />
+          <Timer
+            minutes={0.1}
+            onExpire={handleExpire}
+            className={styles.timer}
+          />
+          <div className={styles.questionDisplay}>
+            <h3 className={styles.textLargeBold}>Question:</h3>
+            <p className={`${styles.textMediumRegular} ${styles.textBubble}`}>
+              {currentQuestion?.question}
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
