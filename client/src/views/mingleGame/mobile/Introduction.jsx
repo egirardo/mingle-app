@@ -48,7 +48,7 @@ export default function Introduction() {
 
   return (
     <section className={styles.main}>
-      <div className={`${styles.overlay} ${styles.backgroundBlurFilter}`} />
+      <div className={`${styles.overlay} ${styles.backgroundDarkFilter}`} />
       <div className={styles.content}>
         <img className={styles.yrgoLogo} src={yrgoLogo} alt="Yrgo logo" />
         <div className={styles.IntroductionTitleContainer}>

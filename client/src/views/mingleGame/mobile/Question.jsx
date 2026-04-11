@@ -21,7 +21,7 @@ export default function Question() {
       navigate("/completion");
       return;
     }
-    // navigate("/loading");
+    navigate("/loading");
   };
 
   return (

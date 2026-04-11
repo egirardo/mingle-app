@@ -192,7 +192,8 @@
 /* Questions */
 /* ---------------------------------------- */
 
-.questionContainer, .mobileContainer{
+.questionContainer,
+.mobileContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -201,7 +202,8 @@
   width: 100%;
 }
 
-.questionContainer h3, .mobileContainer h3 {
+.questionContainer h3,
+.mobileContainer h3 {
   margin: 0;
 }
 
@@ -231,6 +233,19 @@
   .timer {
     flex: 0 0 auto;
   }
+}
+/* ---------------------------------------- */
+/* Completion */
+/* ---------------------------------------- */
+
+.completionTextContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  align-self: stretch;
+  text-wrap: balance;
+  text-align: center;
 }
 
 /* ---------------------------------------- */
