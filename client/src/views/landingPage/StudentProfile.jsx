@@ -1,11 +1,11 @@
 import ViewProfile from "../../components/StudentProfile/ViewProfile";
-import LandingPageLayout from "./Layout/LandingPageLayout";
+import OtherPageLayout from "./Layout/OtherPageLayout";
 
 function StudentProfile() {
     return (
-        <LandingPageLayout>
+        <OtherPageLayout>
             <ViewProfile />
-        </LandingPageLayout>
+        </OtherPageLayout>
     );
 }
 

@@ -1,11 +1,11 @@
 import CompanyProfile from "../../components/CompanyProfile/CompanyProfile";
-import LandingPageLayout from "./Layout/LandingPageLayout";
+import OtherPageLayout from "./Layout/OtherPageLayout";
 
 function CompanyProfilePage() {
     return (
-        <LandingPageLayout>
+        <OtherPageLayout>
             <CompanyProfile />
-        </LandingPageLayout>
+        </OtherPageLayout>
     );
 }
 

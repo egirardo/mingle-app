@@ -8,6 +8,26 @@ import CheckboxGroup from "../Forms/Checkboxes/CheckboxGroup";
 import RadioGroup from "../Forms/RadioButtons/RadioGroup";
 import { apiFetch } from "../../api";
 
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
+/**
+ * Normalizes a URL by prepending https:// if no protocol is included
+ * @param {string} url - The URL to normalize
+ * @returns {string|null} Normalized URL or null if empty
+ */
+function normalizeURL(url) {
+  if (!url || typeof url !== 'string') {
+    return null;
+  }
+  const trimmed = url.trim();
+  if (!trimmed) {
+    return null;
+  }
+  if (!trimmed.startsWith('http://') && !trimmed.startsWith('https://')) {
+    return `https://${trimmed}`;
+  }
+  return trimmed;
+}
+
 const BusinessSignUpPanel = () => {
   const navigate = useNavigate();
 
@@ -45,7 +65,7 @@ const BusinessSignUpPanel = () => {
           liaSpaces: formData.liaSpaces,
           skills: formData.skills,
           about: formData.about || null,
-          website: formData.website || null,
+          website: normalizeURL(formData.website),
         }),
       });
 
@@ -148,8 +168,8 @@ const BusinessSignUpPanel = () => {
           />
           <TextInput
             formLabel="Website"
-            placeholder="https://www.example.com"
-            type="url"
+            placeholder="www.example.com or https://www.example.com"
+            type="text"
             name="website"
             value={formData.website}
             onChange={handleChange("website")}

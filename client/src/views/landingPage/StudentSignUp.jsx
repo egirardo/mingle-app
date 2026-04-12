@@ -1,11 +1,11 @@
 import StudentSignUpPanel from "../../components/SignUpPages/StudentSignUpPanel.jsx";
-import LandingPageLayout from "./Layout/LandingPageLayout.jsx";
+import OtherPageLayout from "./Layout/OtherPageLayout.jsx";
 
 function StudentSignUp() {
   return (
-    <LandingPageLayout>
+    <OtherPageLayout>
       <StudentSignUpPanel />
-    </LandingPageLayout>
+    </OtherPageLayout>
   );
 }
 

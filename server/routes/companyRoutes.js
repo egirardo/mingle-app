@@ -53,11 +53,15 @@ router.post('/profile', async (req, res) => {
   try {
     const { company, contactPerson, email, liaSpaces, skills, about, website } = req.body;
 
-    // Auto-prepend https:// if website provided but missing protocol
+    // Normalize website: trim and treat whitespace-only input as undefined
     let processedWebsite = website;
-    if (website && typeof website === 'string' && website.trim()) {
+    if (typeof website === 'string') {
       processedWebsite = website.trim();
-      if (!processedWebsite.startsWith('http://') && !processedWebsite.startsWith('https://')) {
+      // If after trimming it's empty, treat as not provided
+      if (!processedWebsite) {
+        processedWebsite = undefined;
+      } else if (!/^https?:\/\//i.test(processedWebsite)) {
+        // Auto-prepend https:// if protocol is missing
         processedWebsite = `https://${processedWebsite}`;
       }
     }
@@ -116,4 +120,4 @@ router.get('/count', async (req, res) => {
   }
 });
 
-export default router;
+export default router; 

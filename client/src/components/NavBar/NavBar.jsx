@@ -5,10 +5,58 @@ import yrgoLogo from '../../assets/yrgo-logo.svg';
 import hamburgerIcon from '../../assets/hamburger-icon.svg';
 import Button from '../Buttons/Button';
 
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
+/**
+ * Decodes a JWT token to extract the payload
+ * @param {string} token - The JWT token
+ * @returns {object|null} Parsed payload or null if invalid
+ */
+function decodeToken(token) {
+  try {
+    const parts = token.split('.');
+    if (parts.length !== 3) return null;
+    
+    // Decode base64url payload
+    const decoded = atob(parts[1].replace(/-/g, '+').replace(/_/g, '/'));
+    return JSON.parse(decoded);
+  } catch (err) {
+    console.error('Failed to decode token:', err);
+    return null;
+  }
+}
+
 export default function NavBar() {
     const navigate = useNavigate();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [studentId, setStudentId] = useState(null);
     const navRef = useRef(null);
+
+    // Check auth state on mount and set up listener
+    useEffect(() => {
+      const checkAuth = () => {
+        const token = localStorage.getItem('token');
+        if (token) {
+          const payload = decodeToken(token);
+          if (payload && payload.id) {
+            setIsLoggedIn(true);
+            setStudentId(payload.id);
+          } else {
+            setIsLoggedIn(false);
+            setStudentId(null);
+          }
+        } else {
+          setIsLoggedIn(false);
+          setStudentId(null);
+        }
+      };
+
+      checkAuth();
+
+      // Listen for storage changes (e.g., login/logout in another tab)
+      window.addEventListener('storage', checkAuth);
+      return () => window.removeEventListener('storage', checkAuth);
+    }, []);
 
     const toggleMenu = () => setIsMenuOpen(prev => !prev);
     const closeMenu = () => setIsMenuOpen(false);
@@ -31,6 +79,14 @@ export default function NavBar() {
     const handleNavigate = (path) => {
         closeMenu();
         navigate(path);
+    };
+
+    const handleLogout = () => {
+      localStorage.removeItem('token');
+      setIsLoggedIn(false);
+      setStudentId(null);
+      closeMenu();
+      navigate('/');
     };
 
     return (
@@ -61,7 +117,14 @@ export default function NavBar() {
                     </div>
                     <Button buttonName="About and Contact" variant="transparentUnderlinePrimary" ariaLabel="About and Contact" onClick={() => handleNavigate("/about")} />
                     <div className={styles.studentLoginButton}>
-                        <Button buttonName="Student Login" buttonColor="transparent" iconSrc="profileIcon" iconLeft={true} variant="transparentUnderlinePrimary" ariaLabel="Student Login" onClick={() => handleNavigate("/login")} />
+                        {isLoggedIn && studentId ? (
+                          <>
+                            <Button buttonName="Profile" buttonColor="transparent" iconSrc="profileIcon" iconLeft={true} variant="transparentUnderlinePrimary" ariaLabel="Go to profile" onClick={() => handleNavigate(`/students/${studentId}`)} />
+                            <Button buttonName="Logout" buttonColor="transparent" variant="transparentUnderlinePrimary" ariaLabel="Logout" onClick={handleLogout} />
+                          </>
+                        ) : (
+                          <Button buttonName="Student Login" buttonColor="transparent" iconSrc="profileIcon" iconLeft={true} variant="transparentUnderlinePrimary" ariaLabel="Student Login" onClick={() => handleNavigate("/login")} />
+                        )}
                     </div>
                 </div>
             )}

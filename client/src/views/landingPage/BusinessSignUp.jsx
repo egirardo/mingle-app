@@ -1,11 +1,11 @@
 import BusinessSignUpPanel from "../../components/SignUpPages/BusinessSignUpPanel.jsx";
-import LandingPageLayout from "./Layout/LandingPageLayout.jsx";
+import OtherPageLayout from "./Layout/OtherPageLayout.jsx";
 
 function BusinessSignUp() {
   return (
-    <LandingPageLayout>
+    <OtherPageLayout>
       <BusinessSignUpPanel />
-    </LandingPageLayout>
+    </OtherPageLayout>
   );
 }
 
