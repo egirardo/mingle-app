@@ -1,7 +1,7 @@
 import styles from "../MingleGame.module.css";
 import Button from "../../../components/Buttons/Button.jsx";
 import yrgoLogo from "../../../assets/yrgo-logo.svg";
-import { useNavigate } from "react-router-dom";;
+import { useNavigate } from "react-router-dom";
 
 export default function Completion() {
   const navigate = useNavigate();
@@ -22,7 +22,6 @@ export default function Completion() {
           variant="primaryRed"
           iconSrc="arrowRightWhite"
           onClick={() => {
-            playBeep();
             navigate("/explore");
           }}
         />

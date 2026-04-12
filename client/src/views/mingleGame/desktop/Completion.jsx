@@ -1,9 +1,7 @@
 import styles from "../MingleGame.module.css";
 import yrgoLogo from "../../../assets/yrgo-logo.svg";
-import { useNavigate } from "react-router-dom";
-export default function Completion() {
-  const navigate = useNavigate();
 
+export default function Completion() {
   return (
     <section className={styles.main}>
       <div className={`${styles.overlay} ${styles.backgroundBlurFilter}`} />

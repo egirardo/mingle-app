@@ -1,4 +1,131 @@
-@import "./MingleGameFonts.module.css";
+/* ---------------------------------------- */
+/* Typography */
+/* ---------------------------------------- */
+
+.textXXL {
+  color: white;
+  font-size: 4rem;
+  font-weight: 600;
+  line-height: 2rem; /* 50% */
+  letter-spacing: -0.0625rem;
+}
+
+.textExtraLarge {
+  color: white;
+  letter-spacing: -0.0625rem;
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 2rem;
+}
+
+.textLarge {
+  color: white;
+  letter-spacing: -0.0625rem;
+  font-size: 1.75rem;
+  font-weight: 400;
+  line-height: 2rem;
+}
+
+.textLargeBold {
+  color: white;
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 2rem; /* 100% */
+  letter-spacing: -0.0625rem;
+}
+
+.textMedium {
+  color: white;
+  letter-spacing: -0.0625rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.375rem;
+}
+
+.textMediumRegular {
+  color: white;
+  letter-spacing: -0.0625rem;
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.375rem;
+}
+
+.textMediumBold {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 102%; /* 1.53rem */
+  letter-spacing: -0.06rem;
+}
+
+.textSmall {
+  color: white;
+  letter-spacing: -0.0625rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 2rem;
+}
+
+@media (min-width: 64rem) {
+  .textXXL {
+    font-size: 8rem;
+    font-weight: 700;
+    line-height: 150%; /* 12rem */
+    letter-spacing: -0.32rem;
+  }
+
+  .textExtraLarge {
+    font-size: 6rem;
+    font-weight: 700;
+    line-height: 5.4375rem;
+    letter-spacing: -0.125rem;
+  }
+
+  .textLarge {
+    font-size: 6rem;
+    font-weight: 400;
+    line-height: 5.4375rem;
+    letter-spacing: -0.125rem;
+  }
+
+  .textMedium {
+    font-size: 3rem;
+    font-weight: 400;
+    line-height: 3.25rem;
+    letter-spacing: -0.0625rem;
+  }
+
+  .textMediumBold {
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 3.25rem;
+    margin: 0;
+    letter-spacing: -0.0625rem;
+  }
+
+  .textMediumRegular {
+    font-size: 3rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%; /* 4.5rem */
+    letter-spacing: -0.12rem;
+  }
+
+  .textMediumSmall {
+    color: white;
+    font-size: 2.25rem;
+    font-weight: 400;
+    line-height: 97%; /* 2.1825rem */
+    letter-spacing: -0.09rem;
+  }
+
+  .textSmall {
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 97%;
+    letter-spacing: -0.08rem;
+  }
+}
 
 /* ---------------------------------------- */
 /* General */
@@ -6,7 +133,7 @@
 
 .main {
   background: #000;
-  background-image: url("../src/assets/mingle_bg.png");
+  background-image: url("./../src/assets/mingle_bg.png");
   background-position: center;
   background-size: cover;
   width: 100%;
@@ -211,10 +338,6 @@
   .task {
     flex: 1;
   }
-
-  .timer {
-    flex: 0 0 auto;
-  }
 }
 
 /* ---------------------------------------- */
@@ -273,5 +396,6 @@
     font-size: 13rem;
     font-weight: 400;
     line-height: 150%;
+    flex: 0 0 auto;
   }
 }
