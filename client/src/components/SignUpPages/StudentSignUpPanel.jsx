@@ -11,22 +11,27 @@ import { apiFetch } from "../../api";
 
 // ─── HELPERS ─────────────────────────────────────────────────────────────────
 /**
- * Normalizes a URL by prepending https:// if no protocol is included
- * @param {string} url - The URL to normalize
- * @returns {string|null} Normalized URL or null if empty
+* @returns {string|null} Normalized URL or null if empty or invalid
  */
 function normalizeURL(url) {
-  if (!url || typeof url !== 'string') {
+  if (!url || typeof url !== "string") {
     return null;
   }
   const trimmed = url.trim();
   if (!trimmed) {
     return null;
   }
-  if (!trimmed.startsWith('http://') && !trimmed.startsWith('https://')) {
-    return `https://${trimmed}`;
+  const hasScheme = /^[a-z][a-z\d+\-.]*:/i.test(trimmed);
+  const candidate = hasScheme ? trimmed : `https://${trimmed}`;
+  try {
+    const parsed = new URL(candidate);
+    if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+      return null;
+    }
+    return parsed.toString();
+  } catch {
+    return null;
   }
-  return trimmed;
 }
 
 const StudentSignUpPanel = () => {

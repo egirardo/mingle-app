@@ -34,6 +34,7 @@ export default function LoginPanel() {
       // Store the JWT so all subsequent requests can send it in
       // the Authorization header as "Bearer <token>"
       localStorage.setItem("token", data.token);
+      window.dispatchEvent(new Event('authchange'));
 
       navigate("/"); // Once created, redirect to explore page instead, this is a placeholder
     } catch (err) {

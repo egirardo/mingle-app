@@ -15,17 +15,25 @@ import { apiFetch } from "../../api";
  * @returns {string|null} Normalized URL or null if empty
  */
 function normalizeURL(url) {
-  if (!url || typeof url !== 'string') {
-    return null;
+  if (!url || typeof url !== "string") {
+  return null;
   }
   const trimmed = url.trim();
   if (!trimmed) {
     return null;
   }
-  if (!trimmed.startsWith('http://') && !trimmed.startsWith('https://')) {
-    return `https://${trimmed}`;
+  const hasScheme = /^[a-z][a-z\d+.-]*:/i.test(trimmed);
+  const candidate = hasScheme ? trimmed : `https://${trimmed}`;
+  let parsed;
+  try {
+    parsed = new URL(candidate);
+  } catch {
+    throw new Error("Please enter a valid website URL.");
   }
-  return trimmed;
+  if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+    throw new Error("Website URL must start with http:// or https://.");
+  }
+  return parsed.toString();
 }
 
 const BusinessSignUpPanel = () => {
