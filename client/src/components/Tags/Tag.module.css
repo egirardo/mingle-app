@@ -23,4 +23,5 @@
     color: var(--text-h);
     text-transform: uppercase;
     font-size: .75rem;
+    line-height: normal;
 }

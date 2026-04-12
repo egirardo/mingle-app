@@ -4,6 +4,27 @@ import Company from '../models/Company.js';
 
 const router = express.Router();
 
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
+/**
+ * Validates that a URL has a safe http/https scheme and is a valid URL format
+ * @param {string} url - The URL to validate
+ * @returns {boolean} True if valid, false otherwise
+ */
+function isValidWebsiteURL(url) {
+  if (!url || typeof url !== 'string') {
+    return false;
+  }
+
+  try {
+    const parsedUrl = new URL(url);
+    // Only allow http and https schemes
+    return parsedUrl.protocol === 'http:' || parsedUrl.protocol === 'https:';
+  } catch (err) {
+    // URL constructor throws if invalid format
+    return false;
+  }
+}
+
 // ─── GET PROFILE ─────────────────────────────────────────────────────────────
 // GET /api/companies/profile/:id
 router.get('/profile/:id', async (req, res) => {
@@ -30,7 +51,23 @@ router.get('/profile/:id', async (req, res) => {
 // POST /api/companies/profile
 router.post('/profile', async (req, res) => {
   try {
-    const { company, contactPerson, email, liaSpaces, skills } = req.body;
+    const { company, contactPerson, email, liaSpaces, skills, about, website } = req.body;
+
+    // Auto-prepend https:// if website provided but missing protocol
+    let processedWebsite = website;
+    if (website && typeof website === 'string' && website.trim()) {
+      processedWebsite = website.trim();
+      if (!processedWebsite.startsWith('http://') && !processedWebsite.startsWith('https://')) {
+        processedWebsite = `https://${processedWebsite}`;
+      }
+    }
+
+    // Validate website URL if provided
+    if (processedWebsite && !isValidWebsiteURL(processedWebsite)) {
+      return res.status(400).json({ 
+        message: 'Invalid website URL. Must be a valid HTTP or HTTPS URL (e.g., https://example.com)' 
+      });
+    }
 
     // Normalize email to lowercase
     const normalizedEmail = email.toLowerCase().trim();
@@ -47,6 +84,8 @@ router.post('/profile', async (req, res) => {
       email: normalizedEmail,
       liaSpaces,
       skills: skills || [],
+      about,
+      website: processedWebsite
     });
 
     await newCompany.save();
