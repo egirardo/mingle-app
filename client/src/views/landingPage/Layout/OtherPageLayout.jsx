@@ -9,7 +9,7 @@ function OtherPageLayout({ children }) {
       <div className="hero-container">
         <img className="hero-image" src={Background} aria-hidden="true" />
       </div>
-      <img className="hero-overlay" src={Hero} aria-hidden="true" />
+      <img className="other-hero-overlay" src={Hero} aria-hidden="true" />
       {children}
     </>
   );

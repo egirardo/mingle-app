@@ -1,6 +1,7 @@
 import Background from "../../../assets/background.jpg";
 import Hero from "../../../assets/hero.svg";
 import NavBar from "../../../components/NavBar/NavBar.jsx";
+import AttendingCounter from "../../../components/LandingPage/AttendingCounter.jsx";
 
 function LandingPageLayout({ children }) {
   return (
@@ -9,7 +10,10 @@ function LandingPageLayout({ children }) {
       <div className="hero-container">
         <img className="hero-image" src={Background} aria-hidden="true" />
       </div>
-      <img className="hero-overlay" src={Hero} aria-hidden="true" />
+      <div className="hero-overlay-container">
+        <img className="hero-overlay" src={Hero} aria-hidden="true" />
+        <AttendingCounter />
+      </div>
       {children}
     </>
   );
