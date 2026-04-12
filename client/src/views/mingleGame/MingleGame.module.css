@@ -69,20 +69,6 @@
   z-index: 10;
 }
 
-/* game rounds counter */
-.roundCountContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.25rem 0.5rem;
-  width: 100vw;
-}
-
-.roundCountContainer span {
-  letter-spacing: -0.03rem;
-}
-
 /* text bubble */
 .textBubble {
   display: inline-flex;
@@ -186,19 +172,10 @@
   margin: 0;
 }
 
-.introductionInfoContainer {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0 2rem;
-}
-
 /* ---------------------------------------- */
 /* Questions */
 /* ---------------------------------------- */
 
-.questionContainer,
 .mobileContainer {
   display: flex;
   flex-direction: column;
@@ -208,7 +185,6 @@
   width: 100%;
 }
 
-.questionContainer h3,
 .mobileContainer h3 {
   margin: 0;
 }
@@ -278,7 +254,7 @@
     flex-shrink: 0;
   }
 
-  .completionTextContainer p{
+  .completionTextContainer p {
     width: 35rem;
   }
 }
