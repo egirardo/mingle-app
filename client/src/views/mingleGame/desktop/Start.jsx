@@ -73,7 +73,9 @@ export default function Start() {
       <div className={`${styles.overlay} ${styles.backgroundBlurFilter}`} />
       <div className={styles.content}>
         <img className={styles.yrgoLogo} src={yrgoLogo} alt="Yrgo logo" />
-        <h3 className={`${styles.introductionHeader} ${styles.textMedium}`}>
+        <h3
+          className={`${styles.introductionHeader} ${styles.textMediumSmall}`}
+        >
           Welcome to
         </h3>
         <div className={styles.IntroductionTitleContainer}>
@@ -86,7 +88,7 @@ export default function Start() {
             Speed Mingle
           </h2>
         </div>
-        <p className={`${styles.textMedium} ${styles.startText}`}>
+        <p className={`${styles.textMediumSmall} ${styles.startText}`}>
           Get ready to meet new people. Follow the instructions on your phone.
         </p>
         {/* game start button */}

@@ -16,7 +16,7 @@ export default function Loading() {
     // When the question timer expires, advance to the next round and navigate to the task page
     nextQuestion?.();
     playBeep();
-    navigate("/start/task");
+    // navigate("/start/task");
   };
 
   return (

@@ -25,11 +25,11 @@ export default function Question() {
       navigate("/start/completion");
       return;
     }
-    navigate("/start/loading");
+    // navigate("/start/loading");
   };
 
   return (
-    <div className={`${styles.main} ${styles.backgroundBlur}`}>
+    <section className={`${styles.main} ${styles.mainGrid}`}>
       <img className={styles.yrgoLogo} src={yrgoLogo} alt="Yrgo logo" />
       <div className={`${styles.timerContainerDesktop}`}>
         <RoundsDisplay
@@ -37,13 +37,15 @@ export default function Question() {
           className={styles.textLargeBold}
         />
         <Timer minutes={0.1} onExpire={handleExpire} className={styles.timer} />
-        <div className={styles.questionDisplay}>
-          <h3 className={styles.textLargeBold}>Question:</h3>
-          <p className={`${styles.textMediumRegular} ${styles.textBubble}`}>
-            {currentQuestion?.question}
-          </p>
-        </div>
       </div>
-    </div>
+      <div
+        className={`${styles.textContainerDesktop} ${styles.backgroundDarkFilter}`}
+      >
+        <h3 className={styles.textMediumBold}>Question:</h3>
+        <p className={`${styles.textMediumBold} ${styles.textBubble}`}>
+          {currentQuestion?.question}
+        </p>
+      </div>
+    </section>
   );
 }
