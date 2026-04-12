@@ -35,7 +35,7 @@ export default function Question() {
             className={styles.textLargeBold}
           />
           <Timer
-            minutes={0.1}
+            minutes={2}
             onExpire={handleExpire}
             className={styles.timer}
           />

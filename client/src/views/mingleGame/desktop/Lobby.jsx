@@ -17,15 +17,10 @@ export default function Lobby() {
       <div className={`${styles.timerContainerDesktop}`}>
         <img className={styles.yrgoLogo} src={yrgoLogo} alt="Yrgo logo" />
         <DateTimer
-          targetDate="2026-04-12T22:13:00+02:00"
+          targetDate="2026-04-22T15:00:00+02:00"
           onExpire={handleExpire}
-          className={`${styles.timer}`}
+          className={styles.timer}
         />
-        {/* <DateTimer
-            targetDate="2026-04-22T15:00:00+02:00"
-            onExpire={handleExpire}
-            className={styles.timer}
-            /> */}
       </div>
       <div
         className={`${styles.textContainerDesktop} ${styles.backgroundBlurFilter}`}

@@ -267,6 +267,21 @@
   text-align: center;
 }
 
+@media (min-width: 64rem) {
+  .completionTextContainer {
+    display: flex;
+    padding: 0 var(--Size-24, 1.5rem);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3.5rem;
+    flex-shrink: 0;
+  }
+
+  .completionTextContainer p{
+    width: 35rem;
+  }
+}
 /* ---------------------------------------- */
 /* Timer */
 /* ---------------------------------------- */
@@ -279,7 +294,7 @@
 
 @media (min-width: 64rem) {
   .timer {
-    font-size: 10rem;
+    font-size: 13rem;
     font-weight: 400;
     line-height: 150%;
   }

@@ -14,7 +14,7 @@ export default function Task() {
   // When the task timer expires, navigate to the Question page
   const handleExpire = () => {
     playBeep();
-    // navigate("/start/question");
+    navigate("/start/question");
   };
 
   return (
@@ -28,7 +28,7 @@ export default function Task() {
         />
         <div className={styles.taskContainer}>
           <Timer
-            minutes={0.1}
+            minutes={0.50}
             onExpire={handleExpire}
             className={styles.timer}
           />

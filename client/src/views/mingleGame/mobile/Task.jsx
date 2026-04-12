@@ -25,7 +25,7 @@ export default function Task() {
             className={styles.textLargeBold}
           />
           <Timer
-            minutes={0.1}
+            minutes={0.50}
             onExpire={handleExpire}
             className={styles.timer}
           />

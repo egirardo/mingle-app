@@ -25,7 +25,7 @@ export default function Question() {
       navigate("/start/completion");
       return;
     }
-    // navigate("/start/loading");
+    navigate("/start/loading");
   };
 
   return (
@@ -36,7 +36,7 @@ export default function Question() {
           currentRound={currentQuestion?.round || 0}
           className={styles.textLargeBold}
         />
-        <Timer minutes={0.1} onExpire={handleExpire} className={styles.timer} />
+        <Timer minutes={2} onExpire={handleExpire} className={styles.timer} />
       </div>
       <div
         className={`${styles.textContainerDesktop} ${styles.backgroundDarkFilter}`}
