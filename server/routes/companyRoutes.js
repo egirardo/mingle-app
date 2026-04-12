@@ -30,7 +30,7 @@ router.get('/profile/:id', async (req, res) => {
 // POST /api/companies/profile
 router.post('/profile', async (req, res) => {
   try {
-    const { company, contactPerson, email, liaSpaces, skills } = req.body;
+    const { company, contactPerson, email, liaSpaces, skills, about, website } = req.body;
 
     // Normalize email to lowercase
     const normalizedEmail = email.toLowerCase().trim();
@@ -47,6 +47,8 @@ router.post('/profile', async (req, res) => {
       email: normalizedEmail,
       liaSpaces,
       skills: skills || [],
+      about,
+      website
     });
 
     await newCompany.save();

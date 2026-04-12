@@ -1,0 +1,128 @@
+.viewProfileContainer {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    height: 100vh;
+    padding: .5rem;
+}
+
+.profileContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: var(--panel-bg);
+    backdrop-filter: blur(25px);
+    border-radius: 1rem 1rem 0 0;
+    top: 30vh;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+}
+
+.profileImage {
+    width: 7.58rem;
+    height: 7.58rem;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-top: -110px; /* Half of the image height to overlap */
+}
+
+.buttonsContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: .5rem;
+}
+
+.buttonsContainer button {
+    margin: 0;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    padding: .5rem;
+
+}
+.infoSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+    width: 100%;
+}
+
+.headingContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    margin-top: 1rem;
+}
+
+.headings {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .5rem;
+}
+
+.headings h1 {
+    font-size: 1rem;
+    font-size: 2rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 2rem; /* 100% */
+    letter-spacing: -0.0625rem;
+    margin: 0;
+}
+
+.headings p {
+    font-size: 0.8125rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1rem;
+    letter-spacing: -0.02438rem;
+}
+
+
+.textContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .5rem;
+    padding: 0 1rem;
+}
+
+.textContainer h2 {
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 116.061%; /* 1.01556rem */
+    letter-spacing: -0.02625rem;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+.textContainer p {
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.02625rem;
+}
+
+.largeIconButton button {
+  width: 3rem;
+  height: 3rem;
+}
+
+.largeIconButton button img {
+  width: 2.25rem;
+  height: 2.25rem;
+}
