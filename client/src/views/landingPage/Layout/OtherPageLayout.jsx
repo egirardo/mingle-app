@@ -2,7 +2,7 @@ import Background from "../../../assets/background.jpg";
 import Hero from "../../../assets/hero.svg";
 import NavBar from "../../../components/NavBar/NavBar.jsx";
 
-function LandingPageLayout({ children }) {
+function OtherPageLayout({ children }) {
   return (
     <>
       <NavBar />
@@ -15,4 +15,4 @@ function LandingPageLayout({ children }) {
   );
 }
 
-export default LandingPageLayout;
+export default OtherPageLayout;
