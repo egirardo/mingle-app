@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "../MingleGame.module.css";
 import DateTimer from "../../../components/Timer/DateTimer.jsx";
 import yrgoLogo from "../../../assets/yrgo-logo.svg";
-import QrCode from "../../../assets/icons/qr-code.svg";
+import QrCode from "../../../assets/icons/qr-code.png";
 
 export default function Lobby() {
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ export default function Lobby() {
         <div>
           {/* TEMPORARY IMG */}
           <p className={styles.textSmall}>Scan me!</p>
-          <img
+          <img className={styles.qrCodeIcon}
             src={QrCode}
             alt="a qr-code which reroutes to the introduction page"
           />

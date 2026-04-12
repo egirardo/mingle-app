@@ -241,6 +241,13 @@
   text-align: center;
 }
 
+.qrCodeIcon {
+  width: 8.95088rem;
+  height: 8.95088rem;
+  border-radius: 2%;
+  padding: 1rem;
+}
+
 @media (min-width: 64rem) {
   .main {
     gap: 0;
