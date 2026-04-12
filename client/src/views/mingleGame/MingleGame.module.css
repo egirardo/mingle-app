@@ -5,7 +5,7 @@
 /* ---------------------------------------- */
 
 .main {
-  background: #000; 
+  background: #000;
   background-image: url("../src/assets/mingle_bg.png");
   background-position: center;
   background-size: cover;
@@ -240,6 +240,19 @@
     flex: 0 0 auto;
   }
 }
+
+/* ---------------------------------------- */
+/* Loading */
+/* ---------------------------------------- */
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  align-self: stretch;
+}
+
 /* ---------------------------------------- */
 /* Completion */
 /* ---------------------------------------- */

@@ -26,10 +26,10 @@ export default function Loading() {
           className={styles.textLargeBold}
         />
         <Timer minutes={0.1} onExpire={handleExpire} className={styles.timer} />
-        <h2 className={styles.textLargeBold}>Well done!</h2>
-        <p className={styles.textMediumRegular}>
-          Next round coming right up...
-        </p>
+        <div className={styles.loadingContainer}>
+          <h2 className={styles.textLargeBold}>Well done!</h2>
+          <p className={styles.textLarge}>Next round coming right up...</p>
+        </div>
       </div>
     </section>
   );

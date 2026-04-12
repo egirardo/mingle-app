@@ -20,15 +20,20 @@ export default function Loading() {
   };
 
   return (
-    <div className={`${styles.main} ${styles.backgroundBlur}`}>
-      <img className={styles.yrgoLogo} src={yrgoLogo} alt="Yrgo logo" />
-      <RoundsDisplay
-        currentRound={currentQuestion?.round || 0}
-        className={styles.textLargeBold}
-      />
-      <Timer minutes={0.1} onExpire={handleExpire} className={styles.timer} />
-      <h2 className={styles.textLargeBold}>Well done!</h2>
-      <p className={styles.textMediumRegular}>Next round coming right up...</p>
-    </div>
+    <section className={styles.main}>
+      <div className={`${styles.overlay} ${styles.backgroundBlurFilter}`} />
+      <div className={styles.content}>
+        <img className={styles.yrgoLogo} src={yrgoLogo} alt="Yrgo logo" />
+        <RoundsDisplay
+          currentRound={currentQuestion?.round || 0}
+          className={styles.textLargeBold}
+        />
+        <Timer minutes={0.1} onExpire={handleExpire} className={styles.timer} />
+        <div className={styles.loadingContainer}>
+          <h2 className={styles.textMediumBold}>Time’s up!</h2>
+          <p className={styles.textMediumRegular}>Next task loading...</p>
+        </div>
+      </div>
+    </section>
   );
 }
