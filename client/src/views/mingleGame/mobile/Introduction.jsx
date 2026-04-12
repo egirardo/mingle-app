@@ -1,15 +1,13 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import styles from "./MingleGame.module.css";
-import DateTimer from "../../components/Timer/DateTimer.jsx";
-import yrgoLogo from "../../assets/yrgo-logo.svg";
-import socket, { connectSocket } from "../../socket.js";
-import { usePlayBeep } from "../../Hooks/useAudio.js";
+import styles from "../MingleGame.module.css";
+import DateTimer from "../../../components/Timer/DateTimer.jsx";
+import yrgoLogo from "../../../assets/yrgo-logo.svg";
+import socket, { connectSocket } from "../../../socket.js";
 
 export default function Introduction() {
   const mingle = useOutletContext();
   const navigate = useNavigate();
-  const playBeep = usePlayBeep();
   const resetQuestionsRef = useRef(mingle?.resetQuestions);
 
   const [expired, setExpired] = useState(() => {
@@ -30,7 +28,6 @@ export default function Introduction() {
 
     const handleGameStarted = () => {
       resetQuestionsRef.current?.();
-      playBeep();
       navigate("/task");
     };
 
@@ -47,29 +44,30 @@ export default function Introduction() {
       socket.off("game-started", handleGameStarted);
       socket.off("game-reset", handleGameReset);
     };
-  }, [navigate, playBeep]);
+  }, [navigate]);
 
   return (
-    <div className={`${styles.main} ${styles.backgroundBlur}`}>
-      <img className={styles.yrgoLogo} src={yrgoLogo} alt="Yrgo logo" />
-      <div className={styles.IntroductionTitleContainer}>
-        <h3
-          className={`${styles.introductionHeader} ${styles.textMediumRegular}`}
-        >
-          Welcome to
-        </h3>
-        <div>
-          <h1
-            className={`${styles.introductionHeader} ${styles.textExtraLarge}`}
+    <section className={styles.main}>
+      <div className={`${styles.overlay} ${styles.backgroundDarkFilter}`} />
+      <div className={styles.content}>
+        <img className={styles.yrgoLogo} src={yrgoLogo} alt="Yrgo logo" />
+        <div className={styles.IntroductionTitleContainer}>
+          <h3
+            className={`${styles.introductionHeader} ${styles.textMediumRegular}`}
           >
-            LIA FUSION
-          </h1>
-          <h2 className={`${styles.introductionHeader} ${styles.textLarge}`}>
-            Speed Mingle
-          </h2>
+            Welcome to
+          </h3>
+          <div>
+            <h1
+              className={`${styles.introductionHeader} ${styles.textExtraLarge}`}
+            >
+              LIA FUSION
+            </h1>
+            <h2 className={`${styles.introductionHeader} ${styles.textLarge}`}>
+              Speed Mingle
+            </h2>
+          </div>
         </div>
-      </div>
-      <div className={styles.introductionInfoContainer}>
         <DateTimer
           targetDate="2026-04-22T15:00:00+02:00"
           className={styles.timer}
@@ -86,6 +84,6 @@ export default function Introduction() {
           </p>
         )}
       </div>
-    </div>
+    </section>
   );
 }

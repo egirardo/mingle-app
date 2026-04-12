@@ -7,17 +7,15 @@
 }
 
 .countdownTimer {
-  font-family: "Technology",system-ui, "Segoe UI", "Helvetica Neue";
+  font-family: "Technology", system-ui, "Segoe UI", "Helvetica Neue";
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: fit-content;
-  height: fit-content;
-  text-align: center;
-  font-size: 40px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 150%;
+  line-height: 1;
   letter-spacing: 0.05em;
+  margin: 0;
+  padding: 0;
+  vertical-align: middle;
+  padding-top: 0.15em;
 }

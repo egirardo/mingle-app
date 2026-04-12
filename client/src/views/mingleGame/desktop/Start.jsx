@@ -1,15 +1,17 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import styles from "./MingleGame.module.css";
-import Button from "../../components/Buttons/Button";
-import socket, { connectSocket } from "../../socket.js";
+import styles from "../MingleGame.module.css";
+import Button from "../../../components/Buttons/Button";
+import IconOnlyButton from "../../../components/Buttons/IconOnlyButton";
+import yrgoLogo from "../../../assets/yrgo-logo.svg";
+import socket, { connectSocket } from "../../../socket.js";
 import {
   // commenting out in case the designers want a beep sound after the button is pressed
   // usePlayBeep,
   usePlaySound,
   useUnlockAudio,
-} from "../../Hooks/useAudio.js";
-import instructionsAudio from "../../assets/audio/instructions.mp3";
+} from "../../../Hooks/useAudio.js";
+import instructionsAudio from "../../../assets/audio/instructions.mp3";
 
 export default function Start() {
   const mingle = useOutletContext();
@@ -35,7 +37,7 @@ export default function Start() {
 
     const handleGameStarted = () => {
       resetQuestionsRef.current?.();
-      navigate("/task");
+      navigate("/start/task");
     };
 
     const handleGameReset = () => {
@@ -70,8 +72,9 @@ export default function Start() {
     <section className={styles.main}>
       <div className={`${styles.overlay} ${styles.backgroundBlurFilter}`} />
       <div className={styles.content}>
+        <img className={styles.yrgoLogo} src={yrgoLogo} alt="Yrgo logo" />
         <h3
-          className={`${styles.introductionHeader} ${styles.textMediumRegular}`}
+          className={`${styles.introductionHeader} ${styles.textMediumSmall}`}
         >
           Welcome to
         </h3>
@@ -85,17 +88,9 @@ export default function Start() {
             Speed Mingle
           </h2>
         </div>
-        <p className={`${styles.textMediumRegular} ${styles.startText}`}>
+        <p className={`${styles.textMediumSmall} ${styles.startText}`}>
           Get ready to meet new people. Follow the instructions on your phone.
         </p>
-        {audioFailed && (
-          // audio instructions button
-          <Button
-            buttonName="Play Instructions"
-            buttonColor="primaryRed"
-            onClick={handlePlayInstructions}
-          />
-        )}
         {/* game start button */}
         <Button
           buttonName="Start"
@@ -103,6 +98,16 @@ export default function Start() {
           iconSrc="arrowRightWhite"
           onClick={handleStartClick}
         />
+        <div className={styles.soundButton}>
+          {audioFailed && (
+            <IconOnlyButton
+              iconSrc="sound"
+              buttonColor="transparent"
+              onClick={handlePlayInstructions}
+              ariaLabel="Play instructions"
+            />
+          )}
+        </div>
       </div>
     </section>
   );
