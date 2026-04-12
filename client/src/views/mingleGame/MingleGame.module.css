@@ -2,6 +2,14 @@
 /* Typography */
 /* ---------------------------------------- */
 
+.textXXL {
+  color: white;
+  font-size: 4rem;
+  font-weight: 600;
+  line-height: 2rem; /* 50% */
+  letter-spacing: -0.0625rem;
+}
+
 .textExtraLarge {
   color: white;
   letter-spacing: -0.0625rem;
@@ -20,11 +28,10 @@
 
 .textLargeBold {
   color: white;
-  letter-spacing: -0.0625rem;
-  font-size: 1.75rem;
+  font-size: 2rem;
   font-weight: 600;
-  line-height: 2rem;
-  text-align: center;
+  line-height: 2rem; /* 100% */
+  letter-spacing: -0.0625rem;
 }
 
 .textMedium {
@@ -43,6 +50,14 @@
   line-height: 1.375rem;
 }
 
+.textMediumBold {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 102%; /* 1.53rem */
+  letter-spacing: -0.06rem;
+}
+
 .textSmall {
   color: white;
   letter-spacing: -0.0625rem;
@@ -51,15 +66,14 @@
   line-height: 2rem;
 }
 
-.textSmallBold {
-  color: white;
-  letter-spacing: -0.0625rem;
-  font-size: 1rem;
-  font-weight: 600;
-  line-height: 2rem;
-}
-
 @media (min-width: 64rem) {
+  .textXXL {
+    font-size: 8rem;
+    font-weight: 700;
+    line-height: 150%; /* 12rem */
+    letter-spacing: -0.32rem;
+  }
+
   .textExtraLarge {
     font-size: 6rem;
     font-weight: 700;
@@ -90,10 +104,19 @@
   }
 
   .textMediumRegular {
+    font-size: 3rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%; /* 4.5rem */
+    letter-spacing: -0.12rem;
+  }
+
+  .textMediumSmall {
+    color: white;
     font-size: 2.25rem;
     font-weight: 400;
-    line-height: 97%;
-    letter-spacing: -0.0625rem;
+    line-height: 97%; /* 2.1825rem */
+    letter-spacing: -0.09rem;
   }
 
   .textSmall {
@@ -109,11 +132,14 @@
 /* ---------------------------------------- */
 
 .main {
-  background-image: url("../src/assets/mingle_bg.png");
+  background: #000;
+  background-image: url("./../src/assets/mingle_bg.png");
   background-position: center;
   background-size: cover;
   width: 100%;
-  height: 100vh;
+  min-width: 100vw;
+  height: 100%;
+  min-height: 100vh;
   overflow: hidden;
   color: white;
   position: fixed;
@@ -131,6 +157,7 @@
   display: none;
 }
 
+/* container filter  */
 .backgroundBlurFilter {
   background: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(10px);
@@ -152,45 +179,29 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3.5rem;
+  gap: 2.5rem;
   width: 100%;
   padding: 0 2rem;
   box-sizing: border-box;
 }
 
+/* yrgo image logo */
 .yrgoLogo {
-  position: absolute;
+  position: fixed;
   top: 4rem;
   left: 50%;
   transform: translateX(-50%);
-  width: 5rem;
-  height: 1.25rem;
+  width: 6.56rem;
+  height: 2.56rem;
   z-index: 10;
 }
 
-.roundCountContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.25rem 0.5rem;
-  width: 100vw;
-}
-
-.roundCountContainer span {
-  letter-spacing: -0.03rem;
-}
-
-.hidden {
-  display: none;
-}
-
+/* text bubble */
 .textBubble {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 1rem 1.5rem;
-  box-sizing: border-box;
   border-radius: 2.5rem;
   background: #fff;
   color: #000;
@@ -231,6 +242,9 @@
 }
 
 @media (min-width: 64rem) {
+  .main {
+    gap: 0;
+  }
   .mainGrid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -240,7 +254,7 @@
   }
 
   .textContainerDesktop {
-    padding: 1.5rem;
+    padding: 2rem 4rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -251,11 +265,11 @@
 
   .timerContainerDesktop {
     display: flex;
-    padding: 1.5rem;
+    padding: 2.5rem;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 1rem;
+    gap: 2.5rem;
     align-self: stretch;
   }
 }
@@ -285,28 +299,20 @@
   margin: 0;
 }
 
-.introductionInfoContainer {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0 2rem;
-}
-
 /* ---------------------------------------- */
 /* Questions */
 /* ---------------------------------------- */
 
-.questionContainer {
+.mobileContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.25rem;
+  gap: 2.5rem;
   padding: 1.5rem;
   width: 100%;
 }
 
-.questionContainer h3 {
+.mobileContainer h3 {
   margin: 0;
 }
 
@@ -316,6 +322,65 @@
   gap: 1.125rem;
 }
 
+/* ---------------------------------------- */
+/* Task */
+/* ---------------------------------------- */
+
+@media (min-width: 64rem) {
+  .taskContainer {
+    display: inline-flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-direction: column-reverse;
+    margin: 0;
+  }
+
+  .task {
+    flex: 1;
+  }
+}
+
+/* ---------------------------------------- */
+/* Loading */
+/* ---------------------------------------- */
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  align-self: stretch;
+}
+
+/* ---------------------------------------- */
+/* Completion */
+/* ---------------------------------------- */
+
+.completionTextContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  align-self: stretch;
+  text-wrap: balance;
+  text-align: center;
+}
+
+@media (min-width: 64rem) {
+  .completionTextContainer {
+    display: flex;
+    padding: 0 var(--Size-24, 1.5rem);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3.5rem;
+    flex-shrink: 0;
+  }
+
+  .completionTextContainer p {
+    width: 35rem;
+  }
+}
 /* ---------------------------------------- */
 /* Timer */
 /* ---------------------------------------- */
@@ -328,8 +393,9 @@
 
 @media (min-width: 64rem) {
   .timer {
-    font-size: 8rem;
+    font-size: 13rem;
     font-weight: 400;
     line-height: 150%;
+    flex: 0 0 auto;
   }
 }
