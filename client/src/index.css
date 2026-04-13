@@ -39,7 +39,6 @@ html, body {
   min-height: 100vh;
   min-height: 100dvh;
   background-color: transparent; /* Let background elements shine through */
-  overscroll-behavior-y: none; /* Stops the elastic bounce scroll effect on iOS */
 }
 
 #root {
@@ -50,7 +49,6 @@ html, body {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  overflow-x: hidden;
   width: 100%;
 }
 

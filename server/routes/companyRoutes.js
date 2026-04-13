@@ -25,6 +25,18 @@ function isValidWebsiteURL(url) {
   }
 }
 
+// ─── GET ALL COMPANIES ────────────────────────────────────────────────────────
+// GET /api/companies
+router.get('/', async (req, res) => {
+  try {
+    const companies = await Company.find({});
+    res.status(200).json(companies);
+  } catch (err) {
+    console.error('Get all companies error:', err);
+    res.status(500).json({ message: 'Server error retrieving companies' });
+  }
+});
+
 // ─── GET PROFILE ─────────────────────────────────────────────────────────────
 // GET /api/companies/profile/:id
 router.get('/profile/:id', async (req, res) => {
@@ -120,4 +132,4 @@ router.get('/count', async (req, res) => {
   }
 });
 
-export default router; 
+export default router;

@@ -9,7 +9,7 @@ export default function CompanyProfileCard({ company }) {
     const navigate = useNavigate();
 
     const handleClick = () => {
-        navigate(`/companies/${company.id}`);
+    navigate(`/companies/${company._id}`);
     };
 
     if (!company) return null;

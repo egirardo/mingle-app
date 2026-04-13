@@ -6,14 +6,12 @@ html {
   margin: 0;
   padding: 0;
   width: 100%;
-  overflow-x: hidden;
 }
 
 body {
   margin: 0;
   padding: 0;
   width: 100%;
-  overflow-x: hidden;
   min-height: 100vh;
 }
 
@@ -21,7 +19,6 @@ body {
   margin: 0;
   padding: 0;
   width: 100%;
-  overflow-x: hidden;
   min-height: 100vh;
 }
 
@@ -37,7 +34,7 @@ body {
 
 .hero-overlay-container {
   position: fixed;
-  top: calc(7rem + env(safe-area-inset-top, 0));
+  top: calc(3rem + env(safe-area-inset-top, 0));
   left: 0;
   width: 100%;
   z-index: -1;
@@ -53,7 +50,7 @@ body {
 
 .other-hero-overlay {
   position: fixed;
-  top: calc(7rem + env(safe-area-inset-top, 0));
+  top: calc(3rem + env(safe-area-inset-top, 0));
   left: 0;
   width: 100%;
   z-index: -1; /* sits above background, below scrolling content */
