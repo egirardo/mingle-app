@@ -2,12 +2,49 @@
   box-sizing: border-box;
 }
 
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
 .hero-container {
   height: 100svh;
   inset:0;
-  position: absolute;
+  position: fixed;
+  z-index: -2;
+  left: 0;
+  width: 100%;
+  top: env(safe-area-inset-top, 0);
+  height: calc(100svh + env(safe-area-inset-top, 0));
+  margin-top: calc(-1 * env(safe-area-inset-top, 0));
+}
+
+.hero-overlay-container {
+  position: fixed;
+  top: calc(7rem + env(safe-area-inset-top, 0));
+  left: 0;
+  width: 100%;
   z-index: -1;
-  top: 0;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.hero-overlay {
+  width: 100%;
+}
+
+.other-hero-overlay {
+  position: fixed;
+  top: calc(7rem + env(safe-area-inset-top, 0));
+  left: 0;
+  width: 100%;
+  z-index: -1; /* sits above background, below scrolling content */
+  pointer-events: none;
+  padding: 1rem;
 }
 
 .hero-image {
@@ -15,6 +52,7 @@
   height: 100%;
   display: block;
   object-fit: cover;
+  object-position: center;
 }
 
 #center {

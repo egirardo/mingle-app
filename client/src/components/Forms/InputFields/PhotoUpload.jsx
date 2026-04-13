@@ -63,8 +63,8 @@ export default function PhotoUpload({
       <div className={styles.portfolioSection}>
         <TextInput
           formLabel="Portfolio link"
-          placeholder="www.yourportfolio.com"
-          type="url"
+          placeholder="www.yourportfolio.com or https://www.yourportfolio.com"
+          type="text"
           optional
           name="portfolio"
           value={portfolio}

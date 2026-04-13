@@ -1,12 +1,12 @@
 import LoginPanel from "../../components/LoginPage/LoginPanel.jsx";
-import LandingPageLayout from "./Layout/LandingPageLayout.jsx";
+import OtherPageLayout from "./Layout/OtherPageLayout.jsx";
 
 function Login() {
   
   return (
-    <LandingPageLayout>
+    <OtherPageLayout>
       <LoginPanel />
-    </LandingPageLayout>
+    </OtherPageLayout>
   );
 }
 

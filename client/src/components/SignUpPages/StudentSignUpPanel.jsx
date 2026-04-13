@@ -9,6 +9,31 @@ import CheckboxGroup from "../Forms/Checkboxes/CheckboxGroup";
 import PhotoUpload from "../Forms/InputFields/PhotoUpload";
 import { apiFetch } from "../../api";
 
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
+/**
+* @returns {string|null} Normalized URL or null if empty or invalid
+ */
+function normalizeURL(url) {
+  if (!url || typeof url !== "string") {
+    return null;
+  }
+  const trimmed = url.trim();
+  if (!trimmed) {
+    return null;
+  }
+  const hasScheme = /^[a-z][a-z\d+\-.]*:/i.test(trimmed);
+  const candidate = hasScheme ? trimmed : `https://${trimmed}`;
+  try {
+    const parsed = new URL(candidate);
+    if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+      return null;
+    }
+    return parsed.toString();
+  } catch {
+    return null;
+  }
+}
+
 const StudentSignUpPanel = () => {
   const navigate = useNavigate();
 
@@ -66,7 +91,7 @@ const StudentSignUpPanel = () => {
           about: formData.about || null,
           // Backend joins non-empty answers with "||"; empty strings are filtered out
           questions: formData.questions.filter(Boolean),
-          portfolio: formData.portfolio || null,
+          portfolio: normalizeURL(formData.portfolio),
         }),
       });
 
