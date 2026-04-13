@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { apiFetch } from "../../api";
 import ProfileCards from "../Molecules/ProfileCards/ProfileCards";
@@ -31,6 +31,7 @@ export default function ExplorePanel() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [loggedInStudentId, setLoggedInStudentId] = useState(getLoggedInStudentId);
+    const fetchedTabs = useRef(new Set());
 
     // Keep loggedInStudentId in sync with login/logout events
     useEffect(() => {
@@ -51,12 +52,10 @@ export default function ExplorePanel() {
         const fetchData = async () => {
             setError(null);
 
-            const alreadyCached =
-                (activeTab === "Companies" && companies.length > 0) ||
-                (activeTab === "Students" && students.length > 0) ||
-                (activeTab === "Saved" && saved.length > 0);
-
-            if (alreadyCached) return;
+            if (fetchedTabs.current.has(activeTab)) {
+                setLoading(false);
+                return;
+            }
 
             setLoading(true);
             try {
@@ -64,6 +63,7 @@ export default function ExplorePanel() {
                     const res = await apiFetch("/api/companies", { signal });
                     const data = await res.json();
                     if (!res.ok) throw new Error(data.message);
+                    fetchedTabs.current.add("Companies");
                     setCompanies(data);
                 }
 
@@ -71,6 +71,7 @@ export default function ExplorePanel() {
                     const res = await apiFetch("/api/students", { signal });
                     const data = await res.json();
                     if (!res.ok) throw new Error(data.message);
+                    fetchedTabs.current.add("Students");
                     setStudents(data);
                 }
 
@@ -79,6 +80,7 @@ export default function ExplorePanel() {
                     const res = await apiFetch("/api/likes", { signal });
                     const data = await res.json();
                     if (!res.ok) throw new Error(data.message);
+                    fetchedTabs.current.add("Saved");
                     setSaved(data);
                 }
             } catch (err) {
