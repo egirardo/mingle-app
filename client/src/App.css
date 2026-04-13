@@ -11,8 +11,7 @@ html {
 
 body {
   margin: 0;
-  padding-top: env(safe-area-inset-top, 0);
-  padding-bottom: env(safe-area-inset-bottom, 0);
+  padding: 0;
   width: 100%;
   overflow-x: hidden;
   min-height: 100dvh;
@@ -28,13 +27,11 @@ body {
 
 .hero-container {
   height: 100svh;
-  inset:0;
+  inset: 0;
   position: fixed;
   z-index: -2;
   left: 0;
-  width: 100%;
-  top: calc(-1 * env(safe-area-inset-top, 0));
-  height: calc(100svh + env(safe-area-inset-top, 0) + env(safe-area-inset-bottom, 0));
+  width: 100vw;
 }
 
 .hero-overlay-container {

@@ -21,7 +21,7 @@
   letter-spacing: 0.18px;
   color-scheme: light;
   color: var(--text);
-  background: var(--bg);
+  background: transparent;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -32,8 +32,13 @@
   }
 }
 
-body {
+html, body {
   margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100dvh;
+  background-color: #000; /* Dark background behind the notch/video */
+  overscroll-behavior-y: none; /* Stops the elastic bounce scroll effect on iOS */
 }
 
 #root {

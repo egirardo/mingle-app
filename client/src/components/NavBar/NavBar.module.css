@@ -1,11 +1,3 @@
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: #FFF;
-    padding: calc(3.5rem + env(safe-area-inset-top, 0)) 10px 10px 10px;
-}
-
 .navWrapper {
     position: fixed;
     top: 0;
@@ -15,6 +7,7 @@
     background: rgba(255, 255, 255, 0.01);
     backdrop-filter: blur(25px);
     transition: background 0.2s;
+    /* padding is added natively to the container so that it reaches up to the very top edge and the blur covers the safe area */
 }
 
 .navWrapperOpen {
@@ -26,8 +19,7 @@
     justify-content: space-between;
     align-items: center;
     color: #FFF;
-    padding: 3.5rem 10px 10px 10px;
-    /* padding-top: calc(env(--safe-area-inset-top)); */ /* this is for the iOS notch, but it seems to cause some issues with the layout, so I'm commenting it out for now */
+    padding: calc(3.5rem + env(safe-area-inset-top, 0)) 10px 10px 10px;
 }
 
 .logo img,
