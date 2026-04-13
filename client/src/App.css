@@ -1,12 +1,29 @@
-*{
+* {
   box-sizing: border-box;
 }
 
-html, body, #root {
+html {
   margin: 0;
   padding: 0;
   width: 100%;
   overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  padding-top: env(safe-area-inset-top, 0);
+  padding-bottom: env(safe-area-inset-bottom, 0);
+  width: 100%;
+  overflow-x: hidden;
+  min-height: 100dvh;
+}
+
+#root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+  min-height: 100dvh;
 }
 
 .hero-container {
