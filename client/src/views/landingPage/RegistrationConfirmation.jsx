@@ -1,10 +1,9 @@
-import RegisterConfirmationCompany from "../../components/RegisterConfirmation/RegisterCompany.jsx";
+import RegisterCompany from "../../components/RegisterConfirmation/RegisterCompany.jsx";
 import OtherPageLayout from "./Layout/OtherPageLayout.jsx";
-
 function RegisterConfirmation() {
   return (
     <OtherPageLayout>
-      <RegisterConfirmationCompany />
+      <RegisterCompany />
     </OtherPageLayout>
   );
 }

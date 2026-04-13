@@ -6,7 +6,7 @@ export default function RegisterConfirmationCompany() {
   const navigate = useNavigate();
 
   return (
-    <section className={styles.aboutPanel}>
+    <section className={styles.confirmation}>
       <h1>
         Your registration is confirmed. We look forward to seeing you at the
         event!
