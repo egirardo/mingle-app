@@ -6,8 +6,10 @@ export default function AttendingCounter() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    const API_BASE = import.meta.env.VITE_API_URL ?? "";
+
     Promise.all([
-      fetch("/api/companies/count")
+      fetch(`${API_BASE}/api/companies/count`)
         .then((res) => {
           if (!res.ok) throw new Error(`Companies count failed: ${res.status}`);
           return res.json();
@@ -16,7 +18,7 @@ export default function AttendingCounter() {
           const count = typeof data?.count === 'number' ? data.count : 0;
           return count;
         }),
-      fetch("/api/students/count")
+      fetch(`${API_BASE}/api/students/count`)
         .then((res) => {
           if (!res.ok) throw new Error(`Students count failed: ${res.status}`);
           return res.json();
