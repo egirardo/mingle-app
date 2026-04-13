@@ -1,4 +1,4 @@
-import Button from "../Buttons/Button.jsx";
+import Button from "../Atoms/Buttons/Button";
 import styles from "./AboutPanel.module.css";
 
 export default function AboutPanel() {
