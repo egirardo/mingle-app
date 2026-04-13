@@ -16,9 +16,8 @@ html, body, #root {
   z-index: -2;
   left: 0;
   width: 100%;
-  top: env(safe-area-inset-top, 0);
-  height: calc(100svh + env(safe-area-inset-top, 0));
-  margin-top: calc(-1 * env(safe-area-inset-top, 0));
+  top: calc(-1 * env(safe-area-inset-top, 0));
+  height: calc(100svh + env(safe-area-inset-top, 0) + env(safe-area-inset-bottom, 0));
 }
 
 .hero-overlay-container {
