@@ -34,15 +34,15 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
-        <Route
-          path="/confirmation/business"
-          element={<RegisterConfirmation />}
-        />
         <Route path="/login" element={<Login />} />
         <Route path="/signup/student" element={<StudentSignUp />} />
         <Route path="/signup/business" element={<BusinessSignUp />} />
         <Route path="/students/:id" element={<StudentProfile />} />
         <Route path="/companies/:id" element={<CompanyProfilePage />} />
+        <Route
+          path="/confirmation/business"
+          element={<RegisterConfirmation />}
+        />
         <Route path="/explore" element={<Explore />} />
         <Route element={<MingleGameLayout />}>
           <Route path="/lobby" element={<Lobby />} />
