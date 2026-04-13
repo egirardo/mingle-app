@@ -23,11 +23,11 @@ body {
   width: 100%;
   overflow-x: hidden;
   min-height: 100vh;
-  isolation: isolate;
 }
 
 .hero-container {
-  height: 100vh; /* changed from svh to fill the screen including behind toolbars */
+  top: 0;
+  bottom: 0;
   inset: 0;
   position: fixed;
   z-index: -2;
