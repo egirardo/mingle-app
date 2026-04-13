@@ -29,7 +29,7 @@ function isValidWebsiteURL(url) {
 // GET /api/companies
 router.get('/', async (req, res) => {
   try {
-    const companies = await Company.find({});
+    const companies = await Company.find({}, { company: 1, skills: 1, about: 1, liaSpaces: 1 });
     res.status(200).json(companies);
   } catch (err) {
     console.error('Get all companies error:', err);

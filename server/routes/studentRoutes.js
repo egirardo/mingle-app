@@ -78,7 +78,7 @@ const formatProfile = (profile) => {
 // GET /api/students
 router.get('/', async (req, res) => {
   try {
-    const students = await StudentProfile.find({});
+    const students = await StudentProfile.find({}, { studentId: 1, firstName: 1, lastName: 1, program: 1, skills: 1, questions: 1, profileImage: 1 });
     res.status(200).json(students.map(formatProfile));
   } catch (err) {
     console.error('Get all students error:', err);

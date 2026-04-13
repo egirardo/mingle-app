@@ -45,39 +45,53 @@ export default function ExplorePanel() {
 
     // ── Data fetching ───────────────────────────────────────────────────────
     useEffect(() => {
+        const controller = new AbortController();
+        const { signal } = controller;
+
         const fetchData = async () => {
-            setLoading(true);
             setError(null);
+
+            const alreadyCached =
+                (activeTab === "Companies" && companies.length > 0) ||
+                (activeTab === "Students" && students.length > 0) ||
+                (activeTab === "Saved" && saved.length > 0);
+
+            if (alreadyCached) return;
+
+            setLoading(true);
             try {
-                if (activeTab === "Companies" && companies.length === 0) {
-                    const res = await apiFetch("/api/companies");
+                if (activeTab === "Companies") {
+                    const res = await apiFetch("/api/companies", { signal });
                     const data = await res.json();
                     if (!res.ok) throw new Error(data.message);
                     setCompanies(data);
                 }
 
-                if (activeTab === "Students" && students.length === 0) {
-                    const res = await apiFetch("/api/students");
+                if (activeTab === "Students") {
+                    const res = await apiFetch("/api/students", { signal });
                     const data = await res.json();
                     if (!res.ok) throw new Error(data.message);
                     setStudents(data);
                 }
 
                 // TODO: update this endpoint to match your likes/saved API
-                if (activeTab === "Saved" && saved.length === 0) {
-                    const res = await apiFetch("/api/likes");
+                if (activeTab === "Saved") {
+                    const res = await apiFetch("/api/likes", { signal });
                     const data = await res.json();
                     if (!res.ok) throw new Error(data.message);
                     setSaved(data);
                 }
             } catch (err) {
+                if (err.name === "AbortError") return;
                 setError(err.message);
             } finally {
-                setLoading(false);
+                // Don't clear loading state if this request was superseded
+                if (!signal.aborted) setLoading(false);
             }
         };
 
         fetchData();
+        return () => controller.abort();
     }, [activeTab]);
 
     const handleTabChange = (index) => {
@@ -117,15 +131,15 @@ export default function ExplorePanel() {
 
     return (
         <div className={`${styles.panel} ${isExpanded ? styles.expanded : ""}`}>
-            <div
+            <button
+                type="button"
                 className={styles.dragHandle}
                 onClick={() => setIsExpanded(prev => !prev)}
-                role="button"
                 aria-label={isExpanded ? "Collapse panel" : "Expand panel"}
                 aria-expanded={isExpanded}
             >
                 <img src={DragExpand} alt="" aria-hidden="true" />
-            </div>
+            </button>
 
             <div className={styles.controls}>
                 <TabSlider tabs={TABS} defaultIndex={0} onChange={handleTabChange} />
