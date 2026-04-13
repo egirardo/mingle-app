@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import styles from "../MingleGame.module.css";
-import DateTimer from "../../../components/Timer/DateTimer.jsx";
+import DateTimer from "../../../components/Atoms/Timer/DateTimer.jsx";
 import yrgoLogo from "../../../assets/yrgo-logo.svg";
 import socket, { connectSocket } from "../../../socket.js";
 

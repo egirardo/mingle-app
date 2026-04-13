@@ -1,5 +1,5 @@
 import { useNavigate, useOutletContext } from "react-router-dom";
-import Timer from "../../../components/Timer/Timer.jsx";
+import Timer from "../../../components/Atoms/Timer/Timer.jsx";
 import styles from "../MingleGame.module.css";
 import yrgoLogo from "../../../assets/yrgo-logo.svg";
 import RoundsDisplay from "../../../components/RoundsDisplay/RoundsDisplay.jsx";
@@ -34,11 +34,7 @@ export default function Question() {
             currentRound={currentQuestion?.round || 0}
             className={styles.textLargeBold}
           />
-          <Timer
-            minutes={2}
-            onExpire={handleExpire}
-            className={styles.timer}
-          />
+          <Timer minutes={2} onExpire={handleExpire} className={styles.timer} />
           <div className={styles.questionDisplay}>
             <h3 className={styles.textLargeBold}>Question:</h3>
             <p className={`${styles.textMediumRegular} ${styles.textBubble}`}>
