@@ -11,7 +11,7 @@
     left: 0;
     right: 0;
     z-index: 5; /* below counter by default */
-    height: 14.9375rem; /* top sits 1.5rem below counter bottom */
+    height: 14rem; /* top sits 1.5rem below counter bottom */
     overflow: hidden;
     transition: height 0.35s cubic-bezier(0.32, 0.72, 0, 1),
                 z-index 0s 0s;
