@@ -4,11 +4,11 @@
     align-items: flex-start;
     justify-content: space-between;
     padding: .5rem;
-    width: 11.5rem;
-    height: 15.5625rem;
+    width: 100%;
+    min-height: 15.5625rem;
     border-radius: 1rem;
     background: var(--panel-bg);
-    gap: 1rem;
+    gap: .5rem;
 }
 
 .topHalfContainer {
@@ -18,11 +18,11 @@
     gap: 0.5rem;
     width: 100%;
 }
+
 .headingContainer {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    align-items: center;
     width: 100%;
 }
 
@@ -53,9 +53,11 @@
     font-size: 0.875rem;
     font-style: normal;
     font-weight: 600;
-    line-height: 116.061%; /* 1.01556rem */
+    line-height: 116.061%;
     letter-spacing: -0.02625rem;
     text-transform: uppercase;
+    color: #D5D5D5;
+    margin: 0;
 }
 
 .infoContent {
@@ -64,4 +66,9 @@
     font-weight: 400;
     line-height: normal;
     letter-spacing: -0.02625rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

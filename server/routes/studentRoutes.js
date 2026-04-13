@@ -74,6 +74,18 @@ const formatProfile = (profile) => {
   return obj;
 };
 
+// ─── GET ALL STUDENTS ─────────────────────────────────────────────────────────
+// GET /api/students
+router.get('/', async (req, res) => {
+  try {
+    const students = await StudentProfile.find({}, { studentId: 1, firstName: 1, lastName: 1, program: 1, skills: 1, questions: 1, profileImage: 1 });
+    res.status(200).json(students.map(formatProfile));
+  } catch (err) {
+    console.error('Get all students error:', err);
+    res.status(500).json({ message: 'Server error retrieving students' });
+  }
+});
+
 // ─── REGISTER ────────────────────────────────────────────────────────────────
 // POST /api/students/register
 router.post('/register', async (req, res) => {
