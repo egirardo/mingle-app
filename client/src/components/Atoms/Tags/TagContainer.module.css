@@ -25,6 +25,18 @@
     flex-wrap: wrap;
 }
 
+.profileCard {
+    display: flex;
+    padding: 0;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.125rem;
+    width: 100%;
+    margin: 0;
+    flex-wrap: wrap;
+}
+
 .large::-webkit-scrollbar{
     display: none; /* Chrome, Safari, and Edge */
 }

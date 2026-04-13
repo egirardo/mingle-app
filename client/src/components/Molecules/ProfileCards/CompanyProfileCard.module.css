@@ -1,0 +1,68 @@
+.cardContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: .5rem;
+    width: 11.5rem;
+    height: 15.5625rem;
+    border-radius: 1rem;
+    background: var(--panel-bg);
+    gap: 1rem;
+    margin: 20rem 10rem;
+}
+
+.topHalfContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    width: 100%;
+}
+.headingContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.nameHeartContainer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.5rem;
+}
+
+.companyName {
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: -0.03rem;
+    margin: 0;
+}
+
+.infoContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+.infoHeading {
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 116.061%; /* 1.01556rem */
+    letter-spacing: -0.02625rem;
+    text-transform: uppercase;
+}
+
+.infoContent {
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.02625rem;
+}
