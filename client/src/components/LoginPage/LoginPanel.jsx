@@ -36,7 +36,7 @@ export default function LoginPanel() {
       localStorage.setItem("token", data.token);
       window.dispatchEvent(new Event('authchange'));
 
-      navigate("/"); // Once created, redirect to explore page instead, this is a placeholder
+      navigate("/explore");
     } catch (err) {
       setError(err.message || "Something went wrong. Please try again.");
     } finally {
