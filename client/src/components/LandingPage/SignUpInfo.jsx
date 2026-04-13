@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import styles from "./SignUpInfo.module.css";
-import Button from "../Buttons/Button";
+import Button from "../Atoms/Buttons/Button";
 import SignUpLine from "../../assets/sign-up-line.svg";
 import DragExpand from "../../assets/icons/drag-expand.svg";
 import { useNavigate } from "react-router-dom";

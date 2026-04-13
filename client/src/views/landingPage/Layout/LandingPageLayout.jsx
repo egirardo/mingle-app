@@ -1,6 +1,6 @@
 import Background from "../../../assets/background.jpg";
 import Hero from "../../../assets/hero.svg";
-import NavBar from "../../../components/NavBar/NavBar.jsx";
+import NavBar from "../../../components/Atoms/NavBar/NavBar.jsx";
 import AttendingCounter from "../../../components/LandingPage/AttendingCounter.jsx";
 
 function LandingPageLayout({ children }) {

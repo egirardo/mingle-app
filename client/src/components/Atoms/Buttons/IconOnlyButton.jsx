@@ -1,10 +1,10 @@
 import styles from "./Button.module.css";
-import search from "../../assets/icons/search.svg";
-import arrowBack from "../../assets/icons/arrow-back.svg";
-import arrow45 from "../../assets/icons/arrow-45.svg";
-import help from "../../assets/icons/help.svg";
-import bigHeart from "../../assets/icons/big-heart.svg";
-import sound from "../../assets/icons/sound.svg";
+import search from "../../../assets/icons/search.svg";
+import arrowBack from "../../../assets/icons/arrow-back.svg";
+import arrow45 from "../../../assets/icons/arrow-45.svg";
+import help from "../../../assets/icons/help.svg";
+import bigHeart from "../../../assets/icons/big-heart.svg";
+import sound from "../../../assets/icons/sound.svg";
 
 // Props:
 // `buttonColor`, `variant`: CSS modifier classes

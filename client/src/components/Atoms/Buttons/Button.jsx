@@ -1,9 +1,9 @@
 import styles from "./Button.module.css";
-import arrowRight from "../../assets/icons/arrow-right.svg";
-import arrowRightWhite from "../../assets/icons/arrow-right-white.svg";
-import checkmark from "../../assets/icons/check.svg";
-import arrow45 from "../../assets/icons/arrow-45.svg";
-import profileIcon from "../../assets/icons/profile.svg";
+import arrowRight from "../../../assets/icons/arrow-right.svg";
+import arrowRightWhite from "../../../assets/icons/arrow-right-white.svg";
+import checkmark from "../../../assets/icons/check.svg";
+import arrow45 from "../../../assets/icons/arrow-45.svg";
+import profileIcon from "../../../assets/icons/profile.svg";
 
 
 // Props:

@@ -2,9 +2,9 @@ import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import styles from './NavBar.module.css';
-import yrgoLogo from '../../assets/yrgo-logo.svg';
-import hamburgerIcon from '../../assets/hamburger-icon.svg';
-import Button from '../Buttons/Button';
+import yrgoLogo from '../../../assets/yrgo-logo.svg';
+import hamburgerIcon from '../../../assets/hamburger-icon.svg';
+import Button from '../../Atoms/Buttons/Button';
 
 export default function NavBar() {
     const navigate = useNavigate();

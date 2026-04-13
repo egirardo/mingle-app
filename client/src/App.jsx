@@ -25,6 +25,7 @@ import TaskDesktop from "./views/mingleGame/desktop/Task.jsx";
 import QuestionDesktop from "./views/mingleGame/desktop/Question.jsx";
 import LoadingDesktop from "./views/mingleGame/desktop/Loading.jsx";
 import CompletionDesktop from "./views/mingleGame/desktop/Completion.jsx";
+import Explore from "./views/landingPage/Explore.jsx";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
         <Route path="/signup/business" element={<BusinessSignUp />} />
         <Route path="/students/:id" element={<StudentProfile />} />
         <Route path="/companies/:id" element={<CompanyProfilePage />} />
+        <Route path="/explore" element={<Explore />} />
         <Route element={<MingleGameLayout />}>
           <Route path="/lobby" element={<Lobby />} />
           <Route path="/start" element={<Start />} />

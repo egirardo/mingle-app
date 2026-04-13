@@ -1,5 +1,5 @@
 import styles from "../MingleGame.module.css";
-import Button from "../../../components/Buttons/Button.jsx";
+import Button from "../../../components/Atoms/Buttons/Button.jsx";
 import yrgoLogo from "../../../assets/yrgo-logo.svg";
 import { useNavigate } from "react-router-dom";
 

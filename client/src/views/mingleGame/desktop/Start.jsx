@@ -1,8 +1,8 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import styles from "../MingleGame.module.css";
-import Button from "../../../components/Buttons/Button";
-import IconOnlyButton from "../../../components/Buttons/IconOnlyButton";
+import Button from "../../../components/Atoms/Buttons/Button.jsx";
+import IconOnlyButton from "../../../components/Atoms/Buttons/IconOnlyButton.jsx";
 import yrgoLogo from "../../../assets/yrgo-logo.svg";
 import socket, { connectSocket } from "../../../socket.js";
 import {

@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "../Buttons/Button";
-import IconOnlyButton from "../Buttons/IconOnlyButton";
+import Button from "../Atoms/Buttons/Button";
+import IconOnlyButton from "../Atoms/Buttons/IconOnlyButton";
 import styles from "./LoginPanel.module.css";
-import TextInput from "../Forms/InputFields/TextInput";
+import TextInput from "../Atoms/Forms/InputFields/TextInput";
 import { apiFetch } from "../../api";
 
 export default function LoginPanel() {

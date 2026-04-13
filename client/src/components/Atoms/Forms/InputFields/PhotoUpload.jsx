@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import styles from "./PhotoUpload.module.css";
 import TextInput from "./TextInput";
 import Button from "../../Buttons/Button";
-import photoIcon from "../../../assets/icons/photo.svg";
+import photoIcon from "../../../../assets/icons/photo.svg";
 
 export default function PhotoUpload({
   onFileChange,       // (File) => void — called when the user picks an image
