@@ -6,7 +6,7 @@ import CompanyProfileCard from "../Molecules/ProfileCards/CompanyProfileCard";
 import StudentProfileCard from "../Molecules/ProfileCards/StudentProfileCard";
 import TabSlider from "../Atoms/Tabs/TabSlider";
 import DragExpand from "../../assets/icons/drag-expand.svg";
-// TODO: import ExploreFilters from "../Molecules/ExploreFilters/ExploreFilters";
+import ExploreFilters from "./ExploreFilters";
 import styles from "./ExplorePanel.module.css";
 
 const TABS = ["Companies", "Students", "Saved"];
@@ -31,6 +31,9 @@ export default function ExplorePanel() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [loggedInStudentId, setLoggedInStudentId] = useState(getLoggedInStudentId);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [selectedSkills, setSelectedSkills] = useState([]);
+    const [selectedPrograms, setSelectedPrograms] = useState([]);
     const fetchedTabs = useRef(new Set());
 
     // Keep loggedInStudentId in sync with login/logout events
@@ -98,29 +101,48 @@ export default function ExplorePanel() {
 
     const handleTabChange = (index) => {
         setActiveTab(TABS[index]);
+        setSearchQuery("");
+        setSelectedSkills([]);
+        setSelectedPrograms([]);
     };
+
+    const matchesSearch = (name) =>
+        !searchQuery || name.toLowerCase().includes(searchQuery.toLowerCase());
+
+    const matchesSkills = (skills) =>
+        selectedSkills.length === 0 || selectedSkills.some((s) => skills?.includes(s));
 
     const getCards = () => {
         if (activeTab === "Companies")
-            return companies.map((company) => (
-                <CompanyProfileCard key={company._id} company={company} />
-            ));
+            return companies
+                .filter((c) => matchesSearch(c.company ?? "") && matchesSkills(c.skills))
+                .map((company) => (
+                    <CompanyProfileCard key={company._id} company={company} />
+                ));
 
         if (activeTab === "Students")
-            return students.map((student) => (
-                <StudentProfileCard
-                    key={student._id}
-                    student={student}
-                    isOwnCard={loggedInStudentId === String(student.studentId)}
-                />
-            ));
+            return students
+                .filter((s) => {
+                    const name = `${s.firstName ?? ""} ${s.lastName ?? ""}`.trim();
+                    const programMatch = selectedPrograms.length === 0 || selectedPrograms.includes(s.program);
+                    return matchesSearch(name) && matchesSkills(s.skills) && programMatch;
+                })
+                .map((student) => (
+                    <StudentProfileCard
+                        key={student._id}
+                        student={student}
+                        isOwnCard={loggedInStudentId === String(student.studentId)}
+                    />
+                ));
 
         if (activeTab === "Saved")
             // TODO: saved items may be a mix of companies and students —
             // update this to render the correct card type based on item shape
-            return saved.map((item) => (
-                <CompanyProfileCard key={item._id} company={item} />
-            ));
+            return saved
+                .filter((item) => matchesSearch(item.company ?? "") && matchesSkills(item.skills))
+                .map((item) => (
+                    <CompanyProfileCard key={item._id} company={item} />
+                ));
 
         return [];
     };
@@ -143,9 +165,17 @@ export default function ExplorePanel() {
                 <img src={DragExpand} alt="" aria-hidden="true" />
             </button>
 
+            <h1 className={styles.heading}>Explore</h1>
+
             <div className={styles.controls}>
                 <TabSlider tabs={TABS} defaultIndex={0} onChange={handleTabChange} />
-                {/* TODO: add <ExploreFilters /> here, passing activeTab so filters can adapt per tab */}
+                <ExploreFilters
+                    key={activeTab}
+                    activeTab={activeTab}
+                    onSearch={(query) => setSearchQuery(query)}
+                    onSkillsChange={(skills) => setSelectedSkills(skills)}
+                    onProgramsChange={(programs) => setSelectedPrograms(programs)}
+                />
             </div>
 
             <div className={styles.scrollArea}>

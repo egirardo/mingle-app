@@ -1,0 +1,21 @@
+[
+  { "id": "skill-ui", "name": "UI", "checkboxLabel": "UI" },
+  { "id": "skill-ux", "name": "UX", "checkboxLabel": "UX" },
+  { "id": "skill-frontend", "name": "Frontend", "checkboxLabel": "Frontend" },
+  { "id": "skill-backend", "name": "Backend", "checkboxLabel": "Backend" },
+  { "id": "skill-motion", "name": "Motion Design", "checkboxLabel": "Motion Design" },
+  { "id": "skill-3d", "name": "3D", "checkboxLabel": "3D" },
+  { "id": "skill-fullstack", "name": "Fullstack", "checkboxLabel": "Fullstack" },
+  { "id": "skill-branding", "name": "Branding", "checkboxLabel": "Branding" },
+  { "id": "skill-graphic-design", "name": "Graphic Design", "checkboxLabel": "Graphic Design" },
+  { "id": "skill-html", "name": "HTML/CSS", "checkboxLabel": "HTML/CSS" },
+  { "id": "skill-js", "name": "JavaScript", "checkboxLabel": "JavaScript" },
+  { "id": "skill-react", "name": "React", "checkboxLabel": "React" },
+  { "id": "skill-git", "name": "Git", "checkboxLabel": "Git" },
+  { "id": "skill-php", "name": "PHP", "checkboxLabel": "PHP" },
+  { "id": "skill-rest", "name": "REST", "checkboxLabel": "REST" },
+  { "id": "skill-accessibility", "name": "Accessibility", "checkboxLabel": "Accessibility" },
+  { "id": "skill-laravel", "name": "Laravel", "checkboxLabel": "Laravel" },
+  { "id": "skill-csharp", "name": "C#", "checkboxLabel": "C#" },
+  { "id": "skill-typescript", "name": "TypeScript", "checkboxLabel": "TypeScript" }
+]
