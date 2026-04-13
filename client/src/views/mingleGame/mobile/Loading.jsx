@@ -1,6 +1,6 @@
 import { useNavigate, useOutletContext } from "react-router-dom";
 import styles from "../MingleGame.module.css";
-import Timer from "../../../components/Timer/Timer.jsx";
+import Timer from "../../../components/Atoms/Timer/Timer.jsx";
 import yrgoLogo from "../../../assets/yrgo-logo.svg";
 import RoundsDisplay from "../../../components/RoundsDisplay/RoundsDisplay.jsx";
 

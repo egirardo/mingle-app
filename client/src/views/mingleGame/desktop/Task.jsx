@@ -1,5 +1,5 @@
 import { useNavigate, useOutletContext } from "react-router-dom";
-import Timer from "../../../components/Timer/Timer.jsx";
+import Timer from "../../../components/Atoms/Timer/Timer.jsx";
 import styles from "../MingleGame.module.css";
 import yrgoLogo from "../../../assets/yrgo-logo.svg";
 import RoundsDisplay from "../../../components/RoundsDisplay/RoundsDisplay.jsx";
@@ -28,7 +28,7 @@ export default function Task() {
         />
         <div className={styles.taskContainer}>
           <Timer
-            minutes={0.50}
+            minutes={0.5}
             onExpire={handleExpire}
             className={styles.timer}
           />
