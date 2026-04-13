@@ -35,7 +35,7 @@ export default function CompanyProfileCard({ company }) {
             </div>
             <div className={styles.infoContainer}>
                 <h2 className={styles.infoHeading}>About</h2>
-                <p className={styles.infoContent}>{company.about}</p>
+                <p className={styles.infoContent}>{company.about || "No description available."}</p>
             </div>
             <div className={styles.infoContainer}>
                 <h2 className={styles.infoHeading}>LIA Spaces</h2>

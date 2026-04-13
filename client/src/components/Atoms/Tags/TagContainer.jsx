@@ -1,12 +1,21 @@
 import styles from "./TagContainer.module.css";
 import Tag from "./Tag";
 
+const MAX_VISIBLE_PROFILE_CARD_TAGS = 3;
+
 export default function TagContainer({ tags = [], tagType="large" }) {
+  const isProfileCard = tagType === "profileCard";
+  const visibleTags = isProfileCard ? tags.slice(0, MAX_VISIBLE_PROFILE_CARD_TAGS) : tags;
+  const overflow = isProfileCard ? tags.length - MAX_VISIBLE_PROFILE_CARD_TAGS : 0;
+
   return (
     <ul className={styles[tagType]}>
-      {tags.map((tag) => (
+      {visibleTags.map((tag) => (
         <Tag key={tag} tagName={tag} tagType={tagType} />
       ))}
+      {overflow > 0 && (
+        <Tag tagName={`+${overflow}`} tagType={tagType} />
+      )}
     </ul>
   );
 }

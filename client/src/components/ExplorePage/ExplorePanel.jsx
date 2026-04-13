@@ -1,14 +1,26 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
+import { jwtDecode } from "jwt-decode";
 import { apiFetch } from "../../api";
 import ProfileCards from "../Molecules/ProfileCards/ProfileCards";
 import CompanyProfileCard from "../Molecules/ProfileCards/CompanyProfileCard";
+import StudentProfileCard from "../Molecules/ProfileCards/StudentProfileCard";
 import TabSlider from "../Atoms/Tabs/TabSlider";
 import DragExpand from "../../assets/icons/drag-expand.svg";
-// TODO: import StudentProfileCard from "../Molecules/ProfileCards/StudentProfileCard";
 // TODO: import ExploreFilters from "../Molecules/ExploreFilters/ExploreFilters";
 import styles from "./ExplorePanel.module.css";
 
 const TABS = ["Companies", "Students", "Saved"];
+
+function getLoggedInStudentId() {
+    try {
+        const token = localStorage.getItem("token");
+        if (!token) return null;
+        const payload = jwtDecode(token);
+        return payload?.id ?? null;
+    } catch {
+        return null;
+    }
+}
 
 export default function ExplorePanel() {
     const [isExpanded, setIsExpanded] = useState(false);
@@ -18,6 +30,19 @@ export default function ExplorePanel() {
     const [saved, setSaved] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [loggedInStudentId, setLoggedInStudentId] = useState(getLoggedInStudentId);
+
+    // Keep loggedInStudentId in sync with login/logout events
+    useEffect(() => {
+        const handleAuthChange = () => setLoggedInStudentId(getLoggedInStudentId());
+        window.addEventListener("authchange", handleAuthChange);
+        window.addEventListener("storage", handleAuthChange);
+        return () => {
+            window.removeEventListener("authchange", handleAuthChange);
+            window.removeEventListener("storage", handleAuthChange);
+        };
+    }, []);
+
     // ── Data fetching ───────────────────────────────────────────────────────
     useEffect(() => {
         const fetchData = async () => {
@@ -30,14 +55,14 @@ export default function ExplorePanel() {
                     if (!res.ok) throw new Error(data.message);
                     setCompanies(data);
                 }
- 
+
                 if (activeTab === "Students" && students.length === 0) {
                     const res = await apiFetch("/api/students");
                     const data = await res.json();
                     if (!res.ok) throw new Error(data.message);
                     setStudents(data);
                 }
- 
+
                 // TODO: update this endpoint to match your likes/saved API
                 if (activeTab === "Saved" && saved.length === 0) {
                     const res = await apiFetch("/api/likes");
@@ -51,42 +76,45 @@ export default function ExplorePanel() {
                 setLoading(false);
             }
         };
- 
+
         fetchData();
     }, [activeTab]);
- 
+
     const handleTabChange = (index) => {
         setActiveTab(TABS[index]);
     };
- 
+
     const getCards = () => {
         if (activeTab === "Companies")
             return companies.map((company) => (
                 <CompanyProfileCard key={company._id} company={company} />
             ));
- 
+
         if (activeTab === "Students")
-            // TODO: swap for StudentProfileCard once available
             return students.map((student) => (
-                <p key={student._id}>{student.firstName}</p>
+                <StudentProfileCard
+                    key={student._id}
+                    student={student}
+                    isOwnCard={loggedInStudentId === String(student.studentId)}
+                />
             ));
- 
+
         if (activeTab === "Saved")
             // TODO: saved items may be a mix of companies and students —
             // update this to render the correct card type based on item shape
             return saved.map((item) => (
                 <CompanyProfileCard key={item._id} company={item} />
             ));
- 
+
         return [];
     };
- 
+
     const emptyMessage = {
         Companies: "No companies found.",
         Students: "No students found.",
         Saved: "No saved profiles yet.",
     };
- 
+
     return (
         <div className={`${styles.panel} ${isExpanded ? styles.expanded : ""}`}>
             <div
@@ -98,12 +126,12 @@ export default function ExplorePanel() {
             >
                 <img src={DragExpand} alt="" aria-hidden="true" />
             </div>
- 
+
             <div className={styles.controls}>
                 <TabSlider tabs={TABS} defaultIndex={0} onChange={handleTabChange} />
                 {/* TODO: add <ExploreFilters /> here, passing activeTab so filters can adapt per tab */}
             </div>
- 
+
             <div className={styles.scrollArea}>
                 <ProfileCards
                     cards={getCards()}
@@ -115,4 +143,3 @@ export default function ExplorePanel() {
         </div>
     );
 }
- 

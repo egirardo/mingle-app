@@ -1,23 +1,55 @@
-import styles from ".StudentProfileCard.module.css";
-import defaultAvatar from "../../../assets/default-avatar.png"; // Placeholder image for students without a profile picture
+import styles from "./StudentProfileCard.module.css";
+import LikeIcon from "../../../assets/icons/like.svg";
 import { useNavigate } from "react-router-dom";
+import IconOnlyButton from "../../Atoms/Buttons/IconOnlyButton";
+import TagContainer from "../../Atoms/Tags/TagContainer";
+import DefaultAvatar from "../../../assets/default-avatar.png";
 
-export default function StudentProfileCard({ student }) {
-  const navigate = useNavigate();
+// isOwnCard: if true, hides the like icon (logged-in student viewing their own card)
+export default function StudentProfileCard({ student, isOwnCard = false }) {
+    const navigate = useNavigate();
 
-  const handleClick = () => {
-    navigate(`/students/${student.id}`);
-  };
+    const handleClick = () => {
+        // studentId is the auth ID the backend route /students/profile/:id expects
+        navigate(`/students/${student.studentId}`);
+    };
 
-  return (
-    <div className={styles.card} onClick={handleClick}>
-      <img
-        src={student.profilePicture || defaultAvatar}
-        alt={`${student.firstName} ${student.lastName}`}
-        className={styles.avatar}
-      />
-      <h3 className={styles.name}>{`${student.firstName} ${student.lastName}`}</h3>
-      <p className={styles.headline}>{student.headline}</p>
-    </div>
-  );
+    if (!student) return null;
+
+    return (
+        <div className={styles.cardContainer}>
+            <div className={styles.topHalfContainer}>
+                <div className={styles.headingContainer}>
+                    <div className={styles.photoHeartContainer}>
+                        <img
+                            src={student.profileImage || DefaultAvatar}
+                            alt={`${student.firstName}'s profile`}
+                            className={styles.profileImage}
+                        />
+                        {!isOwnCard && (
+                            <img className={styles.likeIcon} src={LikeIcon} alt="Like" />
+                        )}
+                    </div>
+                    <IconOnlyButton
+                        className={styles.viewProfileButton}
+                        iconSrc="arrow45"
+                        buttonColor="transparent"
+                        ariaLabel="View Student Profile"
+                        onClick={handleClick}
+                    />
+                </div>
+                <div className={styles.nameProgramContainer}>
+                    <h2 className={styles.studentName}>{student.firstName} {student.lastName}</h2>
+                    <p className={styles.studentProgram}>{student.program}</p>
+                </div>
+                <div className={styles.tagContainer}>
+                    <TagContainer tags={[...student.skills]} tagType="profileCard" />
+                </div>
+            </div>
+            <div className={styles.infoContainer}>
+                <h2 className={styles.infoHeading}>Let's Talk About</h2>
+                <p className={styles.infoContent}>{student.questions?.[0]}</p>
+            </div>
+        </div>
+    );
 }
