@@ -1,3 +1,7 @@
+/* ----------------------------------------
+   Main
+---------------------------------------- */
+
 .aboutPanel {
   background: var(--panel-bg);
   backdrop-filter: blur(25px);
@@ -13,6 +17,10 @@
   gap: 1.5rem;
 }
 
+/* ----------------------------------------
+   Header
+   ---------------------------------------- */
+   
 .aboutHeader {
   display: flex;
   flex-direction: column;
@@ -21,22 +29,19 @@
   align-self: stretch;
 }
 
-.aboutHeader h1,
-.aboutHeader h3,
-.aboutTextContainer h4 {
+.aboutHeader h1 {
   margin: 0;
   padding: 0;
-}
-
-.aboutHeader h1 {
   font-size: 2rem;
   font-style: normal;
   font-weight: 600;
-  line-height: 2rem; /* 100% */
+  line-height: 2rem;
   letter-spacing: -0.0625rem;
 }
 
-.aboutHeader h3 {
+.aboutHeader h2 {
+  margin: 0;
+  padding: 0;
   font-size: 1rem;
   font-style: normal;
   font-weight: 600;
@@ -44,74 +49,66 @@
   letter-spacing: -0.03rem;
 }
 
-.aboutTextContainer h4 {
+/* ----------------------------------------
+   Content
+   ---------------------------------------- */
+
+.aboutContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.aboutSection {
+  display: flex;
+  padding: 0.5rem 0;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: left;
+}
+
+.aboutSection h3 {
+  margin: 0;
+  padding: 0;
   font-size: 0.875rem;
   font-style: normal;
   font-weight: 600;
-  line-height: 116.061%; /* 1.01556rem */
+  line-height: 116.061%;
   letter-spacing: -0.02625rem;
   text-transform: uppercase;
   color: #d5d5d5;
 }
 
-.aboutTextContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+.aboutSection p {
+  margin: 0;
+  padding: 0;
 }
 
-.aboutText {
-  display: flex;
-  padding: 0.5rem 0;
-  flex-direction: column;
-  gap: 0.5rem;
-  text-align: left;
-  justify-content: space-evenly;
-}
+/* ----------------------------------------
+   Slogan
+   ---------------------------------------- */
 
-.aboutTextContainer2 {
-  display: flex;
-  padding: 0.5rem 0;
-  flex-direction: column;
-  justify-content: center;
-  gap: 0.5rem;
-  align-self: stretch;
-  text-align: left;
-}
-
-.aboutSlogan {
+.slogan {
   font-size: 1rem;
   font-weight: 600;
   letter-spacing: -0.03rem;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
 }
 
-.emailButton {
+.slogan p {
+  margin: 0;
+  padding: 0;
+}
+
+/* ----------------------------------------
+   Contact button
+   ---------------------------------------- */
+
+.contactButton {
   display: flex;
   justify-content: center;
   width: 100%;
-}
-
-@media (max-width: 640px) {
-  .aboutPanel {
-    border-radius: 0;
-    padding: 1.5rem 0.75rem;
-    gap: 1rem;
-  }
-
-  .aboutHeader h1 {
-    font-size: 1.5rem;
-  }
-
-  .aboutHeader h3 {
-    font-size: 0.875rem;
-  }
-
-  .aboutText {
-    padding: 0.25rem 0;
-    gap: 0.375rem;
-  }
-
-  .aboutSlogan {
-    font-size: 0.875rem;
-  }
 }
