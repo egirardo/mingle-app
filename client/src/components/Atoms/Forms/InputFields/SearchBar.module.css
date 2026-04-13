@@ -1,0 +1,29 @@
+.searchContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  width: 100%;
+  height: 2.75rem;
+  border-radius: 2.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.searchContainer input {
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1rem;
+}
+
+.searchContainer input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.searchButton {
+  flex-shrink: 0;
+}

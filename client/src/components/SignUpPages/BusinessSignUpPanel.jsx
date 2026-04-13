@@ -81,7 +81,7 @@ const BusinessSignUpPanel = () => {
       if (!res.ok) throw new Error(data.message);
 
       // Registration successful — redirect to home or a confirmation page
-      navigate("/");
+      navigate("/confirmation/business");
     } catch (err) {
       setError(err.message || "Something went wrong. Please try again.");
     } finally {

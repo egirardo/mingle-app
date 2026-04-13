@@ -7,14 +7,15 @@ import bigHeart from "../../../assets/icons/big-heart.svg";
 import sound from "../../../assets/icons/sound.svg";
 
 // Props:
-// `buttonColor`, `variant`: CSS modifier classes
+// `buttonColor`: CSS color modifier class
+// `variant`: CSS variant class for the button (e.g., `iconOnly`, `iconOnlyLarge`)
 // `iconSrc`: optional icon to render (if omitted the button has no image)
 // `ariaLabel`: accessible name for screen readers (applied to the <button>)
 // `...buttonProps`: forwarded to the underlying <button> (onClick, disabled, etc.)
 
 export default function IconOnlyButton({
   buttonColor,
-  variant,
+  variant = "iconOnly",
   iconSrc,
   ariaLabel,
   type = "button",
@@ -22,7 +23,6 @@ export default function IconOnlyButton({
 }) {
   // Variants
   const colorClass = buttonColor ? (styles[buttonColor] ?? "") : "";
-  const variantClass = variant ? (styles[variant] ?? "") : "";
   const icons = { search, arrow45, arrowBack, help, bigHeart, sound };
 
   // Icon is optional
@@ -35,12 +35,17 @@ export default function IconOnlyButton({
   return (
     <button
       {...buttonProps}
-      className={`${styles.iconButton} ${colorClass} ${variantClass}`.trim()}
+      className={`${styles.iconButton} ${colorClass}`.trim()}
       type={type}
       aria-label={ariaLabel}
     >
       {icon && (
-        <img src={icon} className={styles.iconOnly} alt="" aria-hidden="true" />
+        <img
+          src={icon}
+          className={styles[variant] ?? ""}
+          alt=""
+          aria-hidden="true"
+        />
       )}
     </button>
   );
