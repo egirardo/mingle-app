@@ -7,10 +7,13 @@
     left: 0;
     right: 0;
     padding: 1rem .5rem 2.5rem .5rem;
+    padding-bottom: max(2.5rem, env(safe-area-inset-bottom, 0));
     display: flex;
     flex-direction: column;
     gap: 2rem;
-    height: 29.75rem;
+    height: calc(29.75rem + env(safe-area-inset-bottom, 0));
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
 }
 
 .arrowButtonContainer {
