@@ -10,6 +10,7 @@ export default function SearchBar() {
           iconSrc="search"
           buttonColor="transparent"
           variant="iconOnlyLarge"
+          ariaLabel="Search"
         />
       </div>
     </>

@@ -42,7 +42,7 @@ export default function IconOnlyButton({
       {icon && (
         <img
           src={icon}
-          className={`${styles[variant]}`.trim()}
+          className={styles[variant] ?? ""}
           alt=""
           aria-hidden="true"
         />

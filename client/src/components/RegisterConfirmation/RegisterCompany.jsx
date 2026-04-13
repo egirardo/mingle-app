@@ -2,7 +2,7 @@ import Button from "../Atoms/Buttons/Button.jsx";
 import styles from "./RegisterConfirmation.module.css";
 import { useNavigate } from "react-router-dom";
 
-export default function RegisterConfirmationCompany() {
+export default function RegisterCompany() {
   const navigate = useNavigate();
 
   return (
