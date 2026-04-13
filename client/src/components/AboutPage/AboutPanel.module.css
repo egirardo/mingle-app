@@ -110,5 +110,6 @@
 .contactButton {
   display: flex;
   justify-content: center;
-  width: 100%;
+  width: auto;
+  height: 2.25rem;
 }

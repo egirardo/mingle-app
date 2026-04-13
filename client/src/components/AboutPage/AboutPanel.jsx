@@ -1,7 +1,7 @@
 import Button from "../Buttons/Button.jsx";
-import styles from "./About.module.css";
+import styles from "./AboutPanel.module.css";
 
-export default function About() {
+export default function AboutPanel() {
   return (
     <section className={styles.aboutPanel}>
       <header className={styles.aboutHeader}>
@@ -31,13 +31,13 @@ export default function About() {
             email and we will update your profile for you.
           </p>
           <div className={styles.contactButton}>
-            <a href="mailto:ac75456@skola.goteborg.se">
-              <Button
-                buttonName="Contact us"
-                variant="primaryGray"
-                iconSrc="arrow45"
-              />
-            </a>
+            <Button
+              buttonName="Contact us"
+              variant="primaryGray"
+              iconSrc="arrow45"
+              onClick={() => window.location.href = "mailto:ac75456@skola.goteborg.se"}
+              ariaLabel="Contact us via email"
+            />
           </div>
         </article>
       </div>

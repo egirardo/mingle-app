@@ -1,12 +1,12 @@
 import LandingPageLayout from "./Layout/LandingPageLayout.jsx";
-import About from "../../components/AboutPage/About.jsx";
+import AboutPanel from "../../components/AboutPage/AboutPanel.jsx";
 
-function AboutPage() {
+function About() {
   return (
     <LandingPageLayout>
-      <About />
+      <AboutPanel />
     </LandingPageLayout>
   );
 }
 
-export default AboutPage;
+export default About;
