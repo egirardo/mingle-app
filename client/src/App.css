@@ -14,7 +14,7 @@ body {
   padding: 0;
   width: 100%;
   overflow-x: hidden;
-  min-height: 100dvh;
+  min-height: 100vh;
 }
 
 #root {
@@ -22,11 +22,11 @@ body {
   padding: 0;
   width: 100%;
   overflow-x: hidden;
-  min-height: 100dvh;
+  min-height: 100vh;
 }
 
 .hero-container {
-  height: 100svh;
+  height: 100vh; /* changed from svh to fill the screen including behind toolbars */
   inset: 0;
   position: fixed;
   z-index: -2;
