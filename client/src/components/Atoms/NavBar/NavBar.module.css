@@ -19,7 +19,7 @@
     justify-content: space-between;
     align-items: center;
     color: #FFF;
-    padding: calc(3.5rem + env(safe-area-inset-top, 0)) 10px 10px 10px;
+    padding: calc(0.625rem+ env(safe-area-inset-top, 0)) 0.625rem 0.625rem 0.625rem;
 }
 
 .logo img,
@@ -37,7 +37,7 @@
     width: 100%;
     margin: 0;
     list-style: none;
-    padding: 10px 0;
+    padding: 0.625rem 0;
     text-align: center;
     display: flex;
     flex-direction: column;
