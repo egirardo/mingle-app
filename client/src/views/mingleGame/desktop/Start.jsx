@@ -6,8 +6,7 @@ import IconOnlyButton from "../../../components/Atoms/Buttons/IconOnlyButton.jsx
 import yrgoLogo from "../../../assets/yrgo-logo.svg";
 import socket, { connectSocket } from "../../../socket.js";
 import {
-  // commenting out in case the designers want a beep sound after the button is pressed
-  // usePlayBeep,
+  usePlayBeep,
   usePlaySound,
   useUnlockAudio,
 } from "../../../Hooks/useAudio.js";
@@ -16,9 +15,7 @@ import instructionsAudio from "../../../assets/audio/instructions.mp3";
 export default function Start() {
   const mingle = useOutletContext();
   const navigate = useNavigate();
-
-  // commenting out in case the designers want a beep sound after the button is pressed
-  // const playBeep = usePlayBeep();
+  const playBeep = usePlayBeep();
 
   const [audioFailed, setAudioFailed] = useState(false);
   const playInstructions = usePlaySound(instructionsAudio, () =>
@@ -36,6 +33,7 @@ export default function Start() {
     connectSocket();
 
     const handleGameStarted = () => {
+      playBeep();
       resetQuestionsRef.current?.();
       navigate("/start/task");
     };

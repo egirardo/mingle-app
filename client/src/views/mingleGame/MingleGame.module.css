@@ -105,14 +105,12 @@
 
   .textMediumRegular {
     font-size: 3rem;
-    font-style: normal;
     font-weight: 400;
     line-height: 150%; /* 4.5rem */
     letter-spacing: -0.12rem;
   }
 
   .textMediumSmall {
-    color: white;
     font-size: 2.25rem;
     font-weight: 400;
     line-height: 97%; /* 2.1825rem */
@@ -133,7 +131,7 @@
 
 .main {
   background: #000;
-  background-image: url("./../src/assets/mingle_bg.png");
+  background-image: url("/src/assets/mingle_bg.png");
   background-position: center;
   background-size: cover;
   width: 100%;
