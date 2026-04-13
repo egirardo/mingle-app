@@ -35,7 +35,9 @@ export default function AboutPanel() {
               buttonName="Contact us"
               variant="primaryGray"
               iconSrc="arrow45"
-              onClick={() => window.location.href = "mailto:ac75456@skola.goteborg.se"}
+              onClick={() =>
+                (window.location.href = "mailto:ac75456@skola.goteborg.se")
+              }
               ariaLabel="Contact us via email"
             />
           </div>

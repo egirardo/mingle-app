@@ -7,6 +7,7 @@ import StudentSignUp from "./views/landingPage/StudentSignUp.jsx";
 import BusinessSignUp from "./views/landingPage/BusinessSignUp.jsx";
 import StudentProfile from "./views/landingPage/StudentProfile.jsx";
 import CompanyProfilePage from "./views/landingPage/CompanyProfilePage.jsx";
+import RegisterConfirmation from "./views/landingPage/RegistrationConfirmation.jsx";
 
 // mingle
 import MingleGameLayout from "./views/mingleGame/MingleGameLayout.jsx";
@@ -33,6 +34,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
+        <Route
+          path="/confirmation/business"
+          element={<RegisterConfirmation />}
+        />
         <Route path="/login" element={<Login />} />
         <Route path="/signup/student" element={<StudentSignUp />} />
         <Route path="/signup/business" element={<BusinessSignUp />} />
