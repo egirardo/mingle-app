@@ -1,4 +1,4 @@
-import Button from "../Atoms/Buttons/Button";
+import Button from "../Atoms/Buttons/Button.jsx";
 import styles from "./RegisterConfirmation.module.css";
 import { useNavigate } from "react-router-dom";
 
