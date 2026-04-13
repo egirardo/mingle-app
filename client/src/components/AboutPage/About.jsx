@@ -30,12 +30,13 @@ export default function About() {
               an email and we will update your profile for you.
             </p>
             <div className={styles.emailButton}>
-              <Button
-                buttonName="Contact us"
-                variant="primaryGray"
-                iconSrc="arrow45"
-                onClick={() => {}}
-              />
+              <a href="mailto:ac75456@skola.goteborg.se">
+                <Button
+                  buttonName="Contact us"
+                  variant="primaryGray"
+                  iconSrc="arrow45"
+                />
+              </a>
             </div>
           </div>
         </div>
