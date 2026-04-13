@@ -1,0 +1,46 @@
+.filtersContainer {
+    margin-left: -1rem;
+    margin-right: -1rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.searchFilterContainer {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.sortContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
+}
+
+.sortHeading {
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 112%; /* 1.12rem */
+    letter-spacing: -0.04rem;
+    text-align: left;
+    margin: 0;
+}
+
+.clearButton {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-size: 0.875rem;
+    text-decoration: underline;
+    color: inherit;
+    opacity: 0.6;
+    margin-top: 0.25rem;
+}
+
+.clearButton:hover {
+    opacity: 1;
+}

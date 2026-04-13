@@ -1,8 +1,0 @@
-#bg-video {
-    object-fit: cover;
-    width: 100vw;
-    height: 100dvh;
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-}

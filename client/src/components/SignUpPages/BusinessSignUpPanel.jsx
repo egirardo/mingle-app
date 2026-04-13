@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import CheckboxGroup from "../Atoms/Forms/Checkboxes/CheckboxGroup";
 import RadioGroup from "../Atoms/Forms/RadioButtons/RadioGroup";
 import { apiFetch } from "../../api";
+import skillOptions from "../../data/filterOptions.json";
 
 // ─── HELPERS ─────────────────────────────────────────────────────────────────
 /**
@@ -153,16 +154,7 @@ const BusinessSignUpPanel = () => {
             required
             legend="Skills/interests you are looking for in LIA-students"
             onChange={(values) => setFormData((prev) => ({ ...prev, skills: values }))}
-            checkboxes={[
-              { checkboxLabel: "UI", id: "1", name: "UI" },
-              { checkboxLabel: "UX", id: "2", name: "UX" },
-              { checkboxLabel: "Frontend", id: "3", name: "Frontend" },
-              { checkboxLabel: "Backend", id: "4", name: "Backend" },
-              { checkboxLabel: "Motion", id: "5", name: "Motion" },
-              { checkboxLabel: "3D", id: "6", name: "3D" },
-              { checkboxLabel: "Fullstack", id: "7", name: "Fullstack" },
-              { checkboxLabel: "Branding", id: "8", name: "Branding" },
-            ]}
+            checkboxes={skillOptions}
           />
 
           <TextInput
