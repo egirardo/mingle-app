@@ -1,0 +1,117 @@
+.aboutPanel {
+  background: var(--panel-bg);
+  backdrop-filter: blur(25px);
+  border-radius: 1rem 1rem 0 0;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  width: 100%;
+  padding: 2rem 0.75rem;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.aboutHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.375rem;
+  align-self: stretch;
+}
+
+.aboutHeader h1,
+.aboutHeader h3,
+.aboutTextContainer h4 {
+  margin: 0;
+  padding: 0;
+}
+
+.aboutHeader h1 {
+  font-size: 2rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 2rem; /* 100% */
+  letter-spacing: -0.0625rem;
+}
+
+.aboutHeader h3 {
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: -0.03rem;
+}
+
+.aboutTextContainer h4 {
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 116.061%; /* 1.01556rem */
+  letter-spacing: -0.02625rem;
+  text-transform: uppercase;
+  color: #d5d5d5;
+}
+
+.aboutTextContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.aboutText {
+  display: flex;
+  padding: 0.5rem 0;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: left;
+  justify-content: space-evenly;
+}
+
+.aboutTextContainer2 {
+  display: flex;
+  padding: 0.5rem 0;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.5rem;
+  align-self: stretch;
+  text-align: left;
+}
+
+.aboutSlogan {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.03rem;
+}
+
+.emailButton {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+@media (max-width: 640px) {
+  .aboutPanel {
+    border-radius: 0;
+    padding: 1.5rem 0.75rem;
+    gap: 1rem;
+  }
+
+  .aboutHeader h1 {
+    font-size: 1.5rem;
+  }
+
+  .aboutHeader h3 {
+    font-size: 0.875rem;
+  }
+
+  .aboutText {
+    padding: 0.25rem 0;
+    gap: 0.375rem;
+  }
+
+  .aboutSlogan {
+    font-size: 0.875rem;
+  }
+}
