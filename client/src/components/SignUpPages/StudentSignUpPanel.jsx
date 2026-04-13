@@ -1,12 +1,12 @@
 import { useState } from "react";
 import styles from "./SignUp.module.css";
-import IconOnlyButton from "../Buttons/IconOnlyButton";
-import TextInput from "../Forms/InputFields/TextInput";
-import Button from "../Buttons/Button";
+import IconOnlyButton from "../Atoms/Buttons/IconOnlyButton";
+import TextInput from "../Atoms/Forms/InputFields/TextInput";
+import Button from "../Atoms/Buttons/Button";
 import { useNavigate } from "react-router-dom";
-import RadioGroup from "../Forms/RadioButtons/RadioGroup";
-import CheckboxGroup from "../Forms/Checkboxes/CheckboxGroup";
-import PhotoUpload from "../Forms/InputFields/PhotoUpload";
+import RadioGroup from "../Atoms/Forms/RadioButtons/RadioGroup";
+import CheckboxGroup from "../Atoms/Forms/Checkboxes/CheckboxGroup";
+import PhotoUpload from "../Atoms/Forms/InputFields/PhotoUpload";
 import { apiFetch } from "../../api";
 
 // ─── HELPERS ─────────────────────────────────────────────────────────────────

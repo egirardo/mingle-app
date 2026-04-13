@@ -3,9 +3,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import defaultAvatar from "../../assets/default-avatar.png"; // Placeholder image for students without a profile picture
 import styles from "./ViewProfile.module.css";
-import IconOnlyButton from "../Buttons/IconOnlyButton";
-import Button from "../Buttons/Button";
-import TagContainer from "../Tags/TagContainer";
+import IconOnlyButton from "../Atoms/Buttons/IconOnlyButton";
+import Button from "../Atoms/Buttons/Button";
+import TagContainer from "../Atoms/Tags/TagContainer";
 import { apiFetch } from "../../api";
 
 export default function ViewProfile() {

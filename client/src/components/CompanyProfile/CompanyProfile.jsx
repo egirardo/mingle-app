@@ -1,8 +1,8 @@
 import styles from "./CompanyProfile.module.css";
-import IconOnlyButton from "../Buttons/IconOnlyButton";
-import Button from "../Buttons/Button";
-import Tag from "../Tags/Tag";
-import TagContainer from "../Tags/TagContainer";
+import IconOnlyButton from "../Atoms/Buttons/IconOnlyButton";
+import Button from "../Atoms/Buttons/Button";
+import Tag from "../Atoms/Tags/Tag";
+import TagContainer from "../Atoms/Tags/TagContainer";
 import { apiFetch } from "../../api";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
