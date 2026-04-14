@@ -39,6 +39,7 @@ export default function ExplorePanel() {
   const [showBackToTop, setShowBackToTop] = useState(false);
   const fetchedTabs = useRef(new Set());
   const scrollAreaRef = useRef(null);
+  const isVisibleRef = useRef(false);
   const { savedProfiles } = useSaved();
 
   // Keep loggedInStudentId in sync with login/logout events
@@ -53,13 +54,29 @@ export default function ExplorePanel() {
   }, []);
 
   useEffect(() => {
+    let rafId = null;
+
     const handleScroll = () => {
-      const scrollThreshold = document.documentElement.scrollHeight * 0.45;
-      setShowBackToTop(window.scrollY > scrollThreshold);
+      if (rafId) cancelAnimationFrame(rafId);
+
+      rafId = requestAnimationFrame(() => {
+        const scrollThreshold = window.innerHeight * 0.45;
+
+        const shouldShow = window.scrollY > scrollThreshold;
+
+        // Only update state if visibility actually changed
+        if (shouldShow !== isVisibleRef.current) {
+          isVisibleRef.current = shouldShow;
+          setShowBackToTop(shouldShow);
+        }
+      });
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
   }, []);
 
   // ── Data fetching ───────────────────────────────────────────────────────
@@ -116,10 +133,7 @@ export default function ExplorePanel() {
   };
 
   const scrollToTop = () => {
-    const topElement = document.getElementById("top");
-    if (topElement) {
-      topElement.scrollIntoView({ behavior: "smooth" });
-    }
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const matchesSearch = (name) =>
@@ -215,7 +229,6 @@ export default function ExplorePanel() {
             onProgramsChange={(programs) => setSelectedPrograms(programs)}
           />
         </div>
-        <div></div>
         <div className={styles.scrollArea} ref={scrollAreaRef}>
           <ProfileCards
             cards={getCards()}
@@ -229,7 +242,6 @@ export default function ExplorePanel() {
         className={`${styles.backToTopButton} ${showBackToTop ? styles.visible : ""}`}
       >
         <IconOnlyButton
-          buttonName="back to top"
           buttonColor="primaryRed"
           variant="iconOnlyLarge"
           iconSrc="arrowUp"
