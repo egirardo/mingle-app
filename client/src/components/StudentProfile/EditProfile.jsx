@@ -208,7 +208,7 @@ export default function EditProfile() {
 
         {error && <p role="alert" className={styles.errorMessage}>{error}</p>}
 
-        <form className={styles.form} onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <div className={styles.nameContainer}>
             <TextInput
               formLabel="First name"

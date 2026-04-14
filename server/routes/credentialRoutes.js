@@ -34,6 +34,16 @@ router.put('/', authMiddleware, async (req, res) => {
 
     if (email) {
       const normalized = email.toLowerCase().trim();
+
+      if (!normalized) {
+        return res.status(400).json({ message: 'Email cannot be empty' });
+      }
+
+      // Basic format check — must have something@something.something
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalized)) {
+        return res.status(400).json({ message: 'Invalid email format' });
+      }
+
       const existing = await StudentAuth.findOne({ email: normalized });
       if (existing && String(existing._id) !== String(req.user.id)) {
         return res.status(400).json({ message: 'Email already in use' });
@@ -49,7 +59,7 @@ router.put('/', authMiddleware, async (req, res) => {
     const auth = await StudentAuth.findByIdAndUpdate(
       req.user.id,
       { $set: updates },
-      { returnDocument: 'after' }
+      { returnDocument: 'after', runValidators: true }
     );
 
     if (!auth) return res.status(404).json({ message: 'Account not found' });

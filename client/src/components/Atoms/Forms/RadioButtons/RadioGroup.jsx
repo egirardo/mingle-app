@@ -43,7 +43,7 @@ export default function RadioGroup({
           aria-hidden="true"
           tabIndex={-1}
           required
-          defaultChecked={defaultValue !== undefined && defaultValue !== ""}
+          defaultChecked={radios.some((r) => (r.value ?? r.id) === defaultValue)}
         />
       )}
       {subText ? (

@@ -49,7 +49,7 @@ export default function CheckboxGroup({
           aria-hidden="true"
           tabIndex={-1}
           required
-          defaultChecked={defaultValues.length > 0}
+          defaultChecked={checkboxes.some((c) => defaultValues.includes(c.name))}
         />
       )}
       {subText ? (
