@@ -8,6 +8,7 @@ import bigFilledHeart from "../../../assets/icons/big-filled-heart.svg";
 import sound from "../../../assets/icons/sound.svg";
 import filter from "../../../assets/icons/filter.svg";
 import x from "../../../assets/icons/x.svg";
+import arrowUp from "../../../assets/icons/arrow-up.svg";
 
 // Props:
 // `buttonColor`: CSS color modifier class
@@ -26,7 +27,18 @@ export default function IconOnlyButton({
 }) {
   // Variants
   const colorClass = buttonColor ? (styles[buttonColor] ?? "") : "";
-  const icons = { search, arrow45, arrowBack, help, bigHeart, bigFilledHeart, sound, filter, x };
+  const icons = {
+    search,
+    arrow45,
+    arrowBack,
+    help,
+    bigHeart,
+    bigFilledHeart,
+    sound,
+    filter,
+    x,
+    arrowUp,
+  };
 
   // Icon is optional
   let icon;

@@ -9,7 +9,7 @@ import DragExpand from "../../assets/icons/drag-expand.svg";
 import ExploreFilters from "./ExploreFilters";
 import styles from "./ExplorePanel.module.css";
 import { useSaved } from "../../context/SavedContext";
-import Button from "../Atoms/Buttons/Button";
+import IconOnlyButton from "../Atoms/Buttons/IconOnlyButton";
 
 const TABS = ["Companies", "Students", "Saved"];
 
@@ -228,10 +228,12 @@ export default function ExplorePanel() {
       <div
         className={`${styles.backToTopButton} ${showBackToTop ? styles.visible : ""}`}
       >
-        <Button
+        <IconOnlyButton
           buttonName="back to top"
           buttonColor="primaryRed"
-          iconSrc="checkmark"
+          variant="iconOnlyLarge"
+          iconSrc="arrowUp"
+          ariaLabel="Back to top button"
           onClick={scrollToTop}
         />
       </div>
