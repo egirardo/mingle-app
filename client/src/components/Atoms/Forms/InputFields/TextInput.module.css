@@ -74,6 +74,7 @@
 
 .error {
   border: 1px solid #ffe314;
+  padding-right: 3rem;
 }
 
 .error::placeholder {

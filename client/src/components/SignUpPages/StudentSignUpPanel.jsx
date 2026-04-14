@@ -12,7 +12,8 @@ import skillOptions from "../../data/filterOptions.json";
 
 // ─── HELPERS ─────────────────────────────────────────────────────────────────
 /**
- * @returns {string|null} Normalized URL or null if empty or invalid
+ * @param {string} url - The URL string to normalize
+ * @returns {string|null} Normalized URL string, or null if input is empty, invalid, or uses an unsupported protocol
  */
 function normalizeURL(url) {
   if (!url || typeof url !== "string") {
@@ -240,6 +241,7 @@ const StudentSignUpPanel = () => {
               error={errors.password}
             />
             <TextInput
+              formLabel="Confirm Password"
               placeholder="Confirm Password"
               type="password"
               name="confirmPassword"

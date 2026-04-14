@@ -38,7 +38,7 @@ export default function TextInput({
       )}
     </label>
   ) : null;
-  
+
   return (
     <div className={`${styles.textForm} ${className ?? ""}`}>
       {subText ? (
