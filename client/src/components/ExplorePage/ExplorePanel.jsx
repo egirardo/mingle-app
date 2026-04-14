@@ -8,6 +8,7 @@ import DragExpand from "../../assets/icons/drag-expand.svg";
 import ExploreFilters from "./ExploreFilters";
 import styles from "./ExplorePanel.module.css";
 import { useSaved } from "../../context/SavedContext";
+import IconOnlyButton from "../Atoms/Buttons/IconOnlyButton";
 
 const TABS = ["Companies", "Students", "Saved"];
 
@@ -76,95 +77,193 @@ export default function ExplorePanel() {
         setSelectedSkills([]);
         setSelectedPrograms([]);
     };
+  }, []);
 
-    const matchesSearch = (name) =>
-        !searchQuery || name.toLowerCase().includes(searchQuery.toLowerCase());
-
-    const matchesSkills = (skills) =>
-        selectedSkills.length === 0 || selectedSkills.some((s) => skills?.includes(s));
-
-    const getCards = () => {
-        if (activeTab === "Companies")
-            return companies
-                .filter((c) => matchesSearch(c.company ?? "") && matchesSkills(c.skills))
-                .map((company) => (
-                    <CompanyProfileCard key={company._id} company={company} />
-                ));
-
-        if (activeTab === "Students")
-            return students
-                .filter((s) => {
-                    const name = `${s.firstName ?? ""} ${s.lastName ?? ""}`.trim();
-                    const programMatch = selectedPrograms.length === 0 || selectedPrograms.includes(s.program);
-                    return matchesSearch(name) && matchesSkills(s.skills) && programMatch;
-                })
-                .map((student) => (
-                    <StudentProfileCard
-                        key={student._id}
-                        student={student}
-                        isOwnCard={loggedInStudentId === String(student.studentId)}
-                    />
-                ));
-
-        if (activeTab === "Saved")
-            return savedProfiles
-                .filter(({ type, data }) => {
-                    const name = type === "student"
-                        ? `${data.firstName ?? ""} ${data.lastName ?? ""}`.trim()
-                        : (data.company ?? "");
-                    const programMatch = type !== "student" ||
-                        selectedPrograms.length === 0 ||
-                        selectedPrograms.includes(data.program);
-                    return matchesSearch(name) && matchesSkills(data.skills) && programMatch;
-                })
-                .map(({ profileId, type, data }) =>
-                    type === "student"
-                        ? <StudentProfileCard key={profileId} student={data} />
-                        : <CompanyProfileCard key={profileId} company={data} />
-                );
-
-        return [];
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollThreshold = document.documentElement.scrollHeight * 0.45;
+      setShowBackToTop(window.scrollY > scrollThreshold);
     };
 
-    const emptyMessage = {
-        Companies: "No companies found.",
-        Students: "No students found.",
-        Saved: "No saved profiles yet.",
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // ── Data fetching ───────────────────────────────────────────────────────
+  useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
+
+    const fetchData = async () => {
+      setError(null);
+
+      if (fetchedTabs.current.has(activeTab)) {
+        setLoading(false);
+        return;
+      }
+
+      setLoading(true);
+      try {
+        if (activeTab === "Companies") {
+          const res = await apiFetch("/api/companies", { signal });
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.message);
+          fetchedTabs.current.add("Companies");
+          setCompanies(data);
+        }
+
+        if (activeTab === "Students") {
+          const res = await apiFetch("/api/students", { signal });
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.message);
+          fetchedTabs.current.add("Students");
+          setStudents(data);
+        }
+
+        // Saved tab reads from SavedContext (localStorage / backend-synced)
+        // No API fetch needed here
+      } catch (err) {
+        if (err.name === "AbortError") return;
+        setError(err.message);
+      } finally {
+        // Don't clear loading state if this request was superseded
+        if (!signal.aborted) setLoading(false);
+      }
     };
 
-    return (
-        <div className={`${styles.panel} ${isExpanded ? styles.expanded : ""}`}>
-            <button
-                type="button"
-                className={styles.dragHandle}
-                onClick={() => setIsExpanded(prev => !prev)}
-                aria-label={isExpanded ? "Collapse panel" : "Expand panel"}
-                aria-expanded={isExpanded}
-            >
-                <img src={DragExpand} alt="" aria-hidden="true" />
-            </button>
+    fetchData();
+    return () => controller.abort();
+  }, [activeTab]);
 
-            <h1 className={styles.heading}>Explore</h1>
+  const handleTabChange = (index) => {
+    setActiveTab(TABS[index]);
+    setSearchQuery("");
+    setSelectedSkills([]);
+    setSelectedPrograms([]);
+  };
 
-            <div className={styles.controls}>
-                <TabSlider tabs={TABS} defaultIndex={0} onChange={handleTabChange} />
-                <ExploreFilters
-                    key={activeTab}
-                    activeTab={activeTab}
-                    onSearch={(query) => setSearchQuery(query)}
-                    onSkillsChange={(skills) => setSelectedSkills(skills)}
-                    onProgramsChange={(programs) => setSelectedPrograms(programs)}
-                />
-            </div>
+  const scrollToTop = () => {
+    const topElement = document.getElementById("top");
+    if (topElement) {
+      topElement.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
-            <div className={styles.scrollArea}>
-                <ProfileCards
-                    cards={getCards()}
-                    loading={loading}
-                    error={error}
-                    emptyMessage={emptyMessage[activeTab]}
-                />
-            </div>
+  const matchesSearch = (name) =>
+    !searchQuery || name.toLowerCase().includes(searchQuery.toLowerCase());
+
+  const matchesSkills = (skills) =>
+    selectedSkills.length === 0 ||
+    selectedSkills.some((s) => skills?.includes(s));
+
+  const getCards = () => {
+    if (activeTab === "Companies")
+      return companies
+        .filter(
+          (c) => matchesSearch(c.company ?? "") && matchesSkills(c.skills),
+        )
+        .map((company) => (
+          <CompanyProfileCard key={company._id} company={company} />
+        ));
+
+    if (activeTab === "Students")
+      return students
+        .filter((s) => {
+          const name = `${s.firstName ?? ""} ${s.lastName ?? ""}`.trim();
+          const programMatch =
+            selectedPrograms.length === 0 ||
+            selectedPrograms.includes(s.program);
+          return matchesSearch(name) && matchesSkills(s.skills) && programMatch;
+        })
+        .map((student) => (
+          <StudentProfileCard
+            key={student._id}
+            student={student}
+            isOwnCard={loggedInStudentId === String(student.studentId)}
+          />
+        ));
+
+    if (activeTab === "Saved")
+      return savedProfiles
+        .filter(({ type, data }) => {
+          const name =
+            type === "student"
+              ? `${data.firstName ?? ""} ${data.lastName ?? ""}`.trim()
+              : (data.company ?? "");
+          const programMatch =
+            type !== "student" ||
+            selectedPrograms.length === 0 ||
+            selectedPrograms.includes(data.program);
+          return (
+            matchesSearch(name) && matchesSkills(data.skills) && programMatch
+          );
+        })
+        .map(({ profileId, type, data }) =>
+          type === "student" ? (
+            <StudentProfileCard key={profileId} student={data} />
+          ) : (
+            <CompanyProfileCard key={profileId} company={data} />
+          ),
+        );
+
+    return [];
+  };
+
+  const emptyMessage = {
+    Companies: "No companies found.",
+    Students: "No students found.",
+    Saved: "No saved profiles yet.",
+  };
+
+  return (
+    <>
+      <div className={`${styles.panel} ${isExpanded ? styles.expanded : ""}`}>
+        <button
+          type="button"
+          className={styles.dragHandle}
+          onClick={() => setIsExpanded((prev) => !prev)}
+          aria-label={isExpanded ? "Collapse panel" : "Expand panel"}
+          aria-expanded={isExpanded}
+        >
+          <img src={DragExpand} alt="" aria-hidden="true" />
+        </button>
+
+        <h1 id="top" className={styles.heading}>
+          Explore
+        </h1>
+
+        <div className={styles.controls}>
+          <TabSlider tabs={TABS} defaultIndex={0} onChange={handleTabChange} />
+          <ExploreFilters
+            key={activeTab}
+            activeTab={activeTab}
+            onSearch={(query) => setSearchQuery(query)}
+            onSkillsChange={(skills) => setSelectedSkills(skills)}
+            onProgramsChange={(programs) => setSelectedPrograms(programs)}
+          />
         </div>
-    );
+        <div></div>
+        <div className={styles.scrollArea} ref={scrollAreaRef}>
+          <ProfileCards
+            cards={getCards()}
+            loading={loading}
+            error={error}
+            emptyMessage={emptyMessage[activeTab]}
+          />
+        </div>
+      </div>
+      <div
+        className={`${styles.backToTopButton} ${showBackToTop ? styles.visible : ""}`}
+      >
+        <IconOnlyButton
+          buttonName="back to top"
+          buttonColor="primaryRed"
+          variant="iconOnlyLarge"
+          iconSrc="arrowUp"
+          ariaLabel="Back to top button"
+          onClick={scrollToTop}
+        />
+      </div>
+    </>
+  );
 }
