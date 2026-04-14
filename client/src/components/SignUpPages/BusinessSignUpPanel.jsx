@@ -144,6 +144,7 @@ const BusinessSignUpPanel = () => {
   };
 
   return (
+    <div className={styles.pageContainer}>
     <div className={styles.signUpPanel}>
       <div className={styles.arrowButtonContainer}>
         <IconOnlyButton
@@ -269,6 +270,7 @@ const BusinessSignUpPanel = () => {
           />
         </form>
       </div>
+    </div>
     </div>
   );
 };

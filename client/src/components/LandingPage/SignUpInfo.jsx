@@ -1,14 +1,19 @@
 import { useState, useEffect, useRef } from "react";
 import styles from "./SignUpInfo.module.css";
 import Button from "../Atoms/Buttons/Button";
-import SignUpLine from "../../assets/sign-up-line.svg";
 import DragExpand from "../../assets/icons/drag-expand.svg";
 import { useNavigate } from "react-router-dom";
+import TabSlider from "../Atoms/Tabs/TabSlider";
+
+const TABS = ["Company", "Student"];
 
 export default function SignUpInfo() {
     const navigate = useNavigate();
     const [isExpanded, setIsExpanded] = useState(false);
+    const [activeTabIndex, setActiveTabIndex] = useState(0);
     const touchStartY = useRef(null);
+
+    const isStudentTab = activeTabIndex === 1;
 
     useEffect(() => {
         const handleWheel = (e) => {
@@ -58,19 +63,57 @@ export default function SignUpInfo() {
                         <p className={styles.description}>
                             And start exploring the students and companies attending beforehand.
                         </p>
-                        <div className={styles.buttonsContainer}>
-                            <Button buttonName="Student" variant="primaryRed" iconSrc="arrowRight" onClick={() => navigate('/signup/student')} />
-                            <Button buttonName="Company" variant="primaryRed" iconSrc="arrowRight" onClick={() => navigate('/signup/business')} />
-                        </div>
                     </div>
                 </div>
                 <div className={styles.loginContainer}>
-                    <div className={styles.loginGroup}>
-                        <img src={SignUpLine} alt="" aria-hidden="true" className={styles.loginLine} />
-                        <p className={styles.loginText}>Already signed up?</p>
-                        <img src={SignUpLine} alt="" aria-hidden="true" className={styles.loginLine} />
+                    <div className={styles.roleGroup}>
+                        <h2 className={styles.subHeading}>Choose your role</h2>
+                        <TabSlider
+                            tabs={TABS}
+                            defaultIndex={0}
+                            onChange={(index) => setActiveTabIndex(index)}
+                        />
                     </div>
-                    <Button buttonName="Log in and explore" variant="primaryGray" iconSrc="arrowRight" onClick={() => navigate('/login')} />
+                    <div
+                        id="tabpanel-0"
+                        role="tabpanel"
+                        aria-labelledby="tab-0"
+                        className={styles.loginGroup}
+                        hidden={isStudentTab}
+                    >
+                        <Button
+                            buttonName="Register"
+                            variant="primaryRed"
+                            iconSrc="arrowRight"
+                            onClick={() => navigate('/signup/business')}
+                        />
+                        <Button
+                            buttonName="Explore first"
+                            variant="primaryGray"
+                            iconSrc="arrowRight"
+                            onClick={() => navigate('/explore')}
+                        />
+                    </div>
+                    <div
+                        id="tabpanel-1"
+                        role="tabpanel"
+                        aria-labelledby="tab-1"
+                        className={styles.loginGroup}
+                        hidden={!isStudentTab}
+                    >
+                        <Button
+                            buttonName="Register"
+                            variant="primaryRed"
+                            iconSrc="arrowRight"
+                            onClick={() => navigate('/signup/student')}
+                        />
+                        <Button
+                            buttonName="Log in and explore"
+                            variant="primaryGray"
+                            iconSrc="arrowRight"
+                            onClick={() => navigate('/login')}
+                        />
+                    </div>
                 </div>
             </div>
         </div>

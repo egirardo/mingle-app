@@ -18,13 +18,12 @@
 }
 
 .signUpInfo.expanded {
-    height: calc(30rem + env(safe-area-inset-bottom, 0));
+    height: calc(26rem + env(safe-area-inset-bottom, 0));
     z-index: 20; /* above counter when expanded */
 }
 
 .dragHandle {
     cursor: pointer;
-    padding: 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -40,7 +39,7 @@
     justify-content: center;
     align-items: center;
     gap: 1rem;
-    margin: 0 0.1rem 2.5rem 0.1rem;
+    margin: 2.5rem 0.1rem 0rem 0.1rem;
 }
 
 .topHalfContainer {
@@ -48,7 +47,7 @@
     flex-direction: column;
     align-items: center;
     gap: 1rem;
-    margin-bottom: 2.5rem;
+    margin-bottom: 1rem;
 }
 
 .headingInfoContainer {
@@ -70,11 +69,41 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    gap: 1.5rem;
 }
 
 .loginGroup {
     display: flex;
     align-items: center;
+    gap: .5rem;
+}
+
+.loginGroup button {
+    margin: .5rem 0rem;
+}
+
+.roleGroup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
     gap: 0.5rem;
+}
+
+.subHeading {
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 116.061%; /* 1.01556rem */
+    letter-spacing: -0.02625rem;
+    text-transform: uppercase;
+    color: #D5D5D5;
+    margin: 0;
+}
+
+.description {
+    font-size: 0.875rem;
+    text-align: center;
+    color: #D5D5D5;
+    margin: 0;
 }

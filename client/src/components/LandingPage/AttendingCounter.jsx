@@ -1,34 +1,18 @@
 import { useState, useEffect } from "react";
 import styles from "./AttendingCounter.module.css";
+import { apiFetch } from "../../api";
 
 export default function AttendingCounter() {
   const [count, setCount] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const API_BASE = import.meta.env.VITE_API_URL ?? "";
-
-    Promise.all([
-      fetch(`${API_BASE}/api/companies/count`)
-        .then((res) => {
-          if (!res.ok) throw new Error(`Companies count failed: ${res.status}`);
-          return res.json();
-        })
-        .then((data) => {
-          const count = typeof data?.count === 'number' ? data.count : 0;
-          return count;
-        }),
-      fetch(`${API_BASE}/api/students/count`)
-        .then((res) => {
-          if (!res.ok) throw new Error(`Students count failed: ${res.status}`);
-          return res.json();
-        })
-        .then((data) => {
-          const count = typeof data?.count === 'number' ? data.count : 0;
-          return count;
-        }),
-    ])
-      .then(([companiesCount, studentsCount]) => setCount(companiesCount + studentsCount))
+    apiFetch("/api/count")
+      .then((res) => {
+        if (!res.ok) throw new Error(`Count failed: ${res.status}`);
+        return res.json();
+      })
+      .then((data) => setCount(data.total ?? 0))
       .catch((err) => {
         console.error("Failed to fetch attendee count:", err);
         setError("—");

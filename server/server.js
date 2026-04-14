@@ -7,6 +7,8 @@ import { Server } from "socket.io";
 import studentRoutes from "./routes/studentRoutes.js";
 import companyRoutes from "./routes/companyRoutes.js";
 import credentialRoutes from "./routes/credentialRoutes.js";
+import StudentAuth from "./models/StudentAuth.js";
+import Company from "./models/Company.js";
 
 dotenv.config();
 
@@ -44,6 +46,29 @@ app.use("/api", (req, res, next) => {
     });
   }
   return next();
+});
+
+// ─── ATTENDING COUNT ──────────────────────────────────────────────────────────
+// GET /api/count — returns combined student + company count
+// Cached for 60 s so repeated page loads don't hit MongoDB every time.
+let countCache = { value: null, at: 0 };
+const COUNT_TTL = 60_000;
+
+app.get("/api/count", async (req, res) => {
+  if (countCache.value !== null && Date.now() - countCache.at < COUNT_TTL) {
+    return res.json(countCache.value);
+  }
+  try {
+    const [students, companies] = await Promise.all([
+      StudentAuth.countDocuments(),
+      Company.countDocuments(),
+    ]);
+    countCache = { value: { students, companies, total: students + companies }, at: Date.now() };
+    res.json(countCache.value);
+  } catch (err) {
+    console.error("Count error:", err);
+    res.status(500).json({ message: "Server error retrieving count" });
+  }
 });
 
 // Routes
