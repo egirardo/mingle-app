@@ -146,15 +146,18 @@ const StudentSignUpPanel = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message);
 
-      // Registration successful — upload profile image if provided
-      if (profileImage && data.token) {
+      // Cookie is now set by the register response — dispatch auth state
+      window.dispatchEvent(new CustomEvent("authchange", { detail: { id: data.id } }));
+      localStorage.setItem("mingle_auth_ts", Date.now());
+
+      // Upload profile image if provided (cookie is sent automatically)
+      if (profileImage) {
         const imageFormData = new FormData();
         imageFormData.append("profileImage", profileImage);
 
         try {
           const imageRes = await apiFetch("/api/students/profile/image", {
             method: "PUT",
-            headers: { Authorization: `Bearer ${data.token}` },
             body: imageFormData,
           });
 
@@ -166,8 +169,7 @@ const StudentSignUpPanel = () => {
         }
       }
 
-      // Redirect to login
-      navigate("/login");
+      navigate("/explore");
     } catch (err) {
       setSubmitError(err.message || "Something went wrong. Please try again.");
     } finally {

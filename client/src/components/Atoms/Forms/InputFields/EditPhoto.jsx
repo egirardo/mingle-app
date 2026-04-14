@@ -5,7 +5,7 @@ import DefaultAvatar from "../../../../assets/default-avatar.png";
 
 // Max file size: 5MB
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
-const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
+const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/heic"];
 
 export default function EditPhoto({
   onFileChange, // (File) => void — called when the user picks an image
@@ -23,7 +23,7 @@ export default function EditPhoto({
 
     // Validate file type
     if (!ALLOWED_TYPES.includes(file.type)) {
-      setError("Please upload a JPEG, PNG, or WebP image.");
+      setError("Please upload a JPEG, PNG, WebP, or HEIC image.");
       e.target.value = "";
       if (inputRef.current) inputRef.current.value = "";
       return;
@@ -67,7 +67,7 @@ export default function EditPhoto({
         <input
           ref={inputRef}
           type="file"
-          accept="image/jpeg, image/png, image/webp"
+          accept="image/jpeg, image/png, image/webp, image/heic"
           onChange={handleChange}
           className={styles.hiddenInput}
           aria-hidden="true"
