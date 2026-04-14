@@ -12,7 +12,8 @@ import skillOptions from "../../data/filterOptions.json";
 
 // ─── HELPERS ─────────────────────────────────────────────────────────────────
 /**
-* @returns {string|null} Normalized URL or null if empty or invalid
+ * @param {string} url - The URL string to normalize
+ * @returns {string|null} Normalized URL string, or null if input is empty, invalid, or uses an unsupported protocol
  */
 function normalizeURL(url) {
   if (!url || typeof url !== "string") {
@@ -53,12 +54,18 @@ const StudentSignUpPanel = () => {
   });
 
   const [profileImage, setProfileImage] = useState(null);
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState({});
+  const [submitError, setSubmitError] = useState("");
   const [loading, setLoading] = useState(false);
 
   // ── Generic field updater ──────────────────────────────────────────────────
-  const handleChange = (field) => (e) =>
+  const handleChange = (field) => (e) => {
     setFormData((prev) => ({ ...prev, [field]: e.target.value }));
+    // clear field error as soon as user starts typing
+    if (errors[field]) {
+      setErrors((prev) => ({ ...prev, [field]: "" }));
+    }
+  };
 
   // ── Questions array updater ────────────────────────────────────────────────
   const handleQuestionChange = (index) => (e) => {
@@ -67,13 +74,53 @@ const StudentSignUpPanel = () => {
     setFormData((prev) => ({ ...prev, questions: updated }));
   };
 
+  // ── Validation ─────────────────────────────────────────────────────────────
+  const validate = () => {
+    const newErrors = {};
+
+    if (!formData.firstName.trim()) {
+      newErrors.firstName = "First name is required.";
+    }
+
+    if (!formData.lastName.trim()) {
+      newErrors.lastName = "Last name is required.";
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = "E-mail is required.";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Please enter a valid e-mail address.";
+    }
+
+    if (!formData.password.trim()) {
+      newErrors.password = "Password is required.";
+    }
+
+    if (!formData.confirmPassword.trim()) {
+      newErrors.confirmPassword = "Please confirm your password.";
+    } else if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = "Passwords do not match.";
+    }
+
+    if (!formData.program) {
+      newErrors.program = "Please select a program.";
+    }
+
+    if (formData.skills.length === 0) {
+      newErrors.skills = "Please select at least one skill.";
+    }
+
+    return newErrors;
+  };
+
   // ── Submit ─────────────────────────────────────────────────────────────────
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
+    setSubmitError("");
 
-    if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match.");
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
       return;
     }
 
@@ -102,27 +149,27 @@ const StudentSignUpPanel = () => {
       // Registration successful — upload profile image if provided
       if (profileImage && data.token) {
         const imageFormData = new FormData();
-        imageFormData.append('profileImage', profileImage);
+        imageFormData.append("profileImage", profileImage);
 
         try {
-          const imageRes = await apiFetch('/api/students/profile/image', {
-            method: 'PUT',
-            headers: { 'Authorization': `Bearer ${data.token}` },
+          const imageRes = await apiFetch("/api/students/profile/image", {
+            method: "PUT",
+            headers: { Authorization: `Bearer ${data.token}` },
             body: imageFormData,
           });
 
           if (!imageRes.ok) {
-            console.warn('Image upload failed, but registration succeeded');
+            console.warn("Image upload failed, but registration succeeded");
           }
         } catch (imgErr) {
-          console.warn('Could not upload profile image:', imgErr);
+          console.warn("Could not upload profile image:", imgErr);
         }
       }
 
       // Redirect to login
       navigate("/login");
     } catch (err) {
-      setError(err.message || "Something went wrong. Please try again.");
+      setSubmitError(err.message || "Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -141,9 +188,13 @@ const StudentSignUpPanel = () => {
       <div className={styles.formContainer}>
         <h1 className={styles.heading}>Register</h1>
 
-        {error && <p role="alert" className={styles.errorMessage}>{error}</p>}
+        {submitError && (
+          <p role="alert" className={styles.errorMessage}>
+            {submitError}
+          </p>
+        )}
 
-        <form className={styles.form} onSubmit={handleSubmit}>
+        <form className={styles.form} onSubmit={handleSubmit} noValidate>
           <div className={styles.nameContainer}>
             <TextInput
               formLabel="First name"
@@ -153,6 +204,7 @@ const StudentSignUpPanel = () => {
               value={formData.firstName}
               onChange={handleChange("firstName")}
               required
+              error={errors.firstName}
             />
             <TextInput
               formLabel="Last name"
@@ -162,6 +214,7 @@ const StudentSignUpPanel = () => {
               value={formData.lastName}
               onChange={handleChange("lastName")}
               required
+              error={errors.lastName}
             />
           </div>
 
@@ -173,6 +226,7 @@ const StudentSignUpPanel = () => {
             value={formData.email}
             onChange={handleChange("email")}
             required
+            error={errors.email}
           />
 
           <div className={styles.passwordGroup}>
@@ -184,14 +238,17 @@ const StudentSignUpPanel = () => {
               value={formData.password}
               onChange={handleChange("password")}
               required
+              error={errors.password}
             />
             <TextInput
+              formLabel="Confirm Password"
               placeholder="Confirm Password"
               type="password"
               name="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleChange("confirmPassword")}
               required
+              error={errors.confirmPassword}
             />
           </div>
 
@@ -199,17 +256,39 @@ const StudentSignUpPanel = () => {
             required
             legend="Program"
             name="program"
-            onChange={(value) => setFormData((prev) => ({ ...prev, program: value }))}
+            onChange={(value) => {
+              setFormData((prev) => ({ ...prev, program: value }));
+              if (errors.program) {
+                setErrors((prev) => ({ ...prev, program: "" }));
+              }
+            }}
+            error={errors.program}
             radios={[
-              { radioLabel: "Digital Designer", id: "DigitalDesigner", name: "program", value: "Digital Designer" },
-              { radioLabel: "Web Developer", id: "WebDeveloper", name: "program", value: "Web Developer" },
+              {
+                radioLabel: "Digital Designer",
+                id: "DigitalDesigner",
+                name: "program",
+                value: "Digital Designer",
+              },
+              {
+                radioLabel: "Web Developer",
+                id: "WebDeveloper",
+                name: "program",
+                value: "Web Developer",
+              },
             ]}
           />
 
           <CheckboxGroup
             required
             legend="Skills/Interests"
-            onChange={(values) => setFormData((prev) => ({ ...prev, skills: values }))}
+            onChange={(values) => {
+              setFormData((prev) => ({ ...prev, skills: values }));
+              if (errors.skills) {
+                setErrors((prev) => ({ ...prev, skills: "" }));
+              }
+            }}
+            error={errors.skills}
             checkboxes={skillOptions}
           />
 

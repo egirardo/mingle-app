@@ -17,7 +17,7 @@ import skillOptions from "../../data/filterOptions.json";
  */
 function normalizeURL(url) {
   if (!url || typeof url !== "string") {
-  return null;
+    return null;
   }
   const trimmed = url.trim();
   if (!trimmed) {
@@ -50,17 +50,70 @@ const BusinessSignUpPanel = () => {
     website: "",
   });
 
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState({});
+  const [submitError, setSubmitError] = useState("");
   const [loading, setLoading] = useState(false);
 
   // ── Generic field updater ──────────────────────────────────────────────────
-  const handleChange = (field) => (e) =>
+  const handleChange = (field) => (e) => {
     setFormData((prev) => ({ ...prev, [field]: e.target.value }));
+    // clear field error as soon as user starts typing
+    if (errors[field]) {
+      setErrors((prev) => ({ ...prev, [field]: "" }));
+    }
+  };
+
+  // ── Validation ─────────────────────────────────────────────────────────────
+  const validate = () => {
+    const newErrors = {};
+
+    if (!formData.company.trim()) {
+      newErrors.company = "Company name is required.";
+    }
+
+    if (!formData.contactPerson.trim()) {
+      newErrors.contactPerson = "Contact person name is required.";
+    }
+
+    if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Please enter a valid e-mail address.";
+    }
+
+    if (!formData.liaSpaces) {
+      newErrors.liaSpaces =
+        "Please select how many LIA-students you are interested in.";
+    }
+
+    if (formData.skills.length === 0) {
+      newErrors.skills = "Please select at least one skill.";
+    }
+
+    if (!formData.about.trim()) {
+      newErrors.about = "Company description is required.";
+    }
+
+    if (formData.website) {
+      try {
+        normalizeURL(formData.website);
+      } catch (err) {
+        newErrors.website = err.message;
+      }
+    }
+
+    return newErrors;
+  };
 
   // ── Submit ─────────────────────────────────────────────────────────────────
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
+    setSubmitError("");
+
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -84,7 +137,7 @@ const BusinessSignUpPanel = () => {
       // Registration successful — redirect to home or a confirmation page
       navigate("/confirmation");
     } catch (err) {
-      setError(err.message || "Something went wrong. Please try again.");
+      setSubmitError(err.message || "Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -103,9 +156,13 @@ const BusinessSignUpPanel = () => {
       <div className={styles.formContainer}>
         <h1 className={styles.heading}>Register</h1>
 
-        {error && <p role="alert" className={styles.errorMessage}>{error}</p>}
+        {submitError && (
+          <p role="alert" className={styles.errorMessage}>
+            {submitError}
+          </p>
+        )}
 
-        <form className={styles.form} onSubmit={handleSubmit}>
+        <form className={styles.form} onSubmit={handleSubmit} noValidate>
           <TextInput
             formLabel="Company"
             placeholder="Apple"
@@ -114,6 +171,7 @@ const BusinessSignUpPanel = () => {
             value={formData.company}
             onChange={handleChange("company")}
             required
+            error={errors.company}
           />
           <TextInput
             formLabel="Contact Person"
@@ -123,6 +181,7 @@ const BusinessSignUpPanel = () => {
             value={formData.contactPerson}
             onChange={handleChange("contactPerson")}
             required
+            error={errors.contactPerson}
           />
           <TextInput
             formLabel="E-mail"
@@ -133,6 +192,7 @@ const BusinessSignUpPanel = () => {
             onChange={handleChange("email")}
             optional
             subText="Be reminded before the event"
+            error={errors.email}
           />
 
           <RadioGroup
@@ -140,20 +200,42 @@ const BusinessSignUpPanel = () => {
             subText="November 2026 to May 2027"
             legend="How many LIA-students are you interested in?"
             name="liaSpaces"
-            onChange={(value) => setFormData((prev) => ({ ...prev, liaSpaces: value }))}
+            onChange={(value) => {
+              setFormData((prev) => ({ ...prev, liaSpaces: value }));
+              if (errors.liaSpaces) {
+                setErrors((prev) => ({ ...prev, liaSpaces: "" }));
+              }
+            }}
+            error={errors.liaSpaces}
             radios={[
               // Values MUST exactly match the Company model enum:
               // ['1', '2 or more', "Don't know yet"]
               { radioLabel: "1", id: "lia1", name: "liaSpaces", value: "1" },
-              { radioLabel: "2 or more", id: "lia2plus", name: "liaSpaces", value: "2 or more" },
-              { radioLabel: "Don't know yet", id: "liaUnknown", name: "liaSpaces", value: "Don't know yet" },
+              {
+                radioLabel: "2 or more",
+                id: "lia2plus",
+                name: "liaSpaces",
+                value: "2 or more",
+              },
+              {
+                radioLabel: "Don't know yet",
+                id: "liaUnknown",
+                name: "liaSpaces",
+                value: "Don't know yet",
+              },
             ]}
           />
 
           <CheckboxGroup
             required
             legend="Skills/interests you are looking for in LIA-students"
-            onChange={(values) => setFormData((prev) => ({ ...prev, skills: values }))}
+            onChange={(values) => {
+              setFormData((prev) => ({ ...prev, skills: values }));
+              if (errors.skills) {
+                setErrors((prev) => ({ ...prev, skills: "" }));
+              }
+            }}
+            error={errors.skills}
             checkboxes={skillOptions}
           />
 
@@ -165,6 +247,7 @@ const BusinessSignUpPanel = () => {
             value={formData.about}
             onChange={handleChange("about")}
             required
+            error={errors.about}
           />
           <TextInput
             formLabel="Website"
@@ -174,6 +257,7 @@ const BusinessSignUpPanel = () => {
             value={formData.website}
             onChange={handleChange("website")}
             optional
+            error={errors.website}
           />
 
           <Button

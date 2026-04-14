@@ -4,7 +4,7 @@
   font-size: 0.75rem;
   font-style: normal;
   font-weight: 400;
-  line-height: 116.061%; /* 0.87044rem */
+  line-height: 116.061%;
   letter-spacing: -0.0225rem;
   text-transform: uppercase;
 }
@@ -14,7 +14,7 @@
   opacity: 0;
   width: 0;
   height: 0;
-} 
+}
 
 .checkbox label {
   display: inline-block;
@@ -28,6 +28,10 @@
 
 .checkbox input:checked + label {
   background: rgba(138, 157, 198, 0.5);
+  border: 1px solid white;
+}
+
+.checkbox input:focus-visible + label {
   border: 1px solid white;
 }
 
@@ -81,4 +85,14 @@
   gap: 0.5rem;
   flex-wrap: wrap;
   margin-top: 0.5rem;
+}
+
+.errorMessage {
+  text-align: left;
+  color: #ffe314;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.02625rem;
+  margin-top: 0.25rem;
 }

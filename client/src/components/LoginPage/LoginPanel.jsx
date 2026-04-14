@@ -10,15 +10,44 @@ export default function LoginPanel() {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({ email: "", password: "" });
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState({});
+  const [submitError, setSubmitError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (field) => (e) =>
+  const handleChange = (field) => (e) => {
     setFormData((prev) => ({ ...prev, [field]: e.target.value }));
+    // clear field error as soon as user starts typing
+    if (errors[field]) {
+      setErrors((prev) => ({ ...prev, [field]: "" }));
+    }
+  };
+
+  const validate = () => {
+    const newErrors = {};
+
+    if (!formData.email.trim()) {
+      newErrors.email = "E-mail is required.";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Please enter a valid e-mail address.";
+    }
+
+    if (!formData.password.trim()) {
+      newErrors.password = "Password is required.";
+    }
+
+    return newErrors;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
+    setSubmitError("");
+
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -34,11 +63,11 @@ export default function LoginPanel() {
       // Store the JWT so all subsequent requests can send it in
       // the Authorization header as "Bearer <token>"
       localStorage.setItem("token", data.token);
-      window.dispatchEvent(new Event('authchange'));
+      window.dispatchEvent(new Event("authchange"));
 
       navigate("/explore");
     } catch (err) {
-      setError(err.message || "Something went wrong. Please try again.");
+      setSubmitError(err.message || "Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -57,9 +86,13 @@ export default function LoginPanel() {
       <div className={styles.formContainer}>
         <h1 className={styles.heading}>Log in</h1>
 
-        {error && <p role="alert" className={styles.errorMessage}>{error}</p>}
+        {submitError && (
+          <p role="alert" className={styles.errorMessage}>
+            {submitError}
+          </p>
+        )}
 
-        <form className={styles.form} onSubmit={handleSubmit}>
+        <form className={styles.form} onSubmit={handleSubmit} noValidate>
           <TextInput
             formLabel="E-mail"
             placeholder="name@example.com"
@@ -68,6 +101,7 @@ export default function LoginPanel() {
             value={formData.email}
             onChange={handleChange("email")}
             required
+            error={errors.email}
           />
           <TextInput
             formLabel="Password"
@@ -77,6 +111,7 @@ export default function LoginPanel() {
             value={formData.password}
             onChange={handleChange("password")}
             required
+            error={errors.password}
           />
           <Button
             buttonName={loading ? "Logging in..." : "Log in"}
