@@ -54,4 +54,12 @@
   left: 0;
   z-index: 100;
   padding-top: 5rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.backToTopButton.visible {
+  opacity: 1;
+  pointer-events: auto;
 }

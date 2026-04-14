@@ -52,34 +52,14 @@ export default function ExplorePanel() {
     };
   }, []);
 
-  // Track scroll position and show button after scrolling 1/3 of the area
   useEffect(() => {
-    const scrollArea = scrollAreaRef.current;
-    if (!scrollArea) return;
-
     const handleScroll = () => {
-      const { scrollTop, scrollHeight, clientHeight } = scrollArea;
-      const scrollThreshold = (scrollHeight - clientHeight) / 3;
-      setShowBackToTop(scrollTop > scrollThreshold);
+      const scrollThreshold = document.documentElement.scrollHeight * 0.45;
+      setShowBackToTop(window.scrollY > scrollThreshold);
     };
 
-    scrollArea.addEventListener("scroll", handleScroll);
-    return () => scrollArea.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // Track scroll position and show button after scrolling 1/3 of the area
-  useEffect(() => {
-    const scrollArea = scrollAreaRef.current;
-    if (!scrollArea) return;
-
-    const handleScroll = () => {
-      const { scrollTop, scrollHeight, clientHeight } = scrollArea;
-      const scrollThreshold = (scrollHeight - clientHeight) / 3;
-      setShowBackToTop(scrollTop > scrollThreshold);
-    };
-
-    scrollArea.addEventListener("scroll", handleScroll);
-    return () => scrollArea.removeEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   // ── Data fetching ───────────────────────────────────────────────────────
