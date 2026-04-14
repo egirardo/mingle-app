@@ -9,9 +9,11 @@ export default function CheckboxGroup({
   required = false,
   subText,
   onChange, // receives string[] of selected names e.g. ["UI", "Frontend"]
+  error = "",
 }) {
   const hiddenInputRef = useRef(null);
   const checkboxRefs = useRef([]);
+  const errorId = `checkboxgroup-error`;
 
   const handleCheckboxChange = () => {
     // Collect the name attribute of every checked input
@@ -26,20 +28,35 @@ export default function CheckboxGroup({
     const isAtLeastOneChecked = selectedValues.length > 0;
     hiddenInputRef.current.checked = isAtLeastOneChecked;
     hiddenInputRef.current.setCustomValidity(
-      isAtLeastOneChecked ? "" : "Please select at least one option"
+      isAtLeastOneChecked ? "" : "Please select at least one option",
     );
   };
 
   const legendEl = (
     <legend className={styles.legend}>
       {legend}
-      {required && <span aria-hidden="true" className={styles.optional}> *</span>}
-      {optional && <span aria-hidden="true" className={styles.optional}> (optional)</span>}
+      {required && (
+        <span aria-hidden="true" className={styles.optional}>
+          {" "}
+          *
+        </span>
+      )}
+      {optional && (
+        <span aria-hidden="true" className={styles.optional}>
+          {" "}
+          (optional)
+        </span>
+      )}
     </legend>
   );
 
   return (
-    <fieldset className={styles.checkboxGroup} aria-required={required}>
+    <fieldset
+      className={styles.checkboxGroup}
+      aria-required={required}
+      aria-invalid={error ? "true" : undefined}
+      aria-describedby={error ? errorId : undefined}
+    >
       {required && (
         <input
           ref={hiddenInputRef}
@@ -55,7 +72,9 @@ export default function CheckboxGroup({
           {legendEl}
           <small className={styles.subText}>{subText}</small>
         </div>
-      ) : legendEl}
+      ) : (
+        legendEl
+      )}
       <div className={styles.checkboxContainer}>
         {checkboxes.map((checkbox, index) => (
           <Checkbox
@@ -70,6 +89,11 @@ export default function CheckboxGroup({
           />
         ))}
       </div>
+      {error && (
+        <span id={errorId} role="alert" className={styles.errorMessage}>
+          {error}
+        </span>
+      )}
     </fieldset>
   );
 }

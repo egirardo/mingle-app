@@ -13,19 +13,28 @@ export default function TextInput({
   className,
   value,
   onChange,
+  error,
 }) {
   const generatedId = useId();
   const inputId = id ?? generatedId;
-  // Use explicit name prop; fall back to inputId only as last resort.
-  // Previously this always fell back to the auto-generated id, which made
-  // it impossible to reference fields by a stable name.
   const inputName = name ?? inputId;
+  const errorId = `${inputId}-error`;
 
   const label = formLabel ? (
     <label htmlFor={inputId} className={styles.inputLabel}>
       {formLabel}
-      {required && <span aria-hidden="true" className={styles.optional}> *</span>}
-      {optional && <span aria-hidden="true" className={styles.optional}> (optional)</span>}
+      {required && (
+        <span aria-hidden="true" className={styles.optional}>
+          {" "}
+          *
+        </span>
+      )}
+      {optional && (
+        <span aria-hidden="true" className={styles.optional}>
+          {" "}
+          (optional)
+        </span>
+      )}
     </label>
   ) : null;
 
@@ -36,18 +45,27 @@ export default function TextInput({
           {label}
           <small className={styles.subText}>{subText}</small>
         </div>
-      ) : label}
+      ) : (
+        label
+      )}
       <input
         type={type}
         id={inputId}
         name={inputName}
         placeholder={placeholder}
-        className={styles.textInput}
+        className={`${styles.textInput} ${error ? styles.error : ""}`}
         required={required}
         aria-required={required}
+        aria-describedby={error ? errorId : undefined}
+        aria-invalid={error ? "true" : undefined}
         value={value}
         onChange={onChange}
       />
+      {error && (
+        <span id={errorId} role="alert" className={styles.errorMessage}>
+          {error}
+        </span>
+      )}
     </div>
   );
 }

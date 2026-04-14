@@ -10,9 +10,11 @@ export default function RadioGroup({
   subText,
   name,
   onChange, // receives the selected value string e.g. "dd" or "1"
+  error = "",
 }) {
   const hiddenInputRef = useRef(null);
   const radioRefs = useRef([]);
+  const errorId = `${name}-error`;
 
   const handleRadioChange = (e) => {
     // Bubble selected value up to the parent form
@@ -27,13 +29,28 @@ export default function RadioGroup({
   const legendEl = (
     <legend className={styles.legend}>
       {legend}
-      {required && <span aria-hidden="true" className={styles.optional}> *</span>}
-      {optional && <span aria-hidden="true" className={styles.optional}> (optional)</span>}
+      {required && (
+        <span aria-hidden="true" className={styles.optional}>
+          {" "}
+          *
+        </span>
+      )}
+      {optional && (
+        <span aria-hidden="true" className={styles.optional}>
+          {" "}
+          (optional)
+        </span>
+      )}
     </legend>
   );
 
   return (
-    <fieldset className={styles.checkboxGroup} aria-required={required}>
+    <fieldset
+      className={styles.checkboxGroup}
+      aria-required={required}
+      aria-invalid={error ? "true" : undefined}
+      aria-describedby={error ? errorId : undefined}
+    >
       {required && (
         <input
           ref={hiddenInputRef}
@@ -49,7 +66,9 @@ export default function RadioGroup({
           {legendEl}
           <small className={styles.subText}>{subText}</small>
         </div>
-      ) : legendEl}
+      ) : (
+        legendEl
+      )}
       <div className={styles.checkboxContainer}>
         {radios.map((radio, index) => (
           <RadioButton
@@ -65,6 +84,11 @@ export default function RadioGroup({
           />
         ))}
       </div>
+      {error && (
+        <span id={errorId} role="alert" className={styles.errorMessage}>
+          {error}
+        </span>
+      )}
     </fieldset>
   );
 }

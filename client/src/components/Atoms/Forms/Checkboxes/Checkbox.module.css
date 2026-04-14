@@ -31,6 +31,10 @@
   border: 1px solid white;
 }
 
+.checkbox input:focus-visible + label {
+  border: 1px solid white;
+}
+
 .checkboxGroup {
   display: flex;
   flex-direction: column;
