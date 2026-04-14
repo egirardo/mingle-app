@@ -10,7 +10,7 @@ import {
   usePlaySound,
   useUnlockAudio,
 } from "../../../Hooks/useAudio.js";
-import instructionsAudio from "../../../assets/audio/instructions.mp3";
+import instructionsAudio from "../../../assets/audio/instructions.m4a";
 
 export default function Start() {
   const mingle = useOutletContext();
