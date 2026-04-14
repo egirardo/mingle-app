@@ -23,6 +23,7 @@ LIA FUSION lets students and companies come together for structured speed networ
 - [Running](#running)
 - [How It Works](#how-it-works)
 - [Troubleshooting](#troubleshooting)
+- [Dev Team](#dev-team)
 - [License](#license)
 
 ## Tech Stack
@@ -52,7 +53,7 @@ LIA FUSION lets students and companies come together for structured speed networ
 
 - **Node.js** v16+
 - **npm**
-- **MongoDB** 
+- **MongoDB**
 - **Git**
 
 ### Get Started
@@ -60,7 +61,7 @@ LIA FUSION lets students and companies come together for structured speed networ
 1. Clone the repo:
 
 ```bash
-git clone [https://github.com/yourusername/mingle-app.git](https://github.com/egirardo/mingle-app)
+git clone https://github.com/egirardo/mingle-app.git
 cd mingle-app
 ```
 
@@ -101,7 +102,7 @@ How to start it:
 
 ```bash
 # Clone and install
-git clone https://github.com/yourusername/mingle-app.git
+git clone https://github.com/egirardo/mingle-app.git
 cd mingle-app
 
 # Setup backend
@@ -131,6 +132,7 @@ Open two terminal windows:
 cd server
 npm run dev
 ```
+
 Server will be at `http://localhost:5000`
 
 **Terminal 2 - Start the frontend:**
@@ -139,11 +141,13 @@ Server will be at `http://localhost:5000`
 cd client
 npm run dev
 ```
+
 App will be at `http://localhost:5173`
 
 ## How It Works
 
 ### For Students
+
 1. Sign up with your name and email
 2. Fill out your profile (add a photo, fun fact, portfolio, interests)
 3. Browse companies looking for a LIA place
@@ -152,6 +156,7 @@ App will be at `http://localhost:5173`
 6. After the game ends, connect with companies you liked and and like their profiles
 
 ### For Companies
+
 1. Register your company
 2. Attend the event
 3. Browse students looking for a LIA place
@@ -162,16 +167,19 @@ App will be at `http://localhost:5173`
 ## Troubleshooting
 
 **MongoDB won't connect?**
+
 - Make sure MongoDB is running (`brew services list` on macOS)
 - Double-check your `MONGODB_URI` in `server/.env`
 - If using MongoDB Atlas, make sure your IP is whitelisted
 
 **Socket.io says connection failed?**
+
 - Both client and server should be running
 - Check that `VITE_SOCKET_URL` matches your server
 - Look at browser console for CORS errors
 
 **"Cannot find module" error?**
+
 - Try a fresh install: `rm -rf node_modules && npm install`
 - Clear Vite cache: `rm -rf client/.vite`
 - Check for typos in import statements
@@ -185,3 +193,4 @@ App will be at `http://localhost:5173`
 ## License
 
 This project is licensed under the MIT License—check the [LICENSE](LICENSE) file for the details.
+
