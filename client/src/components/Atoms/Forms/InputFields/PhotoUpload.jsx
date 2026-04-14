@@ -39,13 +39,12 @@ export default function PhotoUpload({
     }
 
     // File is valid, create preview and notify parent
-    if (preview) URL.revokeObjectURL(preview);
     const objectUrl = URL.createObjectURL(file);
     setPreview(objectUrl);
     if (onFileChange) onFileChange(file);
   };
 
-  // Cleanup blob URL on unmount
+  // Cleanup blob URLs: revoke old preview on change or unmount
   useEffect(() => {
     return () => {
       if (preview) URL.revokeObjectURL(preview);

@@ -25,23 +25,24 @@ export default function EditPhoto({
     if (!ALLOWED_TYPES.includes(file.type)) {
       setError("Please upload a JPEG, PNG, or WebP image.");
       e.target.value = "";
+      if (inputRef.current) inputRef.current.value = "";
       return;
     }
     // Validate file size
     if (file.size > MAX_FILE_SIZE) {
       setError("File size must be less than 5MB.");
       e.target.value = "";
+      if (inputRef.current) inputRef.current.value = "";
       return;
     }
 
     // File is valid, create preview and notify parent
-    if (preview) URL.revokeObjectURL(preview);
     const objectUrl = URL.createObjectURL(file);
     setPreview(objectUrl);
     if (onFileChange) onFileChange(file);
   };
 
-  // Cleanup blob URL on unmount
+  // Cleanup blob URLs: revoke old preview on change or unmount
   useEffect(() => {
     return () => {
       if (preview) URL.revokeObjectURL(preview);
