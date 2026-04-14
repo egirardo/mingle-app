@@ -24,12 +24,13 @@ export default function EditPhoto({
     // Validate file type
     if (!ALLOWED_TYPES.includes(file.type)) {
       setError("Please upload a JPEG, PNG, or WebP image.");
+      e.target.value = "";
       return;
     }
-
     // Validate file size
     if (file.size > MAX_FILE_SIZE) {
       setError("File size must be less than 5MB.");
+      e.target.value = "";
       return;
     }
 
