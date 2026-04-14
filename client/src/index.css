@@ -21,7 +21,7 @@
   letter-spacing: 0.18px;
   color-scheme: dark light;
   color: var(--text);
-  background: #000;
+  background: #000000; /* fallback shown before background image loads */
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -44,7 +44,7 @@ html, body {
   max-width: 100%;
   margin: 0 auto;
   text-align: center;
-  min-height: 100dvh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
