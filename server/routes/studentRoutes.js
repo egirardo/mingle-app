@@ -298,11 +298,11 @@ router.put(
       const detectedType = await fileTypeFromBuffer(req.file.buffer);
       
       // Allowed MIME types by their actual signatures
-      const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/webp'];
+      const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/heic'];
       
       if (!detectedType || !allowedMimeTypes.includes(detectedType.mime)) {
         return res.status(400).json({ 
-          message: 'Invalid image file. Only JPEG, PNG, and WebP are allowed.' 
+          message: 'Invalid image file. Only JPEG, PNG, WebP, and HEIC are allowed.' 
         });
       }
 
