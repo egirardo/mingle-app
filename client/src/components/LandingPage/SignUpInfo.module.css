@@ -82,11 +82,6 @@
     margin: .5rem 0rem;
 }
 
-/* Ensure hidden attribute is respected even when an element has display: flex */
-.loginGroup[hidden] {
-    display: none;
-}
-
 .roleGroup {
     display: flex;
     flex-direction: column;

@@ -96,10 +96,6 @@ export const rules = {
 // partial: true — skips required checks for absent fields (use for PATCH/PUT updates)
 export function validateBody(schema, { partial = false } = {}) {
   return (req, res, next) => {
-    if (!req.body || typeof req.body !== 'object' || Array.isArray(req.body)) {
-      return res.status(400).json({ message: 'Request body must be a JSON object' });
-    }
-
     for (const [field, config] of Object.entries(schema)) {
       const inBody = field in req.body;
       const value = req.body[field];
