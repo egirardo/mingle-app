@@ -1,21 +1,10 @@
 import { createContext, useContext, useState, useEffect, useCallback, useRef } from "react";
-import { jwtDecode } from "jwt-decode";
 import { apiFetch } from "../api";
 
 // Separate storage keys prevent guest and student data from clobbering each other
 // and isolate saves per student account.
 const GUEST_KEY = "mingle_saved_guest";
 const studentKey = (id) => `mingle_saved_student_${id}`;
-
-function getStudentId() {
-    try {
-        const token = localStorage.getItem("token");
-        if (!token) return null;
-        return jwtDecode(token)?.id ?? null;
-    } catch {
-        return null;
-    }
-}
 
 function loadFromStorage(key) {
     try {
@@ -29,24 +18,11 @@ function writeToStorage(key, profiles) {
     localStorage.setItem(key, JSON.stringify(profiles));
 }
 
-function authedFetch(path, options = {}) {
-    const token = localStorage.getItem("token");
-    return apiFetch(path, {
-        ...options,
-        headers: {
-            ...options.headers,
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-        },
-    });
-}
-
 const SavedContext = createContext(null);
 
 export function SavedProvider({ children }) {
-    const [studentId, setStudentId] = useState(getStudentId);
-    const [savedProfiles, setSavedProfiles] = useState(() =>
-        loadFromStorage(studentId ? studentKey(studentId) : GUEST_KEY)
-    );
+    const [studentId, setStudentId] = useState(null);
+    const [savedProfiles, setSavedProfiles] = useState(() => loadFromStorage(GUEST_KEY));
 
     // Ref gives toggleSave a synchronous, always-current read of savedProfiles
     // without adding it as a useCallback dependency.
@@ -55,15 +31,22 @@ export function SavedProvider({ children }) {
 
     const isLoggedIn = Boolean(studentId);
 
-    // Keep studentId in sync with login/logout events
+    // On mount, check the server to see if an auth cookie is already present.
     useEffect(() => {
-        const handleAuthChange = () => setStudentId(getStudentId());
-        window.addEventListener("authchange", handleAuthChange);
-        window.addEventListener("storage", handleAuthChange);
-        return () => {
-            window.removeEventListener("authchange", handleAuthChange);
-            window.removeEventListener("storage", handleAuthChange);
+        apiFetch("/api/auth/me")
+            .then((res) => (res.ok ? res.json() : null))
+            .then((data) => setStudentId(data?.id ?? null))
+            .catch(() => setStudentId(null));
+    }, []);
+
+    // Keep studentId in sync with login/logout events dispatched in the same tab.
+    // The event detail carries { id } on login and null on logout.
+    useEffect(() => {
+        const handleAuthChange = (e) => {
+            setStudentId(e?.detail?.id ?? null);
         };
+        window.addEventListener("authchange", handleAuthChange);
+        return () => window.removeEventListener("authchange", handleAuthChange);
     }, []);
 
     // When the account switches (login/logout/different student), reload from
@@ -84,7 +67,7 @@ export function SavedProvider({ children }) {
 
         const hydrate = async () => {
             try {
-                const likesRes = await authedFetch("/api/students/likes", {
+                const likesRes = await apiFetch("/api/students/likes", {
                     signal: controller.signal,
                 });
 
@@ -184,11 +167,11 @@ export function SavedProvider({ children }) {
             if (studentId) {
                 try {
                     if (alreadySaved) {
-                        await authedFetch(`/api/students/likes/${profileId}`, {
+                        await apiFetch(`/api/students/likes/${profileId}`, {
                             method: "DELETE",
                         });
                     } else {
-                        await authedFetch("/api/students/likes", {
+                        await apiFetch("/api/students/likes", {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify({ profileId, type }),
@@ -203,7 +186,7 @@ export function SavedProvider({ children }) {
     );
 
     return (
-        <SavedContext.Provider value={{ savedProfiles, isSaved, toggleSave, isLoggedIn }}>
+        <SavedContext.Provider value={{ savedProfiles, isSaved, toggleSave, isLoggedIn, studentId }}>
             {children}
         </SavedContext.Provider>
     );

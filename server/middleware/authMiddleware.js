@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 
 const authMiddleware = (req, res, next) => {
-  const token = req.headers.authorization?.split(' ')[1]; // Expects: "Bearer <token>"
+  const token = req.cookies?.token;
 
   if (!token) {
     return res.status(401).json({ message: 'No token provided, authorization denied' });
@@ -19,7 +19,7 @@ const authMiddleware = (req, res, next) => {
 // Role-based middleware factory — enforces user type
 const requireAuth = (requiredType) => {
   return (req, res, next) => {
-    const token = req.headers.authorization?.split(' ')[1];
+    const token = req.cookies?.token;
 
     if (!token) {
       return res.status(401).json({ message: 'No token provided, authorization denied' });
@@ -27,12 +27,11 @@ const requireAuth = (requiredType) => {
 
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      
-      // Check if user type matches required type
+
       if (decoded.type !== requiredType) {
         return res.status(403).json({ message: 'Insufficient permissions for this resource' });
       }
-      
+
       req.user = decoded;
       next();
     } catch (err) {

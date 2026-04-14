@@ -1,6 +1,28 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import rateLimit from 'express-rate-limit';
 import Company from '../models/Company.js';
+import { validateBody, rules, VALID_LIA_SPACES, VALID_SKILLS } from '../middleware/validate.js';
+
+const registerLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { message: 'Too many registration attempts. Please try again in an hour.' },
+});
+
+// ─── VALIDATION SCHEMA ────────────────────────────────────────────────────────
+
+const companyRegisterSchema = {
+  company:       { required: true, label: 'Company name',    rules: [rules.isString('Company name'),    rules.nonEmpty('Company name'),    rules.maxLen('Company name', 150)] },
+  contactPerson: { required: true, label: 'Contact person',  rules: [rules.isString('Contact person'),  rules.nonEmpty('Contact person'),  rules.maxLen('Contact person', 150)] },
+  email:         {                 label: 'Email',            rules: [rules.isString('Email'),           rules.nonEmpty('Email'),           rules.email('Email')] },
+  liaSpaces:     { required: true, label: 'LIA spaces',       rules: [rules.oneOf('LIA spaces', VALID_LIA_SPACES)] },
+  skills:        { required: true, label: 'Skills',           rules: [rules.isArray('Skills'), rules.arrayOfStrings('Skills'), rules.arrayAllowed('Skills', VALID_SKILLS)] },
+  about:         { required: true, label: 'About',            rules: [rules.isString('About'),           rules.nonEmpty('About'),           rules.maxLen('About', 500)] },
+  website:       {                 label: 'Website',          rules: [rules.isString('Website'),         rules.maxLen('Website', 500),      rules.safeUrl('Website')] },
+};
 
 const router = express.Router();
 
@@ -87,7 +109,7 @@ router.get('/profile/:id', async (req, res) => {
 
 // ─── CREATE PROFILE ──────────────────────────────────────────────────────────
 // POST /api/companies/profile
-router.post('/profile', async (req, res) => {
+router.post('/profile', registerLimiter, validateBody(companyRegisterSchema), async (req, res) => {
   try {
     const { company, contactPerson, email, liaSpaces, skills, about, website } = req.body;
 

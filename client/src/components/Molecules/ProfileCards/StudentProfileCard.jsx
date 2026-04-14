@@ -67,7 +67,7 @@ export default function StudentProfileCard({ student, isOwnCard = false }) {
             </div>
             <div className={styles.infoContainer}>
                 <h2 className={styles.infoHeading}>Let's Talk About</h2>
-                <p className={styles.infoContent}>{student.questions?.[0]}</p>
+                <p className={styles.infoContent}>{student.questions?.[0] || "No topics listed."}</p>
             </div>
         </div>
     );
