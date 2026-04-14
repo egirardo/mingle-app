@@ -7,6 +7,9 @@ import IconOnlyButton from "../Atoms/Buttons/IconOnlyButton";
 import Button from "../Atoms/Buttons/Button";
 import TagContainer from "../Atoms/Tags/TagContainer";
 import { apiFetch } from "../../api";
+import LikeIcon from "../../assets/icons/like.svg";
+import LikeFilledIcon from "../../assets/icons/like-filled.svg";
+import { useSaved } from "../../context/SavedContext";
 
 export default function ViewProfile() {
   const navigate = useNavigate();
@@ -30,6 +33,8 @@ export default function ViewProfile() {
   }, []);
 
   const isOwner = currentUserId && profile?.studentId === currentUserId;
+  const { isSaved, toggleSave, isLoggedIn } = useSaved();
+  const showLike = !isLoggedIn;
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -80,10 +85,28 @@ export default function ViewProfile() {
               />
             </div> ) }
 
-                {profile.profileImage
-                    ? <img className={styles.profileImage} src={profile.profileImage} alt="Profile" />
-                    : <img className={styles.profileImage} src={defaultAvatar} alt="Default avatar" />
-                }
+                <div className={styles.photoHeartContainer}>
+                  <img
+                    className={styles.profileImage}
+                    src={profile.profileImage || defaultAvatar}
+                    alt="Profile"
+                  />
+                  {showLike && (
+                    <button
+                      type="button"
+                      className={styles.likeButton}
+                      onClick={() => toggleSave(profile, "student")}
+                      aria-label={isSaved(profile.studentId) ? "Remove from saved" : "Save profile"}
+                    >
+                      <img
+                        className={styles.likeIcon}
+                        src={isSaved(profile.studentId) ? LikeFilledIcon : LikeIcon}
+                        alt=""
+                        aria-hidden="true"
+                      />
+                    </button>
+                  )}
+                </div>
           <section className={styles.infoSection}>
 
             <div className={styles.headingContainer}>
