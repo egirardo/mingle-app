@@ -8,6 +8,7 @@ const studentAuthSchema = new mongoose.Schema(
       unique: true,
       lowercase: true, // Normalizes "User@Email.com" -> "user@email.com" to ensure uniqueness
       trim: true,
+      maxlength: 254, // RFC 5321 maximum
     },
     password: {
       type: String,

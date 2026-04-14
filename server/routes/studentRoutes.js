@@ -7,10 +7,66 @@ import dotenv from 'dotenv';
 import { v2 as cloudinary } from 'cloudinary';
 import { Readable } from 'stream';
 import { fileTypeFromBuffer } from 'file-type';
+import rateLimit from 'express-rate-limit';
 import StudentAuth from '../models/StudentAuth.js';
 import StudentProfile from '../models/StudentProfile.js';
 import Company from '../models/Company.js';
 import authMiddleware from '../middleware/authMiddleware.js';
+import { validateBody, rules, VALID_PROGRAMS, VALID_SKILLS } from '../middleware/validate.js';
+
+const registerLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { message: 'Too many registration attempts. Please try again in an hour.' },
+});
+
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { message: 'Too many login attempts. Please try again in 15 minutes.' },
+});
+
+// ─── VALIDATION SCHEMAS ───────────────────────────────────────────────────────
+
+const registerSchema = {
+  firstName: { required: true, label: 'First name', rules: [rules.isString('First name'), rules.nonEmpty('First name'), rules.maxLen('First name', 100)] },
+  lastName:  { required: true, label: 'Last name',  rules: [rules.isString('Last name'),  rules.nonEmpty('Last name'),  rules.maxLen('Last name', 100)] },
+  email:     { required: true, label: 'Email',      rules: [rules.isString('Email'),      rules.nonEmpty('Email'),      rules.email('Email')] },
+  password:  { required: true, label: 'Password',   rules: [rules.isString('Password'),   rules.minLen('Password', 4)] },
+  program:   { required: true, label: 'Program',    rules: [rules.oneOf('Program', VALID_PROGRAMS)] },
+  skills:    { required: true, label: 'Skills',     rules: [rules.isArray('Skills'), rules.arrayOfStrings('Skills'), rules.arrayAllowed('Skills', VALID_SKILLS)] },
+  about:     {                 label: 'About',       rules: [rules.isString('About'),      rules.maxLen('About', 300)] },
+  questions: {                 label: 'Questions',   rules: [rules.isArray('Questions'), rules.arrayOfStrings('Questions'), rules.maxArrayLen('Questions', 3), rules.arrayItemMaxLen('Questions', 300), rules.noDelimiter('Questions', '||')] },
+  portfolio: {                 label: 'Portfolio',   rules: [rules.isString('Portfolio'),  rules.maxLen('Portfolio', 500), rules.safeUrl('Portfolio')] },
+};
+
+const loginSchema = {
+  email:    { required: true, label: 'Email',    rules: [rules.isString('Email'),    rules.nonEmpty('Email')] },
+  password: { required: true, label: 'Password', rules: [rules.isString('Password'), rules.nonEmpty('Password')] },
+};
+
+const updateProfileSchema = {
+  firstName: { label: 'First name', rules: [rules.isString('First name'), rules.nonEmpty('First name'), rules.maxLen('First name', 100)] },
+  lastName:  { label: 'Last name',  rules: [rules.isString('Last name'),  rules.nonEmpty('Last name'),  rules.maxLen('Last name', 100)] },
+  program:   { label: 'Program',    rules: [rules.oneOf('Program', VALID_PROGRAMS)] },
+  skills:    { label: 'Skills',     rules: [rules.isArray('Skills'), rules.arrayOfStrings('Skills'), rules.arrayAllowed('Skills', VALID_SKILLS)] },
+  about:     { label: 'About',      rules: [rules.isString('About'),      rules.maxLen('About', 300)] },
+  questions: { label: 'Questions',  rules: [rules.isArray('Questions'), rules.arrayOfStrings('Questions'), rules.maxArrayLen('Questions', 3), rules.arrayItemMaxLen('Questions', 300), rules.noDelimiter('Questions', '||')] },
+  portfolio: { label: 'Portfolio',  rules: [rules.isString('Portfolio'),  rules.maxLen('Portfolio', 500), rules.safeUrl('Portfolio')] },
+};
+
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
+
+// Prepends https:// if no scheme is present, returns null for empty/missing input.
+function normalizePortfolio(url) {
+  if (!url || typeof url !== 'string' || !url.trim()) return null;
+  const trimmed = url.trim();
+  return /^[a-z][a-z\d+\-.]*:/i.test(trimmed) ? trimmed : `https://${trimmed}`;
+}
 
 dotenv.config(); // keeping this and dotenv import in depsite claude's suggestions because the cloudinary config relies on these env vars.
 const { CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET } = process.env;
@@ -89,7 +145,7 @@ router.get('/', async (req, res) => {
 
 // ─── REGISTER ────────────────────────────────────────────────────────────────
 // POST /api/students/register
-router.post('/register', async (req, res) => {
+router.post('/register', registerLimiter, validateBody(registerSchema), async (req, res) => {
   const session = await mongoose.startSession();
   session.startTransaction();
 
@@ -126,12 +182,12 @@ router.post('/register', async (req, res) => {
       skills: skills || [],
       about: about || null,
       questions: implodedQuestions,
-      portfolio: portfolio || null,
+      portfolio: normalizePortfolio(portfolio),
     });
     await studentProfile.save({ session });
 
     await session.commitTransaction();
-    
+
     // Sign JWT — expires in 1 day
     const token = jwt.sign(
       { id: studentAuth._id, type: 'student' },
@@ -139,7 +195,14 @@ router.post('/register', async (req, res) => {
       { expiresIn: '1d' }
     );
 
-    res.status(201).json({ token, message: 'Student registered successfully' });
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+
+    res.status(201).json({ id: studentAuth._id, type: 'student', message: 'Student registered successfully' });
 
   } catch (err) {
     await session.abortTransaction();
@@ -159,7 +222,7 @@ router.post('/register', async (req, res) => {
 
 // ─── LOGIN ────────────────────────────────────────────────────────────────────
 // POST /api/students/login
-router.post('/login', async (req, res) => {
+router.post('/login', loginLimiter, validateBody(loginSchema), async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -169,13 +232,13 @@ router.post('/login', async (req, res) => {
     // Check if student exists — explicitly select password since it has select: false
     const student = await StudentAuth.findOne({ email: normalizedEmail }).select('+password');
     if (!student) {
-      return res.status(404).json({ message: 'No account found with that email' });
+      return res.status(401).json({ message: 'Invalid email or password' });
     }
 
     // Compare password
     const isMatch = await bcrypt.compare(password, student.password);
     if (!isMatch) {
-      return res.status(401).json({ message: 'Invalid credentials' });
+      return res.status(401).json({ message: 'Invalid email or password' });
     }
     
     // Sign JWT — expires in 1 day
@@ -184,13 +247,31 @@ router.post('/login', async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: '1d' }
     );
-    
-    res.status(200).json({ token, message: 'Login successful' });
-    
+
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+
+    res.status(200).json({ id: student._id, type: 'student', message: 'Login successful' });
+
   } catch (err) {
     console.error('Login error:', err);
     res.status(500).json({ message: 'Server error during login' });
   }
+});
+
+// ─── LOGOUT ───────────────────────────────────────────────────────────────────
+// POST /api/students/logout — clears the auth cookie
+router.post('/logout', (req, res) => {
+  res.clearCookie('token', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+  });
+  res.status(200).json({ message: 'Logged out successfully' });
 });
 
 // ─── GET PUBLIC PROFILE ───────────────────────────────────────────────────────
@@ -233,7 +314,7 @@ router.get('/profile', authMiddleware, async (req, res) => {
 // ─── UPDATE PRIVATE PROFILE ───────────────────────────────────────────────────────────
 // PUT /api/students/profile
 // Protected — requires token
-router.put('/profile', authMiddleware, async (req, res) => {
+router.put('/profile', authMiddleware, validateBody(updateProfileSchema, { partial: true }), async (req, res) => {
   try {
     const { firstName, lastName, program, skills, about, questions, portfolio } = req.body;
 
@@ -247,7 +328,7 @@ router.put('/profile', authMiddleware, async (req, res) => {
     if (skills !== undefined) updateData.skills = skills;
     if (about !== undefined) updateData.about = about;
     if (questions !== undefined) updateData.questions = implodedQuestions;
-    if (portfolio !== undefined) updateData.portfolio = portfolio;
+    if (portfolio !== undefined) updateData.portfolio = normalizePortfolio(portfolio);
 
     const updatedProfile = await StudentProfile.findOneAndUpdate(
       { studentId: req.user.id },
@@ -298,11 +379,11 @@ router.put(
       const detectedType = await fileTypeFromBuffer(req.file.buffer);
       
       // Allowed MIME types by their actual signatures
-      const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/webp'];
+      const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/heic'];
       
       if (!detectedType || !allowedMimeTypes.includes(detectedType.mime)) {
         return res.status(400).json({ 
-          message: 'Invalid image file. Only JPEG, PNG, and WebP are allowed.' 
+          message: 'Invalid image file. Only JPEG, PNG, WebP, and HEIC are allowed.' 
         });
       }
 

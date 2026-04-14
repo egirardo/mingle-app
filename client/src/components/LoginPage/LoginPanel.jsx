@@ -60,10 +60,7 @@ export default function LoginPanel() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message);
 
-      // Store the JWT so all subsequent requests can send it in
-      // the Authorization header as "Bearer <token>"
-      localStorage.setItem("token", data.token);
-      window.dispatchEvent(new Event("authchange"));
+      window.dispatchEvent(new CustomEvent("authchange", { detail: { id: data.id } }));
 
       navigate("/explore");
     } catch (err) {

@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { jwtDecode } from "jwt-decode";
 import { apiFetch } from "../../api";
 import ProfileCards from "../Molecules/ProfileCards/ProfileCards";
 import CompanyProfileCard from "../Molecules/ProfileCards/CompanyProfileCard";
@@ -12,17 +11,6 @@ import { useSaved } from "../../context/SavedContext";
 
 const TABS = ["Companies", "Students", "Saved"];
 
-function getLoggedInStudentId() {
-    try {
-        const token = localStorage.getItem("token");
-        if (!token) return null;
-        const payload = jwtDecode(token);
-        return payload?.id ?? null;
-    } catch {
-        return null;
-    }
-}
-
 export default function ExplorePanel() {
     const [isExpanded, setIsExpanded] = useState(false);
     const [activeTab, setActiveTab] = useState(TABS[0]);
@@ -30,23 +18,11 @@ export default function ExplorePanel() {
     const [students, setStudents] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [loggedInStudentId, setLoggedInStudentId] = useState(getLoggedInStudentId);
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedSkills, setSelectedSkills] = useState([]);
     const [selectedPrograms, setSelectedPrograms] = useState([]);
     const fetchedTabs = useRef(new Set());
-    const { savedProfiles } = useSaved();
-
-    // Keep loggedInStudentId in sync with login/logout events
-    useEffect(() => {
-        const handleAuthChange = () => setLoggedInStudentId(getLoggedInStudentId());
-        window.addEventListener("authchange", handleAuthChange);
-        window.addEventListener("storage", handleAuthChange);
-        return () => {
-            window.removeEventListener("authchange", handleAuthChange);
-            window.removeEventListener("storage", handleAuthChange);
-        };
-    }, []);
+    const { savedProfiles, studentId: loggedInStudentId } = useSaved();
 
     // ── Data fetching ───────────────────────────────────────────────────────
     useEffect(() => {

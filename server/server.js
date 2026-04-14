@@ -1,7 +1,10 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
+import cookieParser from "cookie-parser";
+import helmet from "helmet";
 import dotenv from "dotenv";
+import jwt from "jsonwebtoken";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import studentRoutes from "./routes/studentRoutes.js";
@@ -25,8 +28,10 @@ let gameStarted = false;
 
 const isDbReady = () => mongoose.connection.readyState === 1;
 
+app.use(helmet());
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use(cookieParser());
 
 app.get("/healthz", (req, res) => {
   res.status(200).json({ status: "ok" });
@@ -68,6 +73,20 @@ app.get("/api/count", async (req, res) => {
   } catch (err) {
     console.error("Count error:", err);
     res.status(500).json({ message: "Server error retrieving count" });
+  }
+});
+
+// ─── AUTH CHECK ───────────────────────────────────────────────────────────────
+// GET /api/auth/me — lightweight endpoint the client calls on mount to
+// determine whether the HttpOnly cookie holds a valid session.
+app.get("/api/auth/me", (req, res) => {
+  const token = req.cookies?.token;
+  if (!token) return res.json({ id: null });
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    res.json({ id: decoded.id, type: decoded.type });
+  } catch {
+    res.json({ id: null });
   }
 });
 
