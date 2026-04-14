@@ -57,6 +57,60 @@ export function SavedProvider({ children }) {
         };
     }, []);
 
+    // When a student logs in, hydrate saved profiles from the backend.
+    // For each like ID already in localStorage we reuse the cached data;
+    // for any that are missing (saved on another device) we fetch the
+    // full company profile so the Saved tab can render it.
+    useEffect(() => {
+        if (!studentId) return;
+
+        const controller = new AbortController();
+
+        const hydrate = async () => {
+            try {
+                const likesRes = await authedFetch("/api/students/likes", {
+                    signal: controller.signal,
+                });
+                if (!likesRes.ok) return;
+                const likes = await likesRes.json(); // [{ profileId, type }]
+                if (!likes.length) return;
+
+                const current = loadFromStorage();
+                const currentMap = new Map(current.map((e) => [e.profileId, e]));
+
+                const resolved = await Promise.all(
+                    likes.map(async ({ profileId, type }) => {
+                        const id = String(profileId);
+                        if (currentMap.has(id)) return currentMap.get(id);
+
+                        try {
+                            const profileRes = await apiFetch(
+                                `/api/companies/profile/${id}`,
+                                { signal: controller.signal }
+                            );
+                            if (!profileRes.ok) return null;
+                            const data = await profileRes.json();
+                            return { profileId: id, type, data };
+                        } catch {
+                            return null;
+                        }
+                    })
+                );
+
+                const merged = resolved.filter(Boolean);
+                setSavedProfiles(merged);
+                writeToStorage(merged);
+            } catch (err) {
+                if (err.name !== "AbortError") {
+                    console.error("Failed to hydrate saves from backend:", err);
+                }
+            }
+        };
+
+        hydrate();
+        return () => controller.abort();
+    }, [studentId]);
+
     const isSaved = useCallback(
         (profileId) => savedProfiles.some((p) => p.profileId === String(profileId)),
         [savedProfiles]
@@ -69,14 +123,16 @@ export function SavedProvider({ children }) {
                 ? String(profile.studentId)
                 : String(profile._id);
 
-            const alreadySaved = savedProfiles.some((p) => p.profileId === profileId);
+            let alreadySaved;
 
-            const updated = alreadySaved
-                ? savedProfiles.filter((p) => p.profileId !== profileId)
-                : [...savedProfiles, { profileId, type, data: profile }];
-
-            setSavedProfiles(updated);
-            writeToStorage(updated);
+            setSavedProfiles(prev => {
+                alreadySaved = prev.some((p) => p.profileId === profileId);
+                const updated = alreadySaved
+                    ? prev.filter((p) => p.profileId !== profileId)
+                    : [...prev, { profileId, type, data: profile }];
+                writeToStorage(updated);
+                return updated;
+            });
 
             // Logged-in students also sync company saves to the backend
             if (studentId) {
@@ -95,7 +151,7 @@ export function SavedProvider({ children }) {
                 }
             }
         },
-        [savedProfiles, studentId]
+        [studentId]
     );
 
     return (

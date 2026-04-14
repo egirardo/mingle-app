@@ -9,6 +9,7 @@ import { Readable } from 'stream';
 import { fileTypeFromBuffer } from 'file-type';
 import StudentAuth from '../models/StudentAuth.js';
 import StudentProfile from '../models/StudentProfile.js';
+import Company from '../models/Company.js';
 import authMiddleware from '../middleware/authMiddleware.js';
 
 dotenv.config(); // keeping this and dotenv import in depsite claude's suggestions because the cloudinary config relies on these env vars.
@@ -349,7 +350,14 @@ router.post('/likes', authMiddleware, async (req, res) => {
   if (type !== 'company') {
     return res.status(400).json({ message: 'students can only save company profiles' });
   }
+  if (!mongoose.Types.ObjectId.isValid(profileId)) {
+    return res.status(400).json({ message: 'Invalid company ID' });
+  }
   try {
+    const company = await Company.findById(profileId).select('_id');
+    if (!company) {
+      return res.status(404).json({ message: 'Company not found' });
+    }
     const auth = await StudentAuth.findByIdAndUpdate(
       req.user.id,
       { $addToSet: { likes: { profileId, type } } },

@@ -16,7 +16,7 @@ const studentAuthSchema = new mongoose.Schema(
     },
     likes: {
       type: [{
-        profileId: { type: String, required: true },
+        profileId: { type: mongoose.Schema.Types.ObjectId, ref: 'Company', required: true },
         type: { type: String, enum: ['company'], required: true },
         _id: false,
       }],

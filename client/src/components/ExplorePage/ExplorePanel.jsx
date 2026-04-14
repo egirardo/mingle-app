@@ -132,9 +132,15 @@ export default function ExplorePanel() {
 
         if (activeTab === "Saved")
             return savedProfiles
-                .filter(({ data }) => matchesSearch(
-                    data.company ?? `${data.firstName ?? ""} ${data.lastName ?? ""}`.trim()
-                ) && matchesSkills(data.skills))
+                .filter(({ type, data }) => {
+                    const name = type === "student"
+                        ? `${data.firstName ?? ""} ${data.lastName ?? ""}`.trim()
+                        : (data.company ?? "");
+                    const programMatch = type !== "student" ||
+                        selectedPrograms.length === 0 ||
+                        selectedPrograms.includes(data.program);
+                    return matchesSearch(name) && matchesSkills(data.skills) && programMatch;
+                })
                 .map(({ profileId, type, data }) =>
                     type === "student"
                         ? <StudentProfileCard key={profileId} student={data} />
