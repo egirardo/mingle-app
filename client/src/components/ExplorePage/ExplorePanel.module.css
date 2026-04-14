@@ -9,6 +9,7 @@
     padding-bottom: calc(3rem + env(safe-area-inset-bottom, 0));
     min-height: 60vh;
     transition: margin-top 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+    overflow-x: hidden;
 }
 
 .panel.expanded {

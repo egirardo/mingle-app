@@ -4,6 +4,7 @@ import arrowBack from "../../../assets/icons/arrow-back.svg";
 import arrow45 from "../../../assets/icons/arrow-45.svg";
 import help from "../../../assets/icons/help.svg";
 import bigHeart from "../../../assets/icons/big-heart.svg";
+import bigFilledHeart from "../../../assets/icons/big-filled-heart.svg";
 import sound from "../../../assets/icons/sound.svg";
 import filter from "../../../assets/icons/filter.svg";
 import x from "../../../assets/icons/x.svg";
@@ -25,7 +26,7 @@ export default function IconOnlyButton({
 }) {
   // Variants
   const colorClass = buttonColor ? (styles[buttonColor] ?? "") : "";
-  const icons = { search, arrow45, arrowBack, help, bigHeart, sound, filter, x };
+  const icons = { search, arrow45, arrowBack, help, bigHeart, bigFilledHeart, sound, filter, x };
 
   // Icon is optional
   let icon;

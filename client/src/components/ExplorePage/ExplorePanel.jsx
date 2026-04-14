@@ -8,6 +8,7 @@ import TabSlider from "../Atoms/Tabs/TabSlider";
 import DragExpand from "../../assets/icons/drag-expand.svg";
 import ExploreFilters from "./ExploreFilters";
 import styles from "./ExplorePanel.module.css";
+import { useSaved } from "../../context/SavedContext";
 
 const TABS = ["Companies", "Students", "Saved"];
 
@@ -27,7 +28,6 @@ export default function ExplorePanel() {
     const [activeTab, setActiveTab] = useState(TABS[0]);
     const [companies, setCompanies] = useState([]);
     const [students, setStudents] = useState([]);
-    const [saved, setSaved] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [loggedInStudentId, setLoggedInStudentId] = useState(getLoggedInStudentId);
@@ -35,6 +35,7 @@ export default function ExplorePanel() {
     const [selectedSkills, setSelectedSkills] = useState([]);
     const [selectedPrograms, setSelectedPrograms] = useState([]);
     const fetchedTabs = useRef(new Set());
+    const { savedProfiles } = useSaved();
 
     // Keep loggedInStudentId in sync with login/logout events
     useEffect(() => {
@@ -78,14 +79,8 @@ export default function ExplorePanel() {
                     setStudents(data);
                 }
 
-                // TODO: update this endpoint to match your likes/saved API
-                if (activeTab === "Saved") {
-                    const res = await apiFetch("/api/likes", { signal });
-                    const data = await res.json();
-                    if (!res.ok) throw new Error(data.message);
-                    fetchedTabs.current.add("Saved");
-                    setSaved(data);
-                }
+                // Saved tab reads from SavedContext (localStorage / backend-synced)
+                // No API fetch needed here
             } catch (err) {
                 if (err.name === "AbortError") return;
                 setError(err.message);
@@ -136,13 +131,21 @@ export default function ExplorePanel() {
                 ));
 
         if (activeTab === "Saved")
-            // TODO: saved items may be a mix of companies and students —
-            // update this to render the correct card type based on item shape
-            return saved
-                .filter((item) => matchesSearch(item.company ?? "") && matchesSkills(item.skills))
-                .map((item) => (
-                    <CompanyProfileCard key={item._id} company={item} />
-                ));
+            return savedProfiles
+                .filter(({ type, data }) => {
+                    const name = type === "student"
+                        ? `${data.firstName ?? ""} ${data.lastName ?? ""}`.trim()
+                        : (data.company ?? "");
+                    const programMatch = type !== "student" ||
+                        selectedPrograms.length === 0 ||
+                        selectedPrograms.includes(data.program);
+                    return matchesSearch(name) && matchesSkills(data.skills) && programMatch;
+                })
+                .map(({ profileId, type, data }) =>
+                    type === "student"
+                        ? <StudentProfileCard key={profileId} student={data} />
+                        : <CompanyProfileCard key={profileId} company={data} />
+                );
 
         return [];
     };

@@ -4,6 +4,7 @@ import SearchBar from "../Atoms/Forms/InputFields/SearchBar";
 import IconOnlyButton from "../Atoms/Buttons/IconOnlyButton";
 import CheckboxGroup from "../Atoms/Forms/Checkboxes/CheckboxGroup";
 import skillOptions from "../../data/filterOptions.json";
+import { useSaved } from "../../context/SavedContext";
 
 const programOptions = [
     { id: "program-digital-designer", name: "Digital Designer", checkboxLabel: "Digital Designer" },
@@ -14,6 +15,7 @@ export default function ExploreFilters({ activeTab, onSearch, onSkillsChange, on
     const [filtersOpen, setFiltersOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const [filterKey, setFilterKey] = useState(0);
+    const { isLoggedIn } = useSaved();
 
     const handleSearchChange = (e) => {
         const value = e.target.value;
@@ -47,14 +49,14 @@ export default function ExploreFilters({ activeTab, onSearch, onSkillsChange, on
             </div>
             {filtersOpen && (
                 <div className={styles.sortContainer}>
-                    <div className={styles.sortingTypeContainer}>
+                    <div>
                         <h2 className={styles.sortHeading}>Skills</h2>
-                        <CheckboxGroup key={`skills-${filterKey}`} checkboxes={skillOptions} name="tags" onChange={onSkillsChange} />
+                        <CheckboxGroup key={`skills-${filterKey}`} checkboxes={skillOptions} onChange={onSkillsChange} />
                     </div>
-                    {activeTab === "Students" && (
-                        <div className={styles.sortingTypeContainer}>
+                    {(activeTab === "Students" || (activeTab === "Saved" && !isLoggedIn)) && (
+                        <div>
                             <h2 className={styles.sortHeading}>Program</h2>
-                            <CheckboxGroup key={`programs-${filterKey}`} checkboxes={programOptions} name="programs" onChange={onProgramsChange} />
+                            <CheckboxGroup key={`programs-${filterKey}`} checkboxes={programOptions} onChange={onProgramsChange} />
                         </div>
                     )}
                     <button type="button" className={styles.clearButton} onClick={clearFilters}>

@@ -9,6 +9,7 @@ import { Readable } from 'stream';
 import { fileTypeFromBuffer } from 'file-type';
 import StudentAuth from '../models/StudentAuth.js';
 import StudentProfile from '../models/StudentProfile.js';
+import Company from '../models/Company.js';
 import authMiddleware from '../middleware/authMiddleware.js';
 
 dotenv.config(); // keeping this and dotenv import in depsite claude's suggestions because the cloudinary config relies on these env vars.
@@ -251,7 +252,7 @@ router.put('/profile', authMiddleware, async (req, res) => {
     const updatedProfile = await StudentProfile.findOneAndUpdate(
       { studentId: req.user.id },
       { $set: updateData },
-      { new: true, runValidators: true }
+      { returnDocument: 'after', runValidators: true }
     );
 
     if (!updatedProfile) {
@@ -310,7 +311,7 @@ router.put(
       const updatedProfile = await StudentProfile.findOneAndUpdate(
         { studentId: req.user.id },
         { $set: { profileImage: cloudinaryResult.secure_url } },
-        { new: true }
+        { returnDocument: 'after' }
       );
 
       if (!updatedProfile) {
@@ -325,6 +326,71 @@ router.put(
     }
   }
 );
+
+// ─── LIKES ───────────────────────────────────────────────────────────────────
+// Logged-in students save company profiles to their account.
+// GET /api/students/likes — returns saved profile entries for the logged-in student
+router.get('/likes', authMiddleware, async (req, res) => {
+  try {
+    const auth = await StudentAuth.findById(req.user.id).select('likes');
+    if (!auth) return res.status(404).json({ message: 'Account not found' });
+    res.status(200).json(auth.likes ?? []);
+  } catch (err) {
+    console.error('Get likes error:', err);
+    res.status(500).json({ message: 'Server error retrieving likes' });
+  }
+});
+
+// POST /api/students/likes — save a profile (students save companies)
+router.post('/likes', authMiddleware, async (req, res) => {
+  const { profileId, type } = req.body;
+  if (!profileId || !type) {
+    return res.status(400).json({ message: 'profileId and type are required' });
+  }
+  if (type !== 'company') {
+    return res.status(400).json({ message: 'students can only save company profiles' });
+  }
+  if (!mongoose.Types.ObjectId.isValid(profileId)) {
+    return res.status(400).json({ message: 'Invalid company ID' });
+  }
+  try {
+    const company = await Company.findById(profileId).select('_id');
+    if (!company) {
+      return res.status(404).json({ message: 'Company not found' });
+    }
+    const auth = await StudentAuth.findByIdAndUpdate(
+      req.user.id,
+      { $addToSet: { likes: { profileId, type } } },
+      { returnDocument: 'after' }
+    ).select('likes');
+    if (!auth) return res.status(404).json({ message: 'Account not found' });
+    res.status(200).json(auth.likes ?? []);
+  } catch (err) {
+    console.error('Add like error:', err);
+    res.status(500).json({ message: 'Server error saving like' });
+  }
+});
+
+// DELETE /api/students/likes/:profileId — remove a saved profile
+router.delete('/likes/:profileId', authMiddleware, async (req, res) => {
+  const { profileId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(profileId)) {
+    return res.status(400).json({ message: 'Invalid company ID' });
+  }
+  const profileObjectId = new mongoose.Types.ObjectId(profileId);
+  try {
+    const auth = await StudentAuth.findByIdAndUpdate(
+      req.user.id,
+      { $pull: { likes: { profileId: profileObjectId, type: 'company' } } },
+      { returnDocument: 'after' }
+    ).select('likes');
+    if (!auth) return res.status(404).json({ message: 'Account not found' });
+    res.status(200).json(auth.likes ?? []);
+  } catch (err) {
+    console.error('Remove like error:', err);
+    res.status(500).json({ message: 'Server error removing like' });
+  }
+});
 
 // ─── COUNT ────────────────────────────────────────────────────────────────────
 // GET /api/students/count

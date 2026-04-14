@@ -6,6 +6,7 @@ import TagContainer from "../Atoms/Tags/TagContainer";
 import { apiFetch } from "../../api";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useSaved } from "../../context/SavedContext";
 
 export default function CompanyProfile() {
   const navigate = useNavigate();
@@ -13,6 +14,7 @@ export default function CompanyProfile() {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const { isSaved, toggleSave, isLoggedIn } = useSaved();
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -65,14 +67,17 @@ export default function CompanyProfile() {
               <div className={styles.headingContainer}>
   
                 <div className={styles.headings}>
+                  {isLoggedIn && (
                   <div className={styles.largeIconButton}>
                     <IconOnlyButton
-                      iconSrc="bigHeart"
+                      iconSrc={isSaved(id) ? "bigFilledHeart" : "bigHeart"}
                       variant="iconBig"
                       buttonColor="transparent"
-                      ariaLabel="Add to favorites"
+                      ariaLabel={isSaved(id) ? "Remove from saved" : "Save company"}
+                      onClick={() => profile && toggleSave(profile, "company")}
                     />
                   </div>
+                )}
                   <h1 className={styles.heading}>{profile.company}</h1>
                   <TagContainer tags={[...profile.skills]} tagType="small" />
                 </div>
@@ -83,7 +88,7 @@ export default function CompanyProfile() {
               <div className={styles.textContainer}>
   
                 <h2 className={styles.sectionHeading}>About</h2>
-                <p>{profile.about}</p>
+                <p>{profile.about || "No description available."}</p>
   
               </div>
               <div className={styles.textContainer}>
