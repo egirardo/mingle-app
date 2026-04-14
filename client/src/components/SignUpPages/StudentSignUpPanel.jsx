@@ -129,6 +129,7 @@ const StudentSignUpPanel = () => {
   };
 
   return (
+    <div className={styles.pageContainer}>
     <div className={styles.signUpPanel}>
       <div className={styles.arrowButtonContainer}>
         <IconOnlyButton
@@ -268,6 +269,7 @@ const StudentSignUpPanel = () => {
           />
         </form>
       </div>
+    </div>
     </div>
   );
 };
