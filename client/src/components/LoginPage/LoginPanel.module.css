@@ -2,7 +2,7 @@
     background: var(--panel-bg);
     backdrop-filter: blur(25px);
     border-radius: 1rem 1rem 0 0;
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 0;
     right: 0;

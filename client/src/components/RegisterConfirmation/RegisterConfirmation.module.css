@@ -11,9 +11,10 @@
   left: 0;
   right: 0;
   display: flex;
-  height: 31.5625rem;
+  height: calc(31.5625rem + env(safe-area-inset-bottom, 0));
   overflow-y: auto;
-  padding: 0 0.5rem 2.5rem 0.5rem;
+  padding: 0 0.5rem;
+  padding-bottom: max(2.5rem, env(safe-area-inset-bottom, 0));
   flex-direction: column;
   justify-content: center;
   align-items: center;
