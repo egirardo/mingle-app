@@ -42,6 +42,7 @@ export default function NavBar() {
             // Proceed with client-side logout even if request fails
         }
         window.dispatchEvent(new CustomEvent('authchange', { detail: { id: null } }));
+        localStorage.setItem('mingle_auth_ts', Date.now());
         closeMenu();
         navigate('/');
     };

@@ -44,6 +44,20 @@ app.get("/readyz", (req, res) => {
   return res.status(200).json({ status: "ready", db: "connected" });
 });
 
+// ─── AUTH CHECK ───────────────────────────────────────────────────────────────
+// GET /api/auth/me — JWT-only, no DB needed. Defined before the DB-readiness
+// gate so a temporarily disconnected database doesn't log users out.
+app.get("/api/auth/me", (req, res) => {
+  const token = req.cookies?.token;
+  if (!token) return res.json({ id: null });
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    res.json({ id: decoded.id, type: decoded.type });
+  } catch {
+    res.json({ id: null });
+  }
+});
+
 app.use("/api", (req, res, next) => {
   if (!isDbReady()) {
     return res.status(503).json({
@@ -73,20 +87,6 @@ app.get("/api/count", async (req, res) => {
   } catch (err) {
     console.error("Count error:", err);
     res.status(500).json({ message: "Server error retrieving count" });
-  }
-});
-
-// ─── AUTH CHECK ───────────────────────────────────────────────────────────────
-// GET /api/auth/me — lightweight endpoint the client calls on mount to
-// determine whether the HttpOnly cookie holds a valid session.
-app.get("/api/auth/me", (req, res) => {
-  const token = req.cookies?.token;
-  if (!token) return res.json({ id: null });
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    res.json({ id: decoded.id, type: decoded.type });
-  } catch {
-    res.json({ id: null });
   }
 });
 
