@@ -10,6 +10,7 @@
   flex-direction: column;
   gap: 0;
 }
+
 .inputLabel {
   text-align: left;
   color: #fff;
@@ -19,13 +20,21 @@
   line-height: normal;
   margin: 0;
 }
+
+.inputContainer {
+  display: flex;
+  align-items: center;
+  z-index: 0;
+  position: relative;
+  width: 100%;
+}
 .textInput {
   padding: 0.5rem 1rem;
   border-radius: 2.5rem;
   height: 2.75rem;
   border: 1px solid rgba(255, 255, 255, 0.30);
   background: rgba(255, 255, 255, 0.30);
-  width: 100%;
+  flex: 1;
   color: white;
 }
 
@@ -44,10 +53,6 @@
   color: #fff;
 }
 
-.textInput:focus::placeholder {
-  color: #888;
-}
-
 .subText {
   text-align: left;
   margin: 0;
@@ -59,26 +64,25 @@
   letter-spacing: -0.02813rem;
 }
 
-.optional {
-  font-size: 1rem;
-  color: #D5D5D5;
-  font-style: italic;
-  font-weight: 400;
-}
-
 .error {
-  border: 1px solid #f91c1c;
-  background: rgba(255, 255, 255, 0.3);
+  border: 1px solid #ffe314;
 }
 
 .error::placeholder {
-  color: #ff2c2c;
+  color: #ffe314;
+}
+
+.errorIcon {
+  height: 1.5rem;
+  z-index: 1;
+  position: absolute;
+  right: 0;
+  padding-right: 1rem;
 }
 
 .errorMessage {
   text-align: left;
-  color: #f91c1c;
-  font-size: 0.875rem;
+  color: #ffe314;
   font-weight: 500;
   line-height: normal;
   letter-spacing: -0.02625rem;
