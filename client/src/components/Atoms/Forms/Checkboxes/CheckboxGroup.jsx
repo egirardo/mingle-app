@@ -1,6 +1,6 @@
 import styles from "./Checkbox.module.css";
 import Checkbox from "./Checkbox";
-import { useRef } from "react";
+import { useRef, useId } from "react";
 
 export default function CheckboxGroup({
   legend,
@@ -13,7 +13,8 @@ export default function CheckboxGroup({
 }) {
   const hiddenInputRef = useRef(null);
   const checkboxRefs = useRef([]);
-  const errorId = `checkboxgroup-error`;
+  const uniqueId = useId();
+  const errorId = `${uniqueId}-error`;
 
   const handleCheckboxChange = () => {
     // Collect the name attribute of every checked input

@@ -25,13 +25,13 @@ export default function TextInput({
     <label htmlFor={inputId} className={styles.inputLabel}>
       {formLabel}
       {required && (
-        <span aria-hidden="true" className={styles.optional}>
+        <span aria-hidden="true">
           {" "}
           *
         </span>
       )}
       {optional && (
-        <span aria-hidden="true" className={styles.optional}>
+        <span aria-hidden="true">
           {" "}
           (optional)
         </span>
@@ -40,9 +40,7 @@ export default function TextInput({
   ) : null;
 
   return (
-    <div
-      className={`${styles.textForm} ${error ? styles.errorForm : ""} ${className ?? ""}`}
-    >
+    <div className={`${styles.textForm} ${className ?? ""}`}>
       {subText ? (
         <div className={styles.labelSubtext}>
           {label}
@@ -66,7 +64,12 @@ export default function TextInput({
           onChange={onChange}
         />
         {error && (
-          <img src={warningIcon} alt="Error" className={styles.errorIcon} />
+          <img
+            src={warningIcon}
+            alt=""
+            aria-hidden="true"
+            className={styles.errorIcon}
+          />
         )}
       </div>
       {error && (

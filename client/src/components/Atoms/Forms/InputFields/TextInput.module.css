@@ -4,7 +4,6 @@
   gap: 0.5rem;
   margin-bottom: 1rem;
   width: 100%;
-  gap: 0.5;
 }
 
 .labelSubtext {
@@ -18,7 +17,7 @@
   color: #fff;
   font-size: 1rem;
   font-weight: 700;
-  letter-spacing: -.03rem;
+  letter-spacing: -0.03rem;
   line-height: normal;
   margin: 0;
 }
@@ -34,8 +33,8 @@
   padding: 0.5rem 1rem;
   border-radius: 2.5rem;
   height: 2.75rem;
-  border: 1px solid rgba(255, 255, 255, 0.30);
-  background: rgba(255, 255, 255, 0.30);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.3);
   flex: 1;
   color: white;
 }

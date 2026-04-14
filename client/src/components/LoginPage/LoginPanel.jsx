@@ -15,7 +15,6 @@ export default function LoginPanel() {
   const [loading, setLoading] = useState(false);
 
   const handleChange = (field) => (e) => {
-    
     setFormData((prev) => ({ ...prev, [field]: e.target.value }));
     // clear field error as soon as user starts typing
     if (errors[field]) {
