@@ -25,20 +25,20 @@ export default function TextInput({
     <label htmlFor={inputId} className={styles.inputLabel}>
       {formLabel}
       {required && (
-        <span aria-hidden="true">
+        <span aria-hidden="true" className={styles.optional}>
           {" "}
           *
         </span>
       )}
       {optional && (
-        <span aria-hidden="true">
+        <span aria-hidden="true" className={styles.optional}>
           {" "}
           (optional)
         </span>
       )}
     </label>
   ) : null;
-
+  
   return (
     <div className={`${styles.textForm} ${className ?? ""}`}>
       {subText ? (

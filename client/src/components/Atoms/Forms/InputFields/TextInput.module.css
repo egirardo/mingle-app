@@ -6,6 +6,13 @@
   width: 100%;
 }
 
+.optional {
+  font-size: 1rem;
+  color: #d5d5d5;
+  font-style: italic;
+  font-weight: 400;
+}
+
 .labelSubtext {
   display: flex;
   flex-direction: column;
