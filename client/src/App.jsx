@@ -7,8 +7,10 @@ import About from "./views/landingPage/About.jsx";
 import StudentSignUp from "./views/landingPage/StudentSignUp.jsx";
 import BusinessSignUp from "./views/landingPage/BusinessSignUp.jsx";
 import StudentProfile from "./views/landingPage/StudentProfile.jsx";
+import EditProfilePage from "./views/landingPage/EditProfilePage.jsx";
 import CompanyProfilePage from "./views/landingPage/CompanyProfilePage.jsx";
 import RegisterConfirmation from "./views/landingPage/RegistrationConfirmation.jsx";
+import Explore from "./views/landingPage/Explore.jsx";
 
 // mingle
 import MingleGameLayout from "./views/mingleGame/MingleGameLayout.jsx";
@@ -27,7 +29,6 @@ import TaskDesktop from "./views/mingleGame/desktop/Task.jsx";
 import QuestionDesktop from "./views/mingleGame/desktop/Question.jsx";
 import LoadingDesktop from "./views/mingleGame/desktop/Loading.jsx";
 import CompletionDesktop from "./views/mingleGame/desktop/Completion.jsx";
-import Explore from "./views/landingPage/Explore.jsx";
 
 function App() {
   return (
@@ -40,9 +41,10 @@ function App() {
         <Route path="/signup/student" element={<StudentSignUp />} />
         <Route path="/signup/business" element={<BusinessSignUp />} />
         <Route path="/students/:id" element={<StudentProfile />} />
+        <Route path="/students/:id/edit" element={<EditProfilePage />} />
         <Route path="/companies/:id" element={<CompanyProfilePage />} />
         <Route
-          path="/confirmation/business"
+          path="/confirmation"
           element={<RegisterConfirmation />}
         />
         <Route path="/explore" element={<Explore />} />

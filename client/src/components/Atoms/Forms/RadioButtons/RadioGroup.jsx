@@ -9,6 +9,7 @@ export default function RadioGroup({
   required = false,
   subText,
   name,
+  defaultValue,
   onChange, // receives the selected value string e.g. "dd" or "1"
 }) {
   const hiddenInputRef = useRef(null);
@@ -42,6 +43,7 @@ export default function RadioGroup({
           aria-hidden="true"
           tabIndex={-1}
           required
+          defaultChecked={radios.some((r) => (r.value ?? r.id) === defaultValue)}
         />
       )}
       {subText ? (
@@ -58,6 +60,7 @@ export default function RadioGroup({
             name={name}
             radioLabel={radio.radioLabel}
             value={radio.value ?? radio.id}
+            defaultChecked={defaultValue !== undefined && defaultValue === (radio.value ?? radio.id)}
             onChange={handleRadioChange}
             ref={(el) => {
               if (el) radioRefs.current[index] = el.querySelector("input");

@@ -6,6 +6,7 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import studentRoutes from "./routes/studentRoutes.js";
 import companyRoutes from "./routes/companyRoutes.js";
+import credentialRoutes from "./routes/credentialRoutes.js";
 
 dotenv.config();
 
@@ -48,6 +49,7 @@ app.use("/api", (req, res, next) => {
 // Routes
 app.use("/api/students", studentRoutes);
 app.use("/api/companies", companyRoutes);
+app.use("/api/credentials", credentialRoutes);
 
 // Socket.io
 io.on("connection", (socket) => {

@@ -8,6 +8,7 @@ export default function CheckboxGroup({
   optional = false,
   required = false,
   subText,
+  defaultValues = [],
   onChange, // receives string[] of selected names e.g. ["UI", "Frontend"]
 }) {
   const hiddenInputRef = useRef(null);
@@ -48,6 +49,7 @@ export default function CheckboxGroup({
           aria-hidden="true"
           tabIndex={-1}
           required
+          defaultChecked={checkboxes.some((c) => defaultValues.includes(c.name))}
         />
       )}
       {subText ? (
@@ -63,6 +65,7 @@ export default function CheckboxGroup({
             id={checkbox.id}
             name={checkbox.name}
             checkboxLabel={checkbox.checkboxLabel}
+            defaultChecked={defaultValues.includes(checkbox.name)}
             onChange={handleCheckboxChange}
             ref={(el) => {
               if (el) checkboxRefs.current[index] = el.querySelector("input");
