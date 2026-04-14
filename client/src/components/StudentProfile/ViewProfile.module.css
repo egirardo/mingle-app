@@ -20,13 +20,35 @@
     padding-bottom: max(2rem, env(safe-area-inset-bottom, 0));
 }
 
+.photoHeartContainer {
+    width: 7.58rem;
+    height: 7.58rem;
+    position: relative;
+    margin-top: -110px;
+    flex-shrink: 0;
+}
+
 .profileImage {
     width: 7.58rem;
     height: 7.58rem;
     border-radius: 50%;
     object-fit: cover;
-    margin-top: -110px; /* Half of the image height to overlap */
-    flex-shrink: 0; /* Prevents image from squishing */
+}
+
+.likeButton {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    line-height: 0;
+}
+
+.likeIcon {
+    width: 2.25rem;
+    height: 2.25rem;
 }
 
 .buttonsContainer {
