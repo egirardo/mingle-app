@@ -4,11 +4,13 @@ import Button from "../Atoms/Buttons/Button";
 import DragExpand from "../../assets/icons/drag-expand.svg";
 import { useNavigate } from "react-router-dom";
 import TabSlider from "../Atoms/Tabs/TabSlider";
+import { useSaved } from "../../context/SavedContext";
 
 const TABS = ["Company", "Student"];
 
 export default function SignUpInfo() {
     const navigate = useNavigate();
+    const { isLoggedIn } = useSaved();
     const [isExpanded, setIsExpanded] = useState(false);
     const [activeTabIndex, setActiveTabIndex] = useState(0);
     const touchStartY = useRef(null);
@@ -101,17 +103,19 @@ export default function SignUpInfo() {
                         className={styles.loginGroup}
                         hidden={!isStudentTab}
                     >
+                        {!isLoggedIn && (
+                            <Button
+                                buttonName="Register"
+                                variant="primaryRed"
+                                iconSrc="arrowRight"
+                                onClick={() => navigate('/signup/student')}
+                            />
+                        )}
                         <Button
-                            buttonName="Register"
-                            variant="primaryRed"
-                            iconSrc="arrowRight"
-                            onClick={() => navigate('/signup/student')}
-                        />
-                        <Button
-                            buttonName="Log in and explore"
+                            buttonName={isLoggedIn ? "Explore" : "Log in and explore"}
                             variant="primaryGray"
                             iconSrc="arrowRight"
-                            onClick={() => navigate('/login')}
+                            onClick={() => navigate(isLoggedIn ? '/explore' : '/login')}
                         />
                     </div>
                 </div>

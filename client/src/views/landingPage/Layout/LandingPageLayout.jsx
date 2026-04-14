@@ -6,10 +6,22 @@ import AttendingCounter from "../../../components/LandingPage/AttendingCounter.j
 function LandingPageLayout({ children }) {
   return (
     <>
+      <div
+        aria-hidden="true"
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundImage: `url(${Background})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          zIndex: -1,
+        }}
+      />
       <NavBar />
-      <div className="hero-container">
-        <img className="hero-image" src={Background} aria-hidden="true" />
-      </div>
       <div className="hero-overlay-container">
         <img className="hero-overlay" src={Hero} aria-hidden="true" />
         <AttendingCounter />

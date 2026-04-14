@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { jwtDecode } from "jwt-decode";
 import { apiFetch } from "../../api";
 import ProfileCards from "../Molecules/ProfileCards/ProfileCards";
 import CompanyProfileCard from "../Molecules/ProfileCards/CompanyProfileCard";
@@ -13,42 +12,70 @@ import IconOnlyButton from "../Atoms/Buttons/IconOnlyButton";
 
 const TABS = ["Companies", "Students", "Saved"];
 
-function getLoggedInStudentId() {
-  try {
-    const token = localStorage.getItem("token");
-    if (!token) return null;
-    const payload = jwtDecode(token);
-    return payload?.id ?? null;
-  } catch {
-    return null;
-  }
-}
-
 export default function ExplorePanel() {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [activeTab, setActiveTab] = useState(TABS[0]);
-  const [companies, setCompanies] = useState([]);
-  const [students, setStudents] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [loggedInStudentId, setLoggedInStudentId] =
-    useState(getLoggedInStudentId);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedSkills, setSelectedSkills] = useState([]);
-  const [selectedPrograms, setSelectedPrograms] = useState([]);
-  const [showBackToTop, setShowBackToTop] = useState(false);
-  const fetchedTabs = useRef(new Set());
-  const scrollAreaRef = useRef(null);
-  const { savedProfiles } = useSaved();
+    const [isExpanded, setIsExpanded] = useState(false);
+    const [activeTab, setActiveTab] = useState(TABS[0]);
+    const [companies, setCompanies] = useState([]);
+    const [students, setStudents] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [selectedSkills, setSelectedSkills] = useState([]);
+    const [selectedPrograms, setSelectedPrograms] = useState([]);
+    const fetchedTabs = useRef(new Set());
+    const { savedProfiles, studentId: loggedInStudentId } = useSaved();
 
-  // Keep loggedInStudentId in sync with login/logout events
-  useEffect(() => {
-    const handleAuthChange = () => setLoggedInStudentId(getLoggedInStudentId());
-    window.addEventListener("authchange", handleAuthChange);
-    window.addEventListener("storage", handleAuthChange);
-    return () => {
-      window.removeEventListener("authchange", handleAuthChange);
-      window.removeEventListener("storage", handleAuthChange);
+    // ── Data fetching ───────────────────────────────────────────────────────
+    useEffect(() => {
+        const controller = new AbortController();
+        const { signal } = controller;
+
+        const fetchData = async () => {
+            setError(null);
+
+            if (fetchedTabs.current.has(activeTab)) {
+                setLoading(false);
+                return;
+            }
+
+            setLoading(true);
+            try {
+                if (activeTab === "Companies") {
+                    const res = await apiFetch("/api/companies", { signal });
+                    const data = await res.json();
+                    if (!res.ok) throw new Error(data.message);
+                    fetchedTabs.current.add("Companies");
+                    setCompanies(data);
+                }
+
+                if (activeTab === "Students") {
+                    const res = await apiFetch("/api/students", { signal });
+                    const data = await res.json();
+                    if (!res.ok) throw new Error(data.message);
+                    fetchedTabs.current.add("Students");
+                    setStudents(data);
+                }
+
+                // Saved tab reads from SavedContext (localStorage / backend-synced)
+                // No API fetch needed here
+            } catch (err) {
+                if (err.name === "AbortError") return;
+                setError(err.message);
+            } finally {
+                // Don't clear loading state if this request was superseded
+                if (!signal.aborted) setLoading(false);
+            }
+        };
+
+        fetchData();
+        return () => controller.abort();
+    }, [activeTab]);
+
+    const handleTabChange = (index) => {
+        setActiveTab(TABS[index]);
+        setSearchQuery("");
+        setSelectedSkills([]);
+        setSelectedPrograms([]);
     };
   }, []);
 

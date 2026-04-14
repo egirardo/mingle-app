@@ -48,19 +48,17 @@ export default function EditProfile() {
 
   // ── Fetch current profile to prefill the form ──────────────────────────────
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      navigate("/login");
-      return;
-    }
-
     const fetchProfile = async () => {
       try {
-        const headers = { Authorization: `Bearer ${token}` };
         const [profileRes, credRes] = await Promise.all([
-          apiFetch("/api/students/profile", { headers }),
-          apiFetch("/api/credentials", { headers }),
+          apiFetch("/api/students/profile"),
+          apiFetch("/api/credentials"),
         ]);
+
+        if (profileRes.status === 401) {
+          navigate("/login");
+          return;
+        }
 
         const profileData = await profileRes.json();
         if (!profileRes.ok) throw new Error(profileData.message);
@@ -116,9 +114,6 @@ export default function EditProfile() {
 
     setSaving(true);
 
-    const token = localStorage.getItem("token");
-    if (!token) { navigate("/login"); return; }
-
     try {
       // 1. Update credentials if email or password was changed
       if (formData.email || formData.password) {
@@ -128,10 +123,7 @@ export default function EditProfile() {
 
         const credRes = await apiFetch("/api/credentials", {
           method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(credBody),
         });
         const credData = await credRes.json();
@@ -141,10 +133,7 @@ export default function EditProfile() {
       // 2. Update profile fields
       const res = await apiFetch("/api/students/profile", {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           firstName: formData.firstName,
           lastName: formData.lastName,
@@ -166,7 +155,6 @@ export default function EditProfile() {
         try {
           const imageRes = await apiFetch("/api/students/profile/image", {
             method: "PUT",
-            headers: { Authorization: `Bearer ${token}` },
             body: imageFormData,
           });
           if (!imageRes.ok) console.warn("Image upload failed, but profile was saved.");
