@@ -82,7 +82,7 @@ const BusinessSignUpPanel = () => {
       if (!res.ok) throw new Error(data.message);
 
       // Registration successful — redirect to home or a confirmation page
-      navigate("/confirmation/business");
+      navigate("/confirmation");
     } catch (err) {
       setError(err.message || "Something went wrong. Please try again.");
     } finally {
@@ -168,7 +168,7 @@ const BusinessSignUpPanel = () => {
           />
           <TextInput
             formLabel="Website"
-            placeholder="www.example.com or https://www.example.com"
+            placeholder="https://www.example.com"
             type="text"
             name="website"
             value={formData.website}

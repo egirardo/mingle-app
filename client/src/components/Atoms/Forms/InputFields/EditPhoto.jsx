@@ -1,13 +1,11 @@
-import { useRef, useState, useEffect } from "react";
 import styles from "./PhotoUpload.module.css";
-import TextInput from "./TextInput";
+import { useRef, useState, useEffect } from "react";
 import Button from "../../Buttons/Button";
-import photoIcon from "../../../../assets/icons/photo.svg";
+import DefaultAvatar from "../../../../assets/default-avatar.png";
 
-export default function PhotoUpload({
+export default function EditPhoto({
   onFileChange,       // (File) => void — called when the user picks an image
-  portfolio = "",     // controlled value for the portfolio URL field
-  onPortfolioChange,  // (string) => void — called on portfolio input change
+  initialPreview,     // string | null — URL of existing profile image to show before any file is picked
 }) {
   const inputRef = useRef(null);
   const [preview, setPreview] = useState(null);
@@ -37,10 +35,11 @@ export default function PhotoUpload({
           onClick={() => inputRef.current?.click()}
           aria-label="Upload profile photo"
         >
-          {preview
-            ? <img src={preview} alt="Profile preview" className={styles.preview} />
-            : <img src={photoIcon} alt="" className={styles.placeholderIcon} aria-hidden="true" />
-          }
+          <img
+            src={preview ?? initialPreview ?? DefaultAvatar}
+            alt="Profile preview"
+            className={styles.preview}
+          />
         </button>
         <input
           ref={inputRef}
@@ -59,17 +58,6 @@ export default function PhotoUpload({
             onClick={() => inputRef.current?.click()}
           />
         </div>
-      </div>
-      <div className={styles.portfolioSection}>
-        <TextInput
-          formLabel="Portfolio link"
-          placeholder="https://www.yourportfolio.com"
-          type="text"
-          optional
-          name="portfolio"
-          value={portfolio}
-          onChange={(e) => onPortfolioChange?.(e.target.value)}
-        />
       </div>
     </div>
   );
