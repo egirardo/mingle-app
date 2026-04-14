@@ -39,10 +39,18 @@
     position: relative;
 }
 
-.likeIcon {
+.likeButton {
     position: absolute;
     top: 0;
     right: 0;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    line-height: 0;
+}
+
+.likeIcon {
     width: 1.375rem;
     height: 1.375rem;
 }

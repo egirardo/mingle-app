@@ -47,14 +47,14 @@ export default function ExploreFilters({ activeTab, onSearch, onSkillsChange, on
             </div>
             {filtersOpen && (
                 <div className={styles.sortContainer}>
-                    <div className={styles.sortingTypeContainer}>
+                    <div>
                         <h2 className={styles.sortHeading}>Skills</h2>
-                        <CheckboxGroup key={`skills-${filterKey}`} checkboxes={skillOptions} name="tags" onChange={onSkillsChange} />
+                        <CheckboxGroup key={`skills-${filterKey}`} checkboxes={skillOptions} onChange={onSkillsChange} />
                     </div>
                     {activeTab === "Students" && (
-                        <div className={styles.sortingTypeContainer}>
+                        <div>
                             <h2 className={styles.sortHeading}>Program</h2>
-                            <CheckboxGroup key={`programs-${filterKey}`} checkboxes={programOptions} name="programs" onChange={onProgramsChange} />
+                            <CheckboxGroup key={`programs-${filterKey}`} checkboxes={programOptions} onChange={onProgramsChange} />
                         </div>
                     )}
                     <button type="button" className={styles.clearButton} onClick={clearFilters}>

@@ -1,5 +1,6 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { SavedProvider } from "./context/SavedContext";
 import Home from "./views/landingPage/Home.jsx";
 import Login from "./views/landingPage/Login.jsx";
 import About from "./views/landingPage/About.jsx";
@@ -30,6 +31,7 @@ import Explore from "./views/landingPage/Explore.jsx";
 
 function App() {
   return (
+    <SavedProvider>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
@@ -59,6 +61,7 @@ function App() {
         </Route>
       </Routes>
     </BrowserRouter>
+    </SavedProvider>
   );
 }
 

@@ -14,6 +14,14 @@ const studentAuthSchema = new mongoose.Schema(
       required: true, // Stored as bcrypt hash
       select: false,
     },
+    likes: {
+      type: [{
+        profileId: { type: String, required: true },
+        type: { type: String, enum: ['company'], required: true },
+        _id: false,
+      }],
+      default: [],
+    },
   },
   { timestamps: true }
 );
