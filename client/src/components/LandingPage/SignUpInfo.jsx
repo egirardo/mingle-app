@@ -74,38 +74,45 @@ export default function SignUpInfo() {
                             onChange={(index) => setActiveTabIndex(index)}
                         />
                     </div>
-                    <div className={styles.loginGroup}>
-                        {isStudentTab ? (
-                            <>
-                                <Button
-                                    buttonName="Register"
-                                    variant="primaryRed"
-                                    iconSrc="arrowRight"
-                                    onClick={() => navigate('/signup/student')}
-                                />
-                                <Button
-                                    buttonName="Log in and explore"
-                                    variant="primaryGray"
-                                    iconSrc="arrowRight"
-                                    onClick={() => navigate('/login')}
-                                />
-                            </>
-                        ) : (
-                            <>
-                                <Button
-                                    buttonName="Register"
-                                    variant="primaryRed"
-                                    iconSrc="arrowRight"
-                                    onClick={() => navigate('/signup/business')}
-                                />
-                                <Button
-                                    buttonName="Explore first"
-                                    variant="primaryGray"
-                                    iconSrc="arrowRight"
-                                    onClick={() => navigate('/explore')}
-                                />
-                            </>
-                        )}
+                    <div
+                        id="tabpanel-0"
+                        role="tabpanel"
+                        aria-labelledby="tab-0"
+                        className={styles.loginGroup}
+                        hidden={isStudentTab}
+                    >
+                        <Button
+                            buttonName="Register"
+                            variant="primaryRed"
+                            iconSrc="arrowRight"
+                            onClick={() => navigate('/signup/business')}
+                        />
+                        <Button
+                            buttonName="Explore first"
+                            variant="primaryGray"
+                            iconSrc="arrowRight"
+                            onClick={() => navigate('/explore')}
+                        />
+                    </div>
+                    <div
+                        id="tabpanel-1"
+                        role="tabpanel"
+                        aria-labelledby="tab-1"
+                        className={styles.loginGroup}
+                        hidden={!isStudentTab}
+                    >
+                        <Button
+                            buttonName="Register"
+                            variant="primaryRed"
+                            iconSrc="arrowRight"
+                            onClick={() => navigate('/signup/student')}
+                        />
+                        <Button
+                            buttonName="Log in and explore"
+                            variant="primaryGray"
+                            iconSrc="arrowRight"
+                            onClick={() => navigate('/login')}
+                        />
                     </div>
                 </div>
             </div>

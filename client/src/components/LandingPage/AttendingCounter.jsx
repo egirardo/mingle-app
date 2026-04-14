@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
 import styles from "./AttendingCounter.module.css";
+import { apiFetch } from "../../api";
 
 export default function AttendingCounter() {
   const [count, setCount] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const API_BASE = import.meta.env.VITE_API_URL ?? "";
-
-    fetch(`${API_BASE}/api/count`)
+    apiFetch("/api/count")
       .then((res) => {
         if (!res.ok) throw new Error(`Count failed: ${res.status}`);
         return res.json();
