@@ -148,6 +148,7 @@ const StudentSignUpPanel = () => {
 
       // Cookie is now set by the register response — dispatch auth state
       window.dispatchEvent(new CustomEvent("authchange", { detail: { id: data.id } }));
+      localStorage.setItem("mingle_auth_ts", Date.now());
 
       // Upload profile image if provided (cookie is sent automatically)
       if (profileImage) {

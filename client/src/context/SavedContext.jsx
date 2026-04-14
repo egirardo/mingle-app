@@ -31,23 +31,47 @@ export function SavedProvider({ children }) {
 
     const isLoggedIn = Boolean(studentId);
 
-    // On mount, check the server to see if an auth cookie is already present.
-    useEffect(() => {
+    // Fetch auth state from the server and update studentId.
+    const syncWithServer = useCallback(() => {
         apiFetch("/api/auth/me")
             .then((res) => (res.ok ? res.json() : null))
             .then((data) => setStudentId(data?.id ?? null))
             .catch(() => setStudentId(null));
     }, []);
 
-    // Keep studentId in sync with login/logout events dispatched in the same tab.
-    // The event detail carries { id } on login and null on logout.
+    // On mount, check the server to see if an auth cookie is already present.
+    useEffect(() => {
+        syncWithServer();
+    }, [syncWithServer]);
+
+    // Same-tab: authchange CustomEvent carries { detail: { id } } for instant update.
+    // Cross-tab (localStorage signal): when login/logout happens in another tab,
+    //   a 'mingle_auth_ts' key change triggers a fresh /api/auth/me check.
+    // Visibility: re-verify when the user switches back to this tab, catching
+    //   any auth changes that happened while it was in the background.
     useEffect(() => {
         const handleAuthChange = (e) => {
             setStudentId(e?.detail?.id ?? null);
         };
+
+        const handleStorage = (e) => {
+            if (e.key === "mingle_auth_ts") syncWithServer();
+        };
+
+        const handleVisibility = () => {
+            if (document.visibilityState === "visible") syncWithServer();
+        };
+
         window.addEventListener("authchange", handleAuthChange);
-        return () => window.removeEventListener("authchange", handleAuthChange);
-    }, []);
+        window.addEventListener("storage", handleStorage);
+        document.addEventListener("visibilitychange", handleVisibility);
+
+        return () => {
+            window.removeEventListener("authchange", handleAuthChange);
+            window.removeEventListener("storage", handleStorage);
+            document.removeEventListener("visibilitychange", handleVisibility);
+        };
+    }, [syncWithServer]);
 
     // When the account switches (login/logout/different student), reload from
     // the appropriate storage key so guest and student saves never mix.
