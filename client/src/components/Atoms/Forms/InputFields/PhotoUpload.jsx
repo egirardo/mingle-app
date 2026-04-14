@@ -25,7 +25,7 @@ export default function PhotoUpload({
 
     // Validate file type
     if (!ALLOWED_TYPES.includes(file.type)) {
-      setError("Please upload a JPEG, PNG, WebP, or HEIC image.");
+      setError("Please upload a JPEG, PNG, or WebP image.");
       e.target.value = "";
       if (inputRef.current) inputRef.current.value = "";
       return;

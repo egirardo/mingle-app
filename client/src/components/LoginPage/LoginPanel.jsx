@@ -61,7 +61,6 @@ export default function LoginPanel() {
       if (!res.ok) throw new Error(data.message);
 
       window.dispatchEvent(new CustomEvent("authchange", { detail: { id: data.id } }));
-      localStorage.setItem("mingle_auth_ts", Date.now());
 
       navigate("/explore");
     } catch (err) {

@@ -19,7 +19,7 @@
     justify-content: space-between;
     align-items: center;
     color: #FFF;
-    padding: calc(0.625rem + env(safe-area-inset-top, 0)) 0.625rem 0.625rem 0.625rem;
+    padding: calc(0.625rem+ env(safe-area-inset-top, 0)) 0.625rem 0.625rem 0.625rem;
 }
 
 .logo img,
