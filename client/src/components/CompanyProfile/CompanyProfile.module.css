@@ -1,9 +1,9 @@
 .viewProfileContainer {
     display: flex;
     flex-direction: column;
-    position: relative;
-    height: 100vh;
-    padding: .5rem;
+    height: 100dvh;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
 }
 
 .profileContainer {
@@ -13,11 +13,9 @@
     background: var(--panel-bg);
     backdrop-filter: blur(25px);
     border-radius: 1rem 1rem 0 0;
-    top: 30vh;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    position: absolute;
+    margin-top: 30dvh;
+    flex-grow: 1;
+    padding-bottom: max(2rem, env(safe-area-inset-bottom, 0));
 }
 
 .profileImage {
