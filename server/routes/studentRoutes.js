@@ -373,10 +373,15 @@ router.post('/likes', authMiddleware, async (req, res) => {
 
 // DELETE /api/students/likes/:profileId — remove a saved profile
 router.delete('/likes/:profileId', authMiddleware, async (req, res) => {
+  const { profileId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(profileId)) {
+    return res.status(400).json({ message: 'Invalid company ID' });
+  }
+  const profileObjectId = new mongoose.Types.ObjectId(profileId);
   try {
     const auth = await StudentAuth.findByIdAndUpdate(
       req.user.id,
-      { $pull: { likes: { profileId: req.params.profileId } } },
+      { $pull: { likes: { profileId: profileObjectId, type: 'company' } } },
       { returnDocument: 'after' }
     ).select('likes');
     if (!auth) return res.status(404).json({ message: 'Account not found' });

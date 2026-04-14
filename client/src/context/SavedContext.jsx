@@ -1,8 +1,11 @@
-import { createContext, useContext, useState, useEffect, useCallback } from "react";
+import { createContext, useContext, useState, useEffect, useCallback, useRef } from "react";
 import { jwtDecode } from "jwt-decode";
 import { apiFetch } from "../api";
 
-const LS_KEY = "mingle_saved";
+// Separate storage keys prevent guest and student data from clobbering each other
+// and isolate saves per student account.
+const GUEST_KEY = "mingle_saved_guest";
+const studentKey = (id) => `mingle_saved_student_${id}`;
 
 function getStudentId() {
     try {
@@ -14,16 +17,16 @@ function getStudentId() {
     }
 }
 
-function loadFromStorage() {
+function loadFromStorage(key) {
     try {
-        return JSON.parse(localStorage.getItem(LS_KEY)) ?? [];
+        return JSON.parse(localStorage.getItem(key)) ?? [];
     } catch {
         return [];
     }
 }
 
-function writeToStorage(profiles) {
-    localStorage.setItem(LS_KEY, JSON.stringify(profiles));
+function writeToStorage(key, profiles) {
+    localStorage.setItem(key, JSON.stringify(profiles));
 }
 
 function authedFetch(path, options = {}) {
@@ -40,13 +43,19 @@ function authedFetch(path, options = {}) {
 const SavedContext = createContext(null);
 
 export function SavedProvider({ children }) {
-    const [savedProfiles, setSavedProfiles] = useState(loadFromStorage);
     const [studentId, setStudentId] = useState(getStudentId);
+    const [savedProfiles, setSavedProfiles] = useState(() =>
+        loadFromStorage(studentId ? studentKey(studentId) : GUEST_KEY)
+    );
 
-    // Expose whether the viewer is a logged-in student
+    // Ref gives toggleSave a synchronous, always-current read of savedProfiles
+    // without adding it as a useCallback dependency.
+    const savedProfilesRef = useRef(savedProfiles);
+    useEffect(() => { savedProfilesRef.current = savedProfiles; }, [savedProfiles]);
+
     const isLoggedIn = Boolean(studentId);
 
-    // Keep studentId in sync with login/logout
+    // Keep studentId in sync with login/logout events
     useEffect(() => {
         const handleAuthChange = () => setStudentId(getStudentId());
         window.addEventListener("authchange", handleAuthChange);
@@ -57,39 +66,60 @@ export function SavedProvider({ children }) {
         };
     }, []);
 
-    // When a student logs in, hydrate saved profiles from the backend.
-    // For each like ID already in localStorage we reuse the cached data;
-    // for any that are missing (saved on another device) we fetch the
-    // full company profile so the Saved tab can render it.
+    // When the account switches (login/logout/different student), reload from
+    // the appropriate storage key so guest and student saves never mix.
+    useEffect(() => {
+        const key = studentId ? studentKey(studentId) : GUEST_KEY;
+        setSavedProfiles(loadFromStorage(key));
+    }, [studentId]);
+
+    // When a student logs in, hydrate from the backend (source of truth).
+    // Explicitly clears state on empty/error responses so stale guest data
+    // or a previous student's data is never shown.
     useEffect(() => {
         if (!studentId) return;
 
         const controller = new AbortController();
+        const key = studentKey(studentId);
 
         const hydrate = async () => {
             try {
                 const likesRes = await authedFetch("/api/students/likes", {
                     signal: controller.signal,
                 });
-                if (!likesRes.ok) return;
-                const likes = await likesRes.json(); // [{ profileId, type }]
-                if (!likes.length) return;
 
-                const current = loadFromStorage();
-                const currentMap = new Map(current.map((e) => [e.profileId, e]));
+                // On failure, clear rather than leave potentially stale data visible
+                if (!likesRes.ok) {
+                    setSavedProfiles([]);
+                    writeToStorage(key, []);
+                    return;
+                }
+
+                const likes = await likesRes.json(); // [{ profileId, type }]
+
+                // Backend says no saves — clear so old device data doesn't linger
+                if (!likes.length) {
+                    setSavedProfiles([]);
+                    writeToStorage(key, []);
+                    return;
+                }
+
+                // Reuse cached profile data where available; fetch the rest
+                const currentMap = new Map(
+                    loadFromStorage(key).map((e) => [e.profileId, e])
+                );
 
                 const resolved = await Promise.all(
                     likes.map(async ({ profileId, type }) => {
                         const id = String(profileId);
                         if (currentMap.has(id)) return currentMap.get(id);
-
                         try {
-                            const profileRes = await apiFetch(
+                            const res = await apiFetch(
                                 `/api/companies/profile/${id}`,
                                 { signal: controller.signal }
                             );
-                            if (!profileRes.ok) return null;
-                            const data = await profileRes.json();
+                            if (!res.ok) return null;
+                            const data = await res.json();
                             return { profileId: id, type, data };
                         } catch {
                             return null;
@@ -99,7 +129,7 @@ export function SavedProvider({ children }) {
 
                 const merged = resolved.filter(Boolean);
                 setSavedProfiles(merged);
-                writeToStorage(merged);
+                writeToStorage(key, merged);
             } catch (err) {
                 if (err.name !== "AbortError") {
                     console.error("Failed to hydrate saves from backend:", err);
@@ -118,27 +148,32 @@ export function SavedProvider({ children }) {
 
     const toggleSave = useCallback(
         async (profile, type) => {
-            // Students are identified by studentId (auth ID); companies by _id
             const profileId = type === "student"
                 ? String(profile.studentId)
                 : String(profile._id);
 
-            let alreadySaved;
+            // Read from the ref — deterministic and unaffected by React batching or
+            // StrictMode double-invoking the updater below.
+            const alreadySaved = savedProfilesRef.current.some(
+                (p) => p.profileId === profileId
+            );
+            const key = studentId ? studentKey(studentId) : GUEST_KEY;
 
             setSavedProfiles(prev => {
-                alreadySaved = prev.some((p) => p.profileId === profileId);
                 const updated = alreadySaved
                     ? prev.filter((p) => p.profileId !== profileId)
                     : [...prev, { profileId, type, data: profile }];
-                writeToStorage(updated);
+                writeToStorage(key, updated);
                 return updated;
             });
 
-            // Logged-in students also sync company saves to the backend
+            // Logged-in students also sync to the backend
             if (studentId) {
                 try {
                     if (alreadySaved) {
-                        await authedFetch(`/api/students/likes/${profileId}`, { method: "DELETE" });
+                        await authedFetch(`/api/students/likes/${profileId}`, {
+                            method: "DELETE",
+                        });
                     } else {
                         await authedFetch("/api/students/likes", {
                             method: "POST",
