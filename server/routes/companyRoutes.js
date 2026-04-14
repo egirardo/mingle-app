@@ -37,6 +37,32 @@ router.get('/', async (req, res) => {
   }
 });
 
+// ─── GET BULK PROFILES ───────────────────────────────────────────────────────
+// GET /api/companies/bulk?ids=id1,id2,...
+// Returns all companies whose _id is in the comma-separated `ids` query param.
+// Used by the client to hydrate saved companies in one round-trip.
+router.get('/bulk', async (req, res) => {
+  const raw = req.query.ids ?? '';
+  const ids = raw.split(',').map((s) => s.trim()).filter(Boolean);
+
+  if (!ids.length) {
+    return res.status(400).json({ message: 'ids query param is required' });
+  }
+
+  const validIds = ids.filter((id) => mongoose.Types.ObjectId.isValid(id));
+  if (validIds.length !== ids.length) {
+    return res.status(400).json({ message: 'One or more IDs are invalid' });
+  }
+
+  try {
+    const companies = await Company.find({ _id: { $in: validIds } });
+    res.status(200).json(companies);
+  } catch (err) {
+    console.error('Bulk companies error:', err);
+    res.status(500).json({ message: 'Server error retrieving companies' });
+  }
+});
+
 // ─── GET PROFILE ─────────────────────────────────────────────────────────────
 // GET /api/companies/profile/:id
 router.get('/profile/:id', async (req, res) => {

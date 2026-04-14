@@ -105,29 +105,44 @@ export function SavedProvider({ children }) {
                 }
 
                 // Reuse cached profile data where available; fetch the rest
+                // in a single bulk request instead of one request per like.
                 const currentMap = new Map(
                     loadFromStorage(key).map((e) => [e.profileId, e])
                 );
 
-                const resolved = await Promise.all(
-                    likes.map(async ({ profileId, type }) => {
-                        const id = String(profileId);
-                        if (currentMap.has(id)) return currentMap.get(id);
-                        try {
-                            const res = await apiFetch(
-                                `/api/companies/profile/${id}`,
-                                { signal: controller.signal }
-                            );
-                            if (!res.ok) return null;
-                            const data = await res.json();
-                            return { profileId: id, type, data };
-                        } catch {
-                            return null;
-                        }
-                    })
+                const typeMap = new Map(
+                    likes.map(({ profileId, type }) => [String(profileId), type])
                 );
 
-                const merged = resolved.filter(Boolean);
+                const missingIds = likes
+                    .map(({ profileId }) => String(profileId))
+                    .filter((id) => !currentMap.has(id));
+
+                if (missingIds.length) {
+                    try {
+                        const bulkRes = await apiFetch(
+                            `/api/companies/bulk?ids=${missingIds.join(",")}`,
+                            { signal: controller.signal }
+                        );
+                        if (bulkRes.ok) {
+                            const companies = await bulkRes.json();
+                            for (const company of companies) {
+                                const id = String(company._id);
+                                currentMap.set(id, {
+                                    profileId: id,
+                                    type: typeMap.get(id) ?? "company",
+                                    data: company,
+                                });
+                            }
+                        }
+                    } catch {
+                        // Non-fatal — already-cached entries still render
+                    }
+                }
+
+                const merged = likes
+                    .map(({ profileId }) => currentMap.get(String(profileId)))
+                    .filter(Boolean);
                 setSavedProfiles(merged);
                 writeToStorage(key, merged);
             } catch (err) {
@@ -151,18 +166,16 @@ export function SavedProvider({ children }) {
             const profileId = type === "student"
                 ? String(profile.studentId)
                 : String(profile._id);
-
-            // Read from the ref — deterministic and unaffected by React batching or
-            // StrictMode double-invoking the updater below.
-            const alreadySaved = savedProfilesRef.current.some(
-                (p) => p.profileId === profileId
-            );
             const key = studentId ? studentKey(studentId) : GUEST_KEY;
-
+            let alreadySaved = false;
             setSavedProfiles(prev => {
+                alreadySaved = prev.some((p) => p.profileId === profileId);
                 const updated = alreadySaved
                     ? prev.filter((p) => p.profileId !== profileId)
-                    : [...prev, { profileId, type, data: profile }];
+                    : [
+                        ...prev.filter((p) => p.profileId !== profileId),
+                        { profileId, type, data: profile },
+                    ];
                 writeToStorage(key, updated);
                 return updated;
             });
