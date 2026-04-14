@@ -6,6 +6,8 @@ import IconOnlyButton from "../Atoms/Buttons/IconOnlyButton";
 import Button from "../Atoms/Buttons/Button";
 import TagContainer from "../Atoms/Tags/TagContainer";
 import { apiFetch } from "../../api";
+import LikeIcon from "../../assets/icons/like.svg";
+import LikeFilledIcon from "../../assets/icons/like-filled.svg";
 import { useSaved } from "../../context/SavedContext";
 
 export default function ViewProfile() {
@@ -16,7 +18,22 @@ export default function ViewProfile() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const isOwner = studentId && profile?.studentId === studentId;
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        setCurrentUserId(decoded.id);
+      } catch (err) {
+        localStorage.removeItem("token");
+        setCurrentUserId(null);
+      }
+    }
+  }, []);
+
+  const isOwner = currentUserId && profile?.studentId === currentUserId;
+  const { isSaved, toggleSave, isLoggedIn } = useSaved();
+  const showLike = !isLoggedIn;
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -67,10 +84,28 @@ export default function ViewProfile() {
               />
             </div> ) }
 
-                {profile.profileImage
-                    ? <img className={styles.profileImage} src={profile.profileImage} alt="Profile" />
-                    : <img className={styles.profileImage} src={defaultAvatar} alt="Default avatar" />
-                }
+                <div className={styles.photoHeartContainer}>
+                  <img
+                    className={styles.profileImage}
+                    src={profile.profileImage || defaultAvatar}
+                    alt="Profile"
+                  />
+                  {showLike && (
+                    <button
+                      type="button"
+                      className={styles.likeButton}
+                      onClick={() => toggleSave(profile, "student")}
+                      aria-label={isSaved(profile.studentId) ? "Remove from saved" : "Save profile"}
+                    >
+                      <img
+                        className={styles.likeIcon}
+                        src={isSaved(profile.studentId) ? LikeFilledIcon : LikeIcon}
+                        alt=""
+                        aria-hidden="true"
+                      />
+                    </button>
+                  )}
+                </div>
           <section className={styles.infoSection}>
 
             <div className={styles.headingContainer}>
