@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 import defaultAvatar from "../../assets/default-avatar.png"; // Placeholder image for students without a profile picture
 import styles from "./ViewProfile.module.css";
 import IconOnlyButton from "../Atoms/Buttons/IconOnlyButton";
@@ -17,11 +18,26 @@ export default function ViewProfile() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const { isSaved, toggleSave, isLoggedIn, studentId } = useSaved();
+  const [currentUserId, setCurrentUserId] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        setCurrentUserId(decoded.id);
+      } catch (err) {
+        localStorage.removeItem("token");
+        setCurrentUserId(null);
+      }
+    }
+  }, []);
+
+  const { isSaved, toggleSave, isLoggedIn } = useSaved();
   const isOwner =
-    studentId != null &&
+    currentUserId != null &&
     profile?.studentId != null &&
-    String(profile.studentId) === String(studentId);
+    String(profile.studentId) === String(currentUserId);
   const showLike = !isLoggedIn;
 
   useEffect(() => {
