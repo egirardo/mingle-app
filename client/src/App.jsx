@@ -1,8 +1,6 @@
 import "./App.css";
-import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { SavedProvider } from "./context/SavedContext";
-import { apiFetch } from "./api";
 import Home from "./views/landingPage/Home.jsx";
 import Login from "./views/landingPage/Login.jsx";
 import About from "./views/landingPage/About.jsx";
@@ -33,13 +31,6 @@ import LoadingDesktop from "./views/mingleGame/desktop/Loading.jsx";
 import CompletionDesktop from "./views/mingleGame/desktop/Completion.jsx";
 
 function App() {
-  useEffect(() => {
-    // Fire-and-forget ping to wake the Render backend on first load.
-    // Render free tier spins down after inactivity; this gives the server
-    // a head-start before the user makes their first real API call.
-    apiFetch("/healthz").catch(() => {});
-  }, [apiFetch]);
-
   return (
     <SavedProvider>
     <BrowserRouter>
