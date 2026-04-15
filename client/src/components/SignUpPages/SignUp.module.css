@@ -5,7 +5,7 @@
     flex-direction: column;
     height: 100dvh;
     overflow-y: auto;
-    overscroll-behavior-y: contain;
+    /* overscroll-behavior-y: auto; */
 }
 
 .signUpPanel {

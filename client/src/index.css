@@ -36,7 +36,6 @@ html, body {
   margin: 0;
   padding: 0;
   width: 100%;
-  min-height: 100vh;
   min-height: 100dvh;
   background-color: transparent; /* Let background elements shine through */
 }
@@ -45,7 +44,7 @@ html, body {
   max-width: 100%;
   margin: 0 auto;
   text-align: center;
-  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
