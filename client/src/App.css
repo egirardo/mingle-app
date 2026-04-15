@@ -38,7 +38,7 @@ body {
 
 .hero-overlay-container {
   position: fixed;
-  top: calc(3rem + env(safe-area-inset-top, 0));
+  top: calc(3.5rem + env(safe-area-inset-top, 0));
   left: 0;
   width: 100%;
   z-index: -1;
