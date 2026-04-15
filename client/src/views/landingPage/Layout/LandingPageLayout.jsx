@@ -8,7 +8,7 @@ function LandingPageLayout({ children }) {
     <>
       <NavBar />
       <div className="hero-container">
-        <img className="hero-image" src={Background} aria-hidden="true" />
+        <img className="hero-image" src={Background} aria-hidden="true" fetchpriority="high" />
       </div>
       <div className="hero-overlay-container">
         <img className="hero-overlay" src={Hero} aria-hidden="true" />
