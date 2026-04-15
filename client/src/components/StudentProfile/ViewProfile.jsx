@@ -18,7 +18,10 @@ export default function ViewProfile() {
   const [error, setError] = useState("");
 
   const { isSaved, toggleSave, isLoggedIn, studentId } = useSaved();
-  const isOwner = studentId && profile?.studentId === studentId;
+  const isOwner =
+    studentId != null &&
+    profile?.studentId != null &&
+    String(profile.studentId) === String(studentId);
   const showLike = !isLoggedIn;
 
   useEffect(() => {
