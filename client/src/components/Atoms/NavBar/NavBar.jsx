@@ -25,6 +25,8 @@ export default function NavBar() {
                 }
             } catch (err) {
                 console.error('Failed to decode token:', err);
+                localStorage.removeItem('token');
+                window.dispatchEvent(new Event('authchange'));
             }
         }
         setIsLoggedIn(false);
@@ -54,6 +56,9 @@ export default function NavBar() {
             document.removeEventListener('touchstart', handleClickOutside);
         };
     }, []);
+
+    const toggleMenu = () => setIsMenuOpen(prev => !prev);
+    const closeMenu = () => setIsMenuOpen(false);
 
     const handleNavigate = (path) => {
         closeMenu();

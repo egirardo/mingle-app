@@ -20,17 +20,29 @@ export default function ViewProfile() {
 
   const [currentUserId, setCurrentUserId] = useState(null);
 
-  useEffect(() => {
+  const syncUserId = () => {
     const token = localStorage.getItem("token");
     if (token) {
       try {
         const decoded = jwtDecode(token);
-        setCurrentUserId(decoded.id);
+        setCurrentUserId(decoded.id ?? null);
+        return;
       } catch (err) {
         localStorage.removeItem("token");
-        setCurrentUserId(null);
+        window.dispatchEvent(new Event("authchange"));
       }
     }
+    setCurrentUserId(null);
+  };
+
+  useEffect(() => {
+    syncUserId();
+    window.addEventListener("authchange", syncUserId);
+    window.addEventListener("storage", syncUserId);
+    return () => {
+      window.removeEventListener("authchange", syncUserId);
+      window.removeEventListener("storage", syncUserId);
+    };
   }, []);
 
   const { isSaved, toggleSave, isLoggedIn } = useSaved();
