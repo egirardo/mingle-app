@@ -1,5 +1,4 @@
 import { createContext, useContext, useState, useEffect, useCallback, useRef } from "react";
-import { flushSync } from "react-dom";
 import { jwtDecode } from "jwt-decode";
 import { apiFetch } from "../api";
 
@@ -58,7 +57,7 @@ export function SavedProvider({ children }) {
 
     // Keep studentId in sync with login/logout events
     useEffect(() => {
-        const handleAuthChange = () => flushSync(() => setStudentId(getStudentId()));
+        const handleAuthChange = () => setStudentId(getStudentId());
         window.addEventListener("authchange", handleAuthChange);
         window.addEventListener("storage", handleAuthChange);
         return () => {
@@ -204,7 +203,7 @@ export function SavedProvider({ children }) {
     );
 
     return (
-        <SavedContext.Provider value={{ savedProfiles, isSaved, toggleSave, isLoggedIn, studentId }}>
+        <SavedContext.Provider value={{ savedProfiles, isSaved, toggleSave, isLoggedIn }}>
             {children}
         </SavedContext.Provider>
     );
