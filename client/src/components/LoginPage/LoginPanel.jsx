@@ -60,6 +60,10 @@ export default function LoginPanel() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message);
 
+      if (!data.token || typeof data.token !== "string") {
+        throw new Error("Login failed: no token received. Please try again.");
+      }
+
       // Store the JWT so all subsequent requests can send it in
       // the Authorization header as "Bearer <token>"
       localStorage.setItem("token", data.token);
