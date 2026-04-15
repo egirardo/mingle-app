@@ -15,8 +15,9 @@
   padding: 2rem 0.75rem;
   flex-direction: column;
   gap: 1.5rem;
-  max-height: 100vh;
+  max-height: 100dvh;
   overflow-y: auto;
+  padding-bottom: max(2rem, env(safe-area-inset-bottom, 0));
 }
 
 /* ----------------------------------------

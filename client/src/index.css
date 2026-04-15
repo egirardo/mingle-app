@@ -46,6 +46,7 @@ html, body {
   margin: 0 auto;
   text-align: center;
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;

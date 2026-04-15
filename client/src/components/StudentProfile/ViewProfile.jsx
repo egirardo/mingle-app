@@ -123,15 +123,15 @@ export default function ViewProfile() {
             <div className={styles.textContainer}>
 
               <h2 className={styles.sectionHeading}>Fun Fact</h2>
-              <p>{profile.about}</p>
+              <p>{profile.about || "No fun fact available."}</p>
 
             </div>
 
             <div className={styles.textContainer}>
               <h2 className={styles.sectionHeading}>Ask Me About</h2>
-              {profile.questions.map((answer, i) => (
-                  <p key={i}>{answer}</p>
-              ))}
+              {profile.questions?.length > 0
+                ? profile.questions.map((answer, i) => <p key={i}>{answer}</p>)
+                : <p>No topics available.</p>}
             </div>
 
             {isOwner && (
