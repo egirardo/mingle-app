@@ -203,7 +203,7 @@ export function SavedProvider({ children }) {
     );
 
     return (
-        <SavedContext.Provider value={{ savedProfiles, isSaved, toggleSave, isLoggedIn }}>
+        <SavedContext.Provider value={{ savedProfiles, isSaved, toggleSave, isLoggedIn, studentId }}>
             {children}
         </SavedContext.Provider>
     );
