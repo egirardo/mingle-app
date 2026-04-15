@@ -38,7 +38,7 @@ function App() {
     // Render free tier spins down after inactivity; this gives the server
     // a head-start before the user makes their first real API call.
     apiFetch("/healthz").catch(() => {});
-  }, []);
+  }, [apiFetch]);
 
   return (
     <SavedProvider>
