@@ -127,7 +127,7 @@ const BusinessSignUpPanel = () => {
           liaSpaces: formData.liaSpaces,
           skills: formData.skills,
           about: formData.about || null,
-          website: normalizeURL(formData.website),
+          website: normalizeURL(formData.website) ?? undefined,
         }),
       });
 
